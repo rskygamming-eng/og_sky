@@ -4,83 +4,133 @@
   <meta charset="UTF-8" />
   <title>OG_SKY – Business Setup</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
+      font-family: Inter, Arial, sans-serif;
       background: #020617;
-      color: white;
+      color: #e5e7eb;
     }
+
     .container {
-      max-width: 600px;
+      max-width: 720px;
       margin: auto;
-      padding: 40px 20px;
+      padding: 60px 20px;
     }
+
+    .card {
+      background: #020617;
+      border: 1px solid #1e293b;
+      border-radius: 20px;
+      padding: 40px;
+    }
+
     h2 {
+      margin-top: 0;
+      color: white;
       text-align: center;
-      margin-bottom: 10px;
+      font-size: 1.8rem;
     }
-    p {
+
+    .subtitle {
       text-align: center;
-      opacity: 0.8;
-      margin-bottom: 30px;
+      color: #94a3b8;
+      margin-bottom: 40px;
+      font-size: 15px;
     }
+
     label {
       display: block;
-      margin-top: 20px;
-      margin-bottom: 5px;
+      margin-top: 22px;
+      margin-bottom: 6px;
+      font-size: 14px;
+      color: #cbd5f5;
     }
+
     input, select {
       width: 100%;
-      padding: 12px;
-      border-radius: 6px;
-      border: none;
-    }
-    button {
-      margin-top: 30px;
-      width: 100%;
       padding: 14px;
-      background: #38bdf8;
+      border-radius: 12px;
+      border: 1px solid #1e293b;
+      background: #020617;
+      color: white;
+      font-size: 15px;
+    }
+
+    .hint {
+      font-size: 12px;
+      color: #64748b;
+      margin-top: 6px;
+    }
+
+    button {
+      width: 100%;
+      padding: 16px;
+      margin-top: 40px;
+      background: linear-gradient(135deg, #38bdf8, #0ea5e9);
       border: none;
-      border-radius: 8px;
-      font-weight: bold;
+      border-radius: 14px;
+      font-weight: 600;
+      font-size: 16px;
       cursor: pointer;
+      color: #020617;
+    }
+
+    .secure {
+      text-align: center;
+      margin-top: 16px;
+      font-size: 13px;
+      color: #94a3b8;
     }
   </style>
 </head>
 
 <body>
   <div class="container">
-    <h2>Tell OG_SKY About Your Business</h2>
-    <p>This helps OG_SKY act like your personal business manager</p>
+    <div class="card">
+      <h2>Tell Us About Your Business</h2>
+      <div class="subtitle">
+        OG_SKY uses this to act like your personal business manager
+      </div>
 
-    <label>Business Name</label>
-    <input type="text" placeholder="e.g. Sharma Electronics" />
+      <label>Business Name</label>
+      <input type="text" placeholder="e.g. Sharma Electronics" />
 
-    <label>Business Type</label>
-    <select>
-      <option>Retail Shop</option>
-      <option>Service Business</option>
-      <option>Online Business</option>
-      <option>Freelancer</option>
-      <option>Other</option>
-    </select>
+      <label>Business Type</label>
+      <select>
+        <option>Retail Shop</option>
+        <option>Service Business</option>
+        <option>Online Business</option>
+        <option>Freelancer</option>
+        <option>Other</option>
+      </select>
 
-    <label>City</label>
-    <input type="text" placeholder="e.g. Delhi" />
+      <label>City</label>
+      <input type="text" placeholder="e.g. Mumbai" />
 
-    <label>Main Goal</label>
-    <select>
-      <option>Get more customers</option>
-      <option>Increase repeat customers</option>
-      <option>Promote offers</option>
-      <option>Build online presence</option>
-    </select>
+      <label>Main Business Goal</label>
+      <select>
+        <option>Get more customers</option>
+        <option>Increase repeat customers</option>
+        <option>Promote offers</option>
+        <option>Build online presence</option>
+      </select>
 
-    <label>WhatsApp Number</label>
-    <input type="tel" placeholder="+91 XXXXX XXXXX" />
+      <label>WhatsApp Number</label>
+      <input type="tel" placeholder="+91 XXXXX XXXXX" />
+      <div class="hint">
+        This is where OG_SKY will send daily suggestions
+      </div>
 
-    <button>Continue to Dashboard</button>
+      <a href="dashboard.html">
+        <button>Finish Setup</button>
+      </a>
+
+      <div class="secure">
+        🔒 Your information is safe and used only to personalize your AI
+      </div>
+    </div>
   </div>
 </body>
 </html>

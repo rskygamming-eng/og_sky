@@ -71,9 +71,20 @@
     <input type="email" placeholder="Email address" />
     <input type="tel" placeholder="WhatsApp number" />
 
-    <a href="onboarding.html">
-      <button>Continue</button>
-    </a>
+    <button onclick="goToVerify()">Continue</button>
+
+<script>
+  function goToVerify() {
+    const inputs = document.querySelectorAll("input");
+    for (let input of inputs) {
+      if (input.value.trim() === "") {
+        alert("Please fill all fields");
+        return;
+      }
+    }
+    window.location.href = "verify.html";
+  }
+</script>
   </div>
 </body>
 </html>

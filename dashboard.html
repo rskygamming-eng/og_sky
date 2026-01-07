@@ -1,253 +1,302 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Mentra – Dashboard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<title>Mentra – Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Inter, Arial, sans-serif;
-      background: #020617;
-      color: #e5e7eb;
-      display: flex;
-      height: 100vh;
-    }
+<style>
+:root {
+  --bg: #0b1020;
+  --card: #11162a;
+  --border: #1f2545;
+  --text: #e5e7eb;
+  --muted: #94a3b8;
+  --accent: #6366f1;
+}
 
-    /* Sidebar */
-    .sidebar {
-      width: 240px;
-      background: #020617;
-      border-right: 1px solid #1e293b;
-      padding: 24px;
-    }
+.light {
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --border: #e5e7eb;
+  --text: #020617;
+  --muted: #475569;
+  --accent: #4f46e5;
+}
 
-    .logo {
-      font-size: 22px;
-      font-weight: 600;
-      color: white;
-      margin-bottom: 40px;
-    }
+* {
+  box-sizing: border-box;
+}
 
-    .menu a {
-      display: block;
-      padding: 12px 14px;
-      border-radius: 10px;
-      color: #cbd5f5;
-      text-decoration: none;
-      margin-bottom: 8px;
-      font-size: 14px;
-    }
+body {
+  margin: 0;
+  font-family: Inter, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  display: flex;
+  height: 100vh;
+  transition: background 0.3s, color 0.3s;
+}
 
-    .menu a.active,
-    .menu a:hover {
-      background: #0f172a;
-      color: white;
-    }
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  background: var(--card);
+  border-right: 1px solid var(--border);
+  padding: 24px;
+}
 
-    /* Main */
-    .main {
-      flex: 1;
-      padding: 30px;
-      overflow-y: auto;
-    }
+.logo {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 30px;
+}
 
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 30px;
-    }
+.menu button {
+  width: 100%;
+  background: none;
+  border: none;
+  color: var(--muted);
+  text-align: left;
+  padding: 12px 14px;
+  border-radius: 12px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
 
-    .trial {
-      background: #0f172a;
-      border: 1px solid #1e293b;
-      padding: 8px 14px;
-      border-radius: 12px;
-      font-size: 13px;
-      color: #38bdf8;
-    }
+.menu button.active,
+.menu button:hover {
+  background: var(--accent);
+  color: white;
+}
 
-    /* Chat */
-    .chat-box {
-      background: #020617;
-      border: 1px solid #1e293b;
-      border-radius: 18px;
-      display: flex;
-      flex-direction: column;
-      height: 420px;
-    }
+/* Main */
+.main {
+  flex: 1;
+  padding: 30px;
+  overflow-y: auto;
+}
 
-    .chat-header {
-      padding: 16px;
-      border-bottom: 1px solid #1e293b;
-      font-weight: 600;
-      color: white;
-    }
+/* Top bar */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
 
-    .messages {
-      flex: 1;
-      padding: 16px;
-      overflow-y: auto;
-      font-size: 14px;
-    }
+.badge {
+  background: rgba(99,102,241,0.15);
+  color: var(--accent);
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+}
 
-    .msg.ai {
-      background: #0f172a;
-      padding: 12px;
-      border-radius: 12px;
-      margin-bottom: 12px;
-      max-width: 80%;
-    }
+/* Cards */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 20px;
+  animation: fadeIn 0.4s ease;
+}
 
-    .msg.user {
-      background: #38bdf8;
-      color: #020617;
-      padding: 12px;
-      border-radius: 12px;
-      margin-bottom: 12px;
-      margin-left: auto;
-      max-width: 80%;
-    }
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(10px);}
+  to {opacity: 1; transform: translateY(0);}
+}
 
-    .chat-input {
-      display: flex;
-      border-top: 1px solid #1e293b;
-    }
+/* Chat */
+.chat {
+  height: 420px;
+  display: flex;
+  flex-direction: column;
+}
 
-    .chat-input input {
-      flex: 1;
-      padding: 14px;
-      border: none;
-      background: #020617;
-      color: white;
-      outline: none;
-    }
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  font-size: 14px;
+}
 
-    .chat-input button {
-      padding: 14px 20px;
-      background: #38bdf8;
-      border: none;
-      cursor: pointer;
-      font-weight: 600;
-      color: #020617;
-    }
+.msg {
+  margin-bottom: 12px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  max-width: 80%;
+}
 
-    /* Plans */
-    .plans {
-      margin-top: 40px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 20px;
-    }
+.ai {
+  background: rgba(99,102,241,0.15);
+}
 
-    .plan {
-      border: 1px solid #1e293b;
-      border-radius: 18px;
-      padding: 24px;
-      background: #020617;
-    }
+.user {
+  background: var(--accent);
+  color: white;
+  margin-left: auto;
+}
 
-    .plan h3 {
-      margin-top: 0;
-      color: white;
-    }
+.chat-input {
+  display: flex;
+  margin-top: 12px;
+}
 
-    .plan ul {
-      padding-left: 18px;
-      font-size: 14px;
-      color: #cbd5f5;
-    }
+.chat-input input {
+  flex: 1;
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+}
 
-    .plan button {
-      margin-top: 20px;
-      width: 100%;
-      padding: 12px;
-      border-radius: 12px;
-      border: none;
-      cursor: pointer;
-      font-weight: 600;
-    }
+.chat-input button {
+  margin-left: 10px;
+  padding: 14px 18px;
+  border-radius: 14px;
+  border: none;
+  background: var(--accent);
+  color: white;
+  cursor: pointer;
+}
 
-    .basic button {
-      background: #0f172a;
-      color: white;
-    }
+/* Plans */
+.plans {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
 
-    .pro button {
-      background: linear-gradient(135deg, #38bdf8, #0ea5e9);
-      color: #020617;
-    }
-  </style>
+.plan h3 {
+  margin-top: 0;
+}
+
+.plan ul {
+  padding-left: 18px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.plan button {
+  width: 100%;
+  margin-top: 15px;
+  padding: 12px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  background: var(--accent);
+  color: white;
+  font-weight: 600;
+}
+
+/* Sections */
+.section {
+  display: none;
+}
+.section.active {
+  display: block;
+}
+</style>
 </head>
 
 <body>
 
-  <!-- Sidebar -->
-  <div class="sidebar">
-    <div class="logo">Mentra</div>
-    <div class="menu">
-      <a class="active">Chat</a>
-      <a>Dashboard</a>
-      <a>Plans</a>
-      <a>Settings</a>
-    </div>
+<div class="sidebar">
+  <div class="logo">Mentra</div>
+  <div class="menu">
+    <button class="active" onclick="show('chat')">AI Chat</button>
+    <button onclick="show('plans')">Plans</button>
+    <button onclick="toggleTheme()">Toggle Theme</button>
+  </div>
+</div>
+
+<div class="main">
+
+  <div class="topbar">
+    <h2 id="title">AI Chat</h2>
+    <div class="badge">Free Trial • 7 Days</div>
   </div>
 
-  <!-- Main -->
-  <div class="main">
-
-    <div class="topbar">
-      <h2>AI Chat</h2>
-      <div class="trial">Free Trial • 7 days left</div>
-    </div>
-
-    <!-- Chat -->
-    <div class="chat-box">
-      <div class="chat-header">Chat with Mentra</div>
-
+  <!-- CHAT -->
+  <div id="chat" class="section active">
+    <div class="card chat">
       <div class="messages">
-        <div class="msg ai">
-          Hi 👋 I’m Mentra.  
-          Tell me about today’s business challenge.
-        </div>
+        <div class="msg ai">Hi 👋 I’m Mentra. Ask me anything about your business.</div>
       </div>
-
       <div class="chat-input">
-        <input type="text" placeholder="Ask Mentra anything..." />
+        <input placeholder="Type your message…" />
         <button>Send</button>
       </div>
     </div>
+  </div>
 
-    <!-- Plans -->
+  <!-- PLANS -->
+  <div id="plans" class="section">
     <div class="plans">
 
-      <div class="plan basic">
-        <h3>Free Trial</h3>
+      <div class="card plan">
+        <h3>₹200 / month</h3>
         <ul>
+          <li>Basic AI chat</li>
           <li>Limited daily advice</li>
-          <li>No WhatsApp automation</li>
-          <li>7 days access</li>
+          <li>No WhatsApp</li>
         </ul>
-        <button>Current Plan</button>
+        <button>Choose Basic</button>
       </div>
 
-      <div class="plan pro">
-        <h3>Pro</h3>
+      <div class="card plan">
+        <h3>₹999 / month</h3>
         <ul>
           <li>Unlimited AI chat</li>
-          <li>WhatsApp suggestions</li>
-          <li>Festival & offer ideas</li>
-          <li>Priority AI</li>
+          <li>Daily business actions</li>
+          <li>Basic offers & tips</li>
         </ul>
-        <button>Upgrade to Pro</button>
+        <button>Choose Standard</button>
+      </div>
+
+      <div class="card plan">
+        <h3>₹1999 / month</h3>
+        <ul>
+          <li>Everything in ₹999</li>
+          <li>WhatsApp message ideas</li>
+          <li>Festival & local campaigns</li>
+        </ul>
+        <button>Choose Pro</button>
+      </div>
+
+      <div class="card plan">
+        <h3>₹4999 / month</h3>
+        <ul>
+          <li>Unlimited AI + priority</li>
+          <li>WhatsApp automation</li>
+          <li>Advanced growth strategy</li>
+          <li>Early new features</li>
+        </ul>
+        <button>Choose Premium</button>
       </div>
 
     </div>
-
   </div>
+
+</div>
+
+<script>
+function show(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.getElementById('title').innerText =
+    id === 'chat' ? 'AI Chat' : 'Plans';
+
+  document.querySelectorAll('.menu button').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+function toggleTheme() {
+  document.body.classList.toggle('light');
+}
+</script>
 
 </body>
 </html>
-

@@ -1,1 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mentra – Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Inter, Arial, sans-serif;
+      background: #020617;
+      color: #e5e7eb;
+      display: flex;
+      height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 240px;
+      background: #020617;
+      border-right: 1px solid #1e293b;
+      padding: 24px;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 600;
+      color: white;
+      margin-bottom: 40px;
+    }
+
+    .menu a {
+      display: block;
+      padding: 12px 14px;
+      border-radius: 10px;
+      color: #cbd5f5;
+      text-decoration: none;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .menu a.active,
+    .menu a:hover {
+      background: #0f172a;
+      color: white;
+    }
+
+    /* Main */
+    .main {
+      flex: 1;
+      padding: 30px;
+      overflow-y: auto;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .trial {
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-size: 13px;
+      color: #38bdf8;
+    }
+
+    /* Chat */
+    .chat-box {
+      background: #020617;
+      border: 1px solid #1e293b;
+      border-radius: 18px;
+      display: flex;
+      flex-direction: column;
+      height: 420px;
+    }
+
+    .chat-header {
+      padding: 16px;
+      border-bottom: 1px solid #1e293b;
+      font-weight: 600;
+      color: white;
+    }
+
+    .messages {
+      flex: 1;
+      padding: 16px;
+      overflow-y: auto;
+      font-size: 14px;
+    }
+
+    .msg.ai {
+      background: #0f172a;
+      padding: 12px;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      max-width: 80%;
+    }
+
+    .msg.user {
+      background: #38bdf8;
+      color: #020617;
+      padding: 12px;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      margin-left: auto;
+      max-width: 80%;
+    }
+
+    .chat-input {
+      display: flex;
+      border-top: 1px solid #1e293b;
+    }
+
+    .chat-input input {
+      flex: 1;
+      padding: 14px;
+      border: none;
+      background: #020617;
+      color: white;
+      outline: none;
+    }
+
+    .chat-input button {
+      padding: 14px 20px;
+      background: #38bdf8;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      color: #020617;
+    }
+
+    /* Plans */
+    .plans {
+      margin-top: 40px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+
+    .plan {
+      border: 1px solid #1e293b;
+      border-radius: 18px;
+      padding: 24px;
+      background: #020617;
+    }
+
+    .plan h3 {
+      margin-top: 0;
+      color: white;
+    }
+
+    .plan ul {
+      padding-left: 18px;
+      font-size: 14px;
+      color: #cbd5f5;
+    }
+
+    .plan button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .basic button {
+      background: #0f172a;
+      color: white;
+    }
+
+    .pro button {
+      background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+      color: #020617;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="logo">Mentra</div>
+    <div class="menu">
+      <a class="active">Chat</a>
+      <a>Dashboard</a>
+      <a>Plans</a>
+      <a>Settings</a>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+
+    <div class="topbar">
+      <h2>AI Chat</h2>
+      <div class="trial">Free Trial • 7 days left</div>
+    </div>
+
+    <!-- Chat -->
+    <div class="chat-box">
+      <div class="chat-header">Chat with Mentra</div>
+
+      <div class="messages">
+        <div class="msg ai">
+          Hi 👋 I’m Mentra.  
+          Tell me about today’s business challenge.
+        </div>
+      </div>
+
+      <div class="chat-input">
+        <input type="text" placeholder="Ask Mentra anything..." />
+        <button>Send</button>
+      </div>
+    </div>
+
+    <!-- Plans -->
+    <div class="plans">
+
+      <div class="plan basic">
+        <h3>Free Trial</h3>
+        <ul>
+          <li>Limited daily advice</li>
+          <li>No WhatsApp automation</li>
+          <li>7 days access</li>
+        </ul>
+        <button>Current Plan</button>
+      </div>
+
+      <div class="plan pro">
+        <h3>Pro</h3>
+        <ul>
+          <li>Unlimited AI chat</li>
+          <li>WhatsApp suggestions</li>
+          <li>Festival & offer ideas</li>
+          <li>Priority AI</li>
+        </ul>
+        <button>Upgrade to Pro</button>
+      </div>
+
+    </div>
+
+  </div>
+
+</body>
+</html>
 

@@ -1,27 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Mentra – Dashboard</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mentra – AI Dashboard</title>
 
 <style>
 :root {
-  --bg: #0b1020;
-  --card: #11162a;
-  --border: #1f2545;
+  --bg: #0f172a;
+  --panel: #020617;
+  --border: #1e293b;
   --text: #e5e7eb;
   --muted: #94a3b8;
-  --accent: #6366f1;
-}
-
-.light {
-  --bg: #f8fafc;
-  --card: #ffffff;
-  --border: #e5e7eb;
-  --text: #020617;
-  --muted: #475569;
-  --accent: #4f46e5;
+  --accent: #10a37f;
 }
 
 * {
@@ -33,268 +24,209 @@ body {
   font-family: Inter, Arial, sans-serif;
   background: var(--bg);
   color: var(--text);
-  display: flex;
   height: 100vh;
-  transition: background 0.3s, color 0.3s;
+  display: flex;
 }
 
 /* Sidebar */
 .sidebar {
-  width: 250px;
-  background: var(--card);
+  width: 260px;
+  background: var(--panel);
   border-right: 1px solid var(--border);
-  padding: 24px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 .logo {
   font-size: 22px;
   font-weight: 700;
-  margin-bottom: 30px;
+  margin-bottom: 24px;
 }
 
-.menu button {
-  width: 100%;
+.nav button {
   background: none;
   border: none;
   color: var(--muted);
   text-align: left;
   padding: 12px 14px;
-  border-radius: 12px;
-  margin-bottom: 8px;
+  border-radius: 10px;
+  margin-bottom: 6px;
   cursor: pointer;
   font-size: 14px;
 }
 
-.menu button.active,
-.menu button:hover {
-  background: var(--accent);
+.nav button.active,
+.nav button:hover {
+  background: #0f172a;
   color: white;
+}
+
+.plan-box {
+  margin-top: auto;
+  padding: 14px;
+  border-radius: 12px;
+  background: #0f172a;
+  border: 1px solid var(--border);
+  font-size: 13px;
 }
 
 /* Main */
 .main {
   flex: 1;
-  padding: 30px;
-  overflow-y: auto;
-}
-
-/* Top bar */
-.topbar {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+}
+
+/* Mobile header */
+.header {
+  display: none;
   align-items: center;
-  margin-bottom: 25px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+  background: var(--panel);
 }
 
-.badge {
-  background: rgba(99,102,241,0.15);
-  color: var(--accent);
-  padding: 8px 14px;
-  border-radius: 20px;
-  font-size: 13px;
-}
-
-/* Cards */
-.card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 20px;
-  animation: fadeIn 0.4s ease;
-}
-
-@keyframes fadeIn {
-  from {opacity: 0; transform: translateY(10px);}
-  to {opacity: 1; transform: translateY(0);}
+.menu-btn {
+  font-size: 22px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  margin-right: 14px;
 }
 
 /* Chat */
 .chat {
-  height: 420px;
+  flex: 1;
   display: flex;
   flex-direction: column;
 }
 
 .messages {
   flex: 1;
+  padding: 20px;
   overflow-y: auto;
-  font-size: 14px;
 }
 
 .msg {
-  margin-bottom: 12px;
-  padding: 12px 14px;
+  max-width: 85%;
+  padding: 14px 16px;
   border-radius: 14px;
-  max-width: 80%;
+  margin-bottom: 14px;
+  font-size: 15px;
+  line-height: 1.5;
 }
 
 .ai {
-  background: rgba(99,102,241,0.15);
+  background: var(--panel);
+  border: 1px solid var(--border);
 }
 
 .user {
   background: var(--accent);
-  color: white;
+  color: #020617;
   margin-left: auto;
 }
 
-.chat-input {
+/* Input */
+.input-box {
   display: flex;
-  margin-top: 12px;
+  padding: 16px;
+  border-top: 1px solid var(--border);
+  background: var(--panel);
 }
 
-.chat-input input {
+.input-box input {
   flex: 1;
-  padding: 14px;
+  padding: 14px 16px;
   border-radius: 14px;
   border: 1px solid var(--border);
   background: var(--bg);
-  color: var(--text);
+  color: white;
+  font-size: 15px;
 }
 
-.chat-input button {
+.input-box button {
   margin-left: 10px;
   padding: 14px 18px;
   border-radius: 14px;
   border: none;
   background: var(--accent);
-  color: white;
-  cursor: pointer;
-}
-
-/* Plans */
-.plans {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
-}
-
-.plan h3 {
-  margin-top: 0;
-}
-
-.plan ul {
-  padding-left: 18px;
-  font-size: 14px;
-  color: var(--muted);
-}
-
-.plan button {
-  width: 100%;
-  margin-top: 15px;
-  padding: 12px;
-  border-radius: 14px;
-  border: none;
-  cursor: pointer;
-  background: var(--accent);
-  color: white;
+  color: #020617;
   font-weight: 600;
+  cursor: pointer;
 }
 
-/* Sections */
-.section {
-  display: none;
-}
-.section.active {
-  display: block;
+/* Mobile */
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    left: -260px;
+    top: 0;
+    height: 100%;
+    z-index: 10;
+    transition: left 0.3s;
+  }
+
+  .sidebar.open {
+    left: 0;
+  }
+
+  .header {
+    display: flex;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<div class="sidebar">
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
   <div class="logo">Mentra</div>
-  <div class="menu">
-    <button class="active" onclick="show('chat')">AI Chat</button>
-    <button onclick="show('plans')">Plans</button>
-    <button onclick="toggleTheme()">Toggle Theme</button>
+  <div class="nav">
+    <button class="active">Chat</button>
+    <button>Plans</button>
+    <button>Settings</button>
+  </div>
+  <div class="plan-box">
+    <strong>Free Trial</strong><br>
+    7 days remaining<br><br>
+    <button style="width:100%;margin-top:6px;">Upgrade</button>
   </div>
 </div>
 
+<!-- Main -->
 <div class="main">
 
-  <div class="topbar">
-    <h2 id="title">AI Chat</h2>
-    <div class="badge">Free Trial • 7 Days</div>
+  <!-- Mobile Header -->
+  <div class="header">
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+    <strong>Mentra</strong>
   </div>
 
-  <!-- CHAT -->
-  <div id="chat" class="section active">
-    <div class="card chat">
-      <div class="messages">
-        <div class="msg ai">Hi 👋 I’m Mentra. Ask me anything about your business.</div>
-      </div>
-      <div class="chat-input">
-        <input placeholder="Type your message…" />
-        <button>Send</button>
+  <!-- Chat -->
+  <div class="chat">
+    <div class="messages">
+      <div class="msg ai">
+        Hi 👋 I’m Mentra.<br>
+        I help you grow your business with clear daily actions.<br><br>
+        Ask me anything.
       </div>
     </div>
-  </div>
 
-  <!-- PLANS -->
-  <div id="plans" class="section">
-    <div class="plans">
-
-      <div class="card plan">
-        <h3>₹200 / month</h3>
-        <ul>
-          <li>Basic AI chat</li>
-          <li>Limited daily advice</li>
-          <li>No WhatsApp</li>
-        </ul>
-        <button>Choose Basic</button>
-      </div>
-
-      <div class="card plan">
-        <h3>₹999 / month</h3>
-        <ul>
-          <li>Unlimited AI chat</li>
-          <li>Daily business actions</li>
-          <li>Basic offers & tips</li>
-        </ul>
-        <button>Choose Standard</button>
-      </div>
-
-      <div class="card plan">
-        <h3>₹1999 / month</h3>
-        <ul>
-          <li>Everything in ₹999</li>
-          <li>WhatsApp message ideas</li>
-          <li>Festival & local campaigns</li>
-        </ul>
-        <button>Choose Pro</button>
-      </div>
-
-      <div class="card plan">
-        <h3>₹4999 / month</h3>
-        <ul>
-          <li>Unlimited AI + priority</li>
-          <li>WhatsApp automation</li>
-          <li>Advanced growth strategy</li>
-          <li>Early new features</li>
-        </ul>
-        <button>Choose Premium</button>
-      </div>
-
+    <div class="input-box">
+      <input placeholder="Message Mentra…" />
+      <button>Send</button>
     </div>
   </div>
 
 </div>
 
 <script>
-function show(id) {
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  document.getElementById('title').innerText =
-    id === 'chat' ? 'AI Chat' : 'Plans';
-
-  document.querySelectorAll('.menu button').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
-}
-
-function toggleTheme() {
-  document.body.classList.toggle('light');
+function toggleMenu() {
+  document.getElementById("sidebar").classList.toggle("open");
 }
 </script>
 

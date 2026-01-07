@@ -3,179 +3,247 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Mentra – AI Dashboard</title>
+<title>Mentra – AI Business Assistant</title>
 
 <style>
-:root {
-  --bg: #0f172a;
-  --panel: #020617;
-  --border: #1e293b;
-  --text: #e5e7eb;
-  --muted: #94a3b8;
-  --accent: #10a37f;
+:root{
+  --bg:#0f172a;
+  --panel:#020617;
+  --border:#1e293b;
+  --text:#e5e7eb;
+  --muted:#94a3b8;
+  --accent:#10a37f;
 }
 
-* {
-  box-sizing: border-box;
-}
+*{box-sizing:border-box}
 
-body {
-  margin: 0;
-  font-family: Inter, Arial, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  height: 100vh;
-  display: flex;
+body{
+  margin:0;
+  font-family:Inter,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  height:100vh;
+  display:flex;
 }
 
 /* Sidebar */
-.sidebar {
-  width: 260px;
-  background: var(--panel);
-  border-right: 1px solid var(--border);
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
+.sidebar{
+  width:260px;
+  background:var(--panel);
+  border-right:1px solid var(--border);
+  padding:20px;
+  display:flex;
+  flex-direction:column;
+  position:relative;
 }
 
-.logo {
-  font-size: 22px;
-  font-weight: 700;
-  margin-bottom: 24px;
+.close-btn{
+  display:none;
+  position:absolute;
+  top:14px;
+  right:14px;
+  font-size:20px;
+  background:none;
+  border:none;
+  color:white;
+  cursor:pointer;
 }
 
-.nav button {
-  background: none;
-  border: none;
-  color: var(--muted);
-  text-align: left;
-  padding: 12px 14px;
-  border-radius: 10px;
-  margin-bottom: 6px;
-  cursor: pointer;
-  font-size: 14px;
+.logo{
+  font-size:22px;
+  font-weight:700;
+  margin-bottom:24px;
+}
+
+.nav button{
+  width:100%;
+  background:none;
+  border:none;
+  color:var(--muted);
+  text-align:left;
+  padding:12px 14px;
+  border-radius:10px;
+  margin-bottom:6px;
+  cursor:pointer;
+  font-size:14px;
 }
 
 .nav button.active,
-.nav button:hover {
-  background: #0f172a;
-  color: white;
+.nav button:hover{
+  background:#0f172a;
+  color:white;
 }
 
-.plan-box {
-  margin-top: auto;
-  padding: 14px;
-  border-radius: 12px;
-  background: #0f172a;
-  border: 1px solid var(--border);
-  font-size: 13px;
+.plan-box{
+  margin-top:auto;
+  padding:14px;
+  border-radius:12px;
+  background:#0f172a;
+  border:1px solid var(--border);
+  font-size:13px;
 }
 
 /* Main */
-.main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+.main{
+  flex:1;
+  display:flex;
+  flex-direction:column;
 }
 
 /* Mobile header */
-.header {
-  display: none;
-  align-items: center;
-  padding: 14px 18px;
-  border-bottom: 1px solid var(--border);
-  background: var(--panel);
+.header{
+  display:none;
+  align-items:center;
+  padding:14px 18px;
+  border-bottom:1px solid var(--border);
+  background:var(--panel);
 }
 
-.menu-btn {
-  font-size: 22px;
-  background: none;
-  border: none;
-  color: white;
-  cursor: pointer;
-  margin-right: 14px;
+.menu-btn{
+  font-size:22px;
+  background:none;
+  border:none;
+  color:white;
+  cursor:pointer;
+  margin-right:14px;
 }
+
+/* Sections */
+.section{display:none; height:100%}
+.section.active{display:flex}
 
 /* Chat */
-.chat {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+.chat{
+  flex:1;
+  display:flex;
+  flex-direction:column;
 }
 
-.messages {
-  flex: 1;
-  padding: 20px;
-  overflow-y: auto;
+.messages{
+  flex:1;
+  padding:24px;
+  overflow-y:auto;
 }
 
-.msg {
-  max-width: 85%;
-  padding: 14px 16px;
-  border-radius: 14px;
-  margin-bottom: 14px;
-  font-size: 15px;
-  line-height: 1.5;
+.intro{
+  text-align:center;
+  margin-top:120px;
+  animation:fadeUp 0.6s ease;
 }
 
-.ai {
-  background: var(--panel);
-  border: 1px solid var(--border);
+.intro h1{
+  font-size:32px;
+  margin-bottom:10px;
 }
 
-.user {
-  background: var(--accent);
-  color: #020617;
-  margin-left: auto;
+.intro p{
+  color:var(--muted);
+  font-size:16px;
+}
+
+.msg{
+  max-width:85%;
+  padding:14px 16px;
+  border-radius:14px;
+  margin-bottom:14px;
+  font-size:15px;
+  line-height:1.5;
+  animation:fadeUp 0.3s ease;
+}
+
+.ai{
+  background:var(--panel);
+  border:1px solid var(--border);
+}
+
+.user{
+  background:var(--accent);
+  color:#020617;
+  margin-left:auto;
 }
 
 /* Input */
-.input-box {
-  display: flex;
-  padding: 16px;
-  border-top: 1px solid var(--border);
-  background: var(--panel);
+.input-box{
+  display:flex;
+  padding:16px;
+  border-top:1px solid var(--border);
+  background:var(--panel);
 }
 
-.input-box input {
-  flex: 1;
-  padding: 14px 16px;
-  border-radius: 14px;
-  border: 1px solid var(--border);
-  background: var(--bg);
-  color: white;
-  font-size: 15px;
+.input-box input{
+  flex:1;
+  padding:14px 16px;
+  border-radius:14px;
+  border:1px solid var(--border);
+  background:var(--bg);
+  color:white;
+  font-size:15px;
 }
 
-.input-box button {
-  margin-left: 10px;
-  padding: 14px 18px;
-  border-radius: 14px;
-  border: none;
-  background: var(--accent);
-  color: #020617;
-  font-weight: 600;
-  cursor: pointer;
+.input-box button{
+  margin-left:10px;
+  padding:14px 18px;
+  border-radius:14px;
+  border:none;
+  background:var(--accent);
+  color:#020617;
+  font-weight:600;
+  cursor:pointer;
+}
+
+/* Plans */
+.plans{
+  padding:30px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+}
+
+.plan{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:24px;
+}
+
+.plan h3{margin-top:0}
+.plan ul{
+  padding-left:18px;
+  color:var(--muted);
+  font-size:14px;
+}
+
+.plan button{
+  margin-top:15px;
+  width:100%;
+  padding:12px;
+  border-radius:12px;
+  border:none;
+  background:var(--accent);
+  color:#020617;
+  font-weight:600;
+  cursor:pointer;
+}
+
+/* Animations */
+@keyframes fadeUp{
+  from{opacity:0; transform:translateY(12px)}
+  to{opacity:1; transform:translateY(0)}
 }
 
 /* Mobile */
-@media (max-width: 768px) {
-  .sidebar {
-    position: fixed;
-    left: -260px;
-    top: 0;
-    height: 100%;
-    z-index: 10;
-    transition: left 0.3s;
+@media(max-width:768px){
+  .sidebar{
+    position:fixed;
+    left:-260px;
+    top:0;
+    height:100%;
+    z-index:20;
+    transition:left 0.3s;
   }
-
-  .sidebar.open {
-    left: 0;
-  }
-
-  .header {
-    display: flex;
-  }
+  .sidebar.open{left:0}
+  .close-btn{display:block}
+  .header{display:flex}
 }
 </style>
 </head>
@@ -184,49 +252,115 @@ body {
 
 <!-- Sidebar -->
 <div class="sidebar" id="sidebar">
+  <button class="close-btn" onclick="toggleMenu()">✕</button>
   <div class="logo">Mentra</div>
+
   <div class="nav">
-    <button class="active">Chat</button>
-    <button>Plans</button>
-    <button>Settings</button>
+    <button class="active" onclick="showSection('chat',this)">Chat</button>
+    <button onclick="showSection('plans',this)">Plans</button>
   </div>
+
   <div class="plan-box">
     <strong>Free Trial</strong><br>
-    7 days remaining<br><br>
-    <button style="width:100%;margin-top:6px;">Upgrade</button>
+    7 days remaining
+    <button style="width:100%;margin-top:8px;">Upgrade</button>
   </div>
 </div>
 
 <!-- Main -->
 <div class="main">
 
-  <!-- Mobile Header -->
   <div class="header">
     <button class="menu-btn" onclick="toggleMenu()">☰</button>
     <strong>Mentra</strong>
   </div>
 
-  <!-- Chat -->
-  <div class="chat">
-    <div class="messages">
-      <div class="msg ai">
-        Hi 👋 I’m Mentra.<br>
-        I help you grow your business with clear daily actions.<br><br>
-        Ask me anything.
+  <!-- CHAT -->
+  <div id="chat" class="section active chat">
+    <div class="messages" id="messages">
+      <div class="intro" id="intro">
+        <h1>Hi, I’m Mentra 👋</h1>
+        <p>
+          I help you grow your business with clear, practical actions.<br>
+          Let’s get started.
+        </p>
       </div>
     </div>
 
     <div class="input-box">
-      <input placeholder="Message Mentra…" />
-      <button>Send</button>
+      <input id="input" placeholder="Message Mentra…" />
+      <button onclick="send()">Send</button>
+    </div>
+  </div>
+
+  <!-- PLANS -->
+  <div id="plans" class="section">
+    <div class="plans">
+      <div class="plan">
+        <h3>₹200 / month</h3>
+        <ul>
+          <li>Basic AI chat</li>
+          <li>Limited advice</li>
+        </ul>
+        <button>Choose</button>
+      </div>
+
+      <div class="plan">
+        <h3>₹999 / month</h3>
+        <ul>
+          <li>Unlimited chat</li>
+          <li>Daily actions</li>
+        </ul>
+        <button>Choose</button>
+      </div>
+
+      <div class="plan">
+        <h3>₹1999 / month</h3>
+        <ul>
+          <li>WhatsApp ideas</li>
+          <li>Festival campaigns</li>
+        </ul>
+        <button>Choose</button>
+      </div>
+
+      <div class="plan">
+        <h3>₹4999 / month</h3>
+        <ul>
+          <li>Priority AI</li>
+          <li>Advanced strategy</li>
+        </ul>
+        <button>Choose</button>
+      </div>
     </div>
   </div>
 
 </div>
 
 <script>
-function toggleMenu() {
+function toggleMenu(){
   document.getElementById("sidebar").classList.toggle("open");
+}
+
+function showSection(id,btn){
+  document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+  document.getElementById("sidebar").classList.remove("open");
+}
+
+function send(){
+  const input=document.getElementById("input");
+  if(!input.value.trim())return;
+
+  document.getElementById("intro")?.remove();
+
+  const msg=document.createElement("div");
+  msg.className="msg user";
+  msg.innerText=input.value;
+
+  document.getElementById("messages").appendChild(msg);
+  input.value="";
 }
 </script>
 

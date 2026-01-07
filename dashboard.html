@@ -26,7 +26,7 @@ body{
   display:flex;
 }
 
-/* Sidebar */
+/* ========== SIDEBAR ========== */
 .sidebar{
   width:260px;
   background:var(--panel);
@@ -35,6 +35,12 @@ body{
   display:flex;
   flex-direction:column;
   position:relative;
+}
+
+.logo{
+  font-size:22px;
+  font-weight:700;
+  margin-bottom:20px;
 }
 
 .close-btn{
@@ -47,12 +53,6 @@ body{
   border:none;
   color:white;
   cursor:pointer;
-}
-
-.logo{
-  font-size:22px;
-  font-weight:700;
-  margin-bottom:24px;
 }
 
 .nav button{
@@ -83,7 +83,7 @@ body{
   font-size:13px;
 }
 
-/* Main */
+/* ========== MAIN ========== */
 .main{
   flex:1;
   display:flex;
@@ -112,7 +112,7 @@ body{
 .section{display:none; height:100%}
 .section.active{display:flex}
 
-/* Chat */
+/* ========== CHAT ========== */
 .chat{
   flex:1;
   display:flex;
@@ -128,12 +128,12 @@ body{
 .intro{
   text-align:center;
   margin-top:120px;
-  animation:fadeUp 0.6s ease;
+  animation:fadeUp 0.4s ease;
 }
 
 .intro h1{
-  font-size:30px;
-  margin-bottom:10px;
+  font-size:32px;
+  margin-bottom:8px;
 }
 
 .intro p{
@@ -162,7 +162,7 @@ body{
   margin-left:auto;
 }
 
-/* Input fixed */
+/* Input fixed bottom */
 .input-box{
   display:flex;
   padding:14px;
@@ -193,7 +193,7 @@ body{
   cursor:pointer;
 }
 
-/* Plans */
+/* ========== PLANS ========== */
 .plans{
   padding:30px;
   display:grid;
@@ -258,7 +258,7 @@ body{
 
 <body>
 
-<!-- Sidebar -->
+<!-- SIDEBAR -->
 <div class="sidebar" id="sidebar">
   <button class="close-btn" onclick="toggleMenu()">✕</button>
   <div class="logo">Mentra</div>
@@ -275,7 +275,7 @@ body{
   </div>
 </div>
 
-<!-- Main -->
+<!-- MAIN -->
 <div class="main">
 
   <div class="header">
@@ -304,40 +304,40 @@ body{
 
       <div class="plan">
         <h3>₹200 / month</h3>
-        <p>Good for trying Mentra</p>
+        <p>Try Mentra</p>
         <ul>
-          <li>Basic AI responses</li>
-          <li>Limited daily help</li>
+          <li>Basic AI replies</li>
+          <li>Limited help</li>
         </ul>
         <button>Choose</button>
       </div>
 
       <div class="plan">
         <h3>₹999 / month</h3>
-        <p>For regular business use</p>
+        <p>Best for daily use</p>
         <ul>
           <li>Unlimited chat</li>
-          <li>Daily action guidance</li>
+          <li>Daily business actions</li>
         </ul>
         <button>Choose</button>
       </div>
 
       <div class="plan">
         <h3>₹1999 / month</h3>
-        <p>For growth-focused businesses</p>
+        <p>Grow faster</p>
         <ul>
           <li>WhatsApp message ideas</li>
-          <li>Festival & campaign plans</li>
+          <li>Festival campaigns</li>
         </ul>
         <button>Choose</button>
       </div>
 
       <div class="plan">
         <h3>₹4999 / month</h3>
-        <p>Full power Mentra</p>
+        <p>Full power</p>
         <ul>
-          <li>Priority AI access</li>
-          <li>Advanced strategy & automation</li>
+          <li>Priority AI</li>
+          <li>Advanced growth strategy</li>
         </ul>
         <button>Choose</button>
       </div>

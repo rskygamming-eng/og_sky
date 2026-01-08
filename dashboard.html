@@ -59,8 +59,13 @@ body{
   display:flex;
   flex-direction:column;
 }
-.section{display:none;flex:1}
-.section.active{display:flex}
+.section{
+  display:none;
+  flex:1;
+}
+.section.active{
+  display:flex;
+}
 
 /* CHAT */
 .chat{
@@ -82,7 +87,10 @@ body{
   margin-bottom:12px;
   font-size:14.5px;
 }
-.ai{background:var(--panel);border:1px solid var(--border)}
+.ai{
+  background:var(--panel);
+  border:1px solid var(--border);
+}
 .user{
   background:var(--accent);
   color:#020617;
@@ -102,6 +110,8 @@ body{
   background:var(--bg);
   color:white;
   resize:none;
+  height:44px;
+  line-height:1.4;
 }
 .input-box button{
   margin-left:10px;
@@ -113,7 +123,7 @@ body{
   font-weight:600;
 }
 
-/* DASHBOARD */
+/* DASH / CUSTOMER */
 .dashboard{
   padding:30px;
   gap:20px;
@@ -125,22 +135,41 @@ body{
   padding:20px;
   margin-bottom:20px;
 }
+.action-btn{
+  display:block;
+  width:100%;
+  margin-bottom:10px;
+  padding:12px;
+  border-radius:12px;
+  border:1px solid var(--border);
+  background:#0f172a;
+  color:white;
+  cursor:pointer;
+  text-align:left;
+}
+.output{
+  margin-top:15px;
+  padding:14px;
+  border-radius:12px;
+  background:#0f172a;
+  border:1px solid var(--border);
+  font-size:14px;
+}
 </style>
 </head>
 
 <body>
 
+<!-- SIDEBAR -->
 <div class="sidebar">
   <div class="logo">Mentra</div>
   <div class="nav">
     <button class="active" onclick="show('chat',this)">Chat</button>
-    <button onclick="show('dash',this)">Business Dashboard</button>
     <button onclick="show('customer',this)">Customer Messages</button>
-    <button onclick="show('whatsapp',this)">WhatsApp AI</button>
-    <button onclick="show('plans',this)">Plans</button>
   </div>
 </div>
 
+<!-- MAIN -->
 <div class="main">
 
   <!-- CHAT -->
@@ -151,37 +180,38 @@ body{
         <p>I help you grow your business. Let’s get started.</p>
       </div>
     </div>
+
     <div class="input-box">
       <textarea id="input" placeholder="Message Mentra…"></textarea>
       <button onclick="send()">Send</button>
     </div>
   </div>
 
-  <!-- DASHBOARD -->
-  <div id="dash" class="section dashboard">
-    <div class="card">
-      <h3>Your Business</h3>
-      <p>Name: Demo Business</p>
-      <p>Goal: Get more customers</p>
-    </div>
-    <div class="card">
-      <h3>AI Status</h3>
-      <p>Trial: 7 days left</p>
-      <p>AI Suggestions Ready: 3</p>
-    </div>
-  </div>
-
-  <!-- PLACEHOLDERS -->
+  <!-- CUSTOMER MESSAGE AI -->
   <div id="customer" class="section dashboard">
-    <div class="card">Customer Message AI (Coming Next)</div>
-  </div>
+    <div class="card">
+      <h3>Customer Message AI</h3>
 
-  <div id="whatsapp" class="section dashboard">
-    <div class="card">WhatsApp AI (Coming Next)</div>
-  </div>
+      <button class="action-btn" onclick="generate('price')">
+        Reply to price enquiry
+      </button>
 
-  <div id="plans" class="section dashboard">
-    <div class="card">Plans & Upgrade (Coming Next)</div>
+      <button class="action-btn" onclick="generate('follow')">
+        Follow-up message
+      </button>
+
+      <button class="action-btn" onclick="generate('angry')">
+        Handle angry customer
+      </button>
+
+      <button class="action-btn" onclick="generate('offer')">
+        Send offer / promotion
+      </button>
+
+      <div class="output" id="output">
+        Select an option to generate a message.
+      </div>
+    </div>
   </div>
 
 </div>
@@ -196,13 +226,44 @@ function show(id,btn){
 
 function send(){
   const input=document.getElementById('input');
-  if(!input.value.trim())return;
+  const text=input.value.trim();
+  if(!text)return;
+
   document.getElementById('intro')?.remove();
+
   const msg=document.createElement('div');
   msg.className='msg user';
-  msg.innerText=input.value;
+  msg.innerText=text;
   document.getElementById('messages').appendChild(msg);
+
   input.value='';
+  document.getElementById('messages').scrollTop =
+    document.getElementById('messages').scrollHeight;
+}
+
+/* ENTER TO SEND FIX */
+document.getElementById('input').addEventListener('keydown',function(e){
+  if(e.key==='Enter' && !e.shiftKey){
+    e.preventDefault();
+    send();
+  }
+});
+
+/* CUSTOMER MESSAGE DEMO */
+function generate(type){
+  const out=document.getElementById('output');
+  if(type==='price'){
+    out.innerText="Thank you for your interest 😊 Our pricing depends on your requirement. Please let me know what you’re looking for.";
+  }
+  if(type==='follow'){
+    out.innerText="Just checking in 😊 Let me know if you need any more details. I’ll be happy to help.";
+  }
+  if(type==='angry'){
+    out.innerText="I’m really sorry for the inconvenience. Let’s fix this quickly. Please share your concern so I can help you properly.";
+  }
+  if(type==='offer'){
+    out.innerText="We’re running a special offer for a limited time 🎉 Let me know if you’d like to take advantage of it.";
+  }
 }
 </script>
 

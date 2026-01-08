@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Mentra – AI Business Assistant</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mentra – Business AI</title>
 
 <style>
 :root{
@@ -14,9 +14,7 @@
   --muted:#94a3b8;
   --accent:#10a37f;
 }
-
 *{box-sizing:border-box}
-
 body{
   margin:0;
   font-family:Inter,Arial,sans-serif;
@@ -26,35 +24,18 @@ body{
   display:flex;
 }
 
-/* ========== SIDEBAR ========== */
+/* Sidebar */
 .sidebar{
   width:260px;
   background:var(--panel);
   border-right:1px solid var(--border);
   padding:20px;
-  display:flex;
-  flex-direction:column;
-  position:relative;
 }
-
 .logo{
   font-size:22px;
   font-weight:700;
   margin-bottom:20px;
 }
-
-.close-btn{
-  display:none;
-  position:absolute;
-  top:14px;
-  right:14px;
-  font-size:20px;
-  background:none;
-  border:none;
-  color:white;
-  cursor:pointer;
-}
-
 .nav button{
   width:100%;
   background:none;
@@ -65,323 +46,164 @@ body{
   border-radius:10px;
   margin-bottom:6px;
   cursor:pointer;
-  font-size:14px;
 }
-
 .nav button.active,
 .nav button:hover{
   background:#0f172a;
   color:white;
 }
 
-.plan-box{
-  margin-top:auto;
-  padding:14px;
-  border-radius:12px;
-  background:#0f172a;
-  border:1px solid var(--border);
-  font-size:13px;
-}
-
-/* ========== MAIN ========== */
+/* Main */
 .main{
   flex:1;
   display:flex;
   flex-direction:column;
 }
-
-/* Mobile header */
-.header{
-  display:none;
-  align-items:center;
-  padding:14px 18px;
-  border-bottom:1px solid var(--border);
-  background:var(--panel);
-}
-
-.menu-btn{
-  font-size:22px;
-  background:none;
-  border:none;
-  color:white;
-  cursor:pointer;
-  margin-right:14px;
-}
-
-/* Sections */
-.section{display:none; height:100%}
+.section{display:none;flex:1}
 .section.active{display:flex}
 
-/* ========== CHAT ========== */
+/* CHAT */
 .chat{
-  flex:1;
-  display:flex;
   flex-direction:column;
 }
-
 .messages{
   flex:1;
   padding:24px;
   overflow-y:auto;
 }
-
 .intro{
   text-align:center;
   margin-top:120px;
-  animation:fadeUp 0.4s ease;
 }
-
-.intro h1{
-  font-size:32px;
-  margin-bottom:8px;
-}
-
-.intro p{
-  color:var(--muted);
-  font-size:16px;
-}
-
 .msg{
-  max-width:75%;
+  max-width:70%;
   padding:12px 14px;
   border-radius:12px;
   margin-bottom:12px;
   font-size:14.5px;
-  line-height:1.5;
-  animation:fadeUp 0.25s ease;
 }
-
-.ai{
-  background:var(--panel);
-  border:1px solid var(--border);
-}
-
+.ai{background:var(--panel);border:1px solid var(--border)}
 .user{
   background:var(--accent);
   color:#020617;
   margin-left:auto;
 }
-
-/* Input fixed bottom */
 .input-box{
   display:flex;
   padding:14px;
   border-top:1px solid var(--border);
   background:var(--panel);
 }
-
 .input-box textarea{
   flex:1;
-  padding:12px 14px;
+  padding:12px;
   border-radius:12px;
   border:1px solid var(--border);
   background:var(--bg);
   color:white;
-  font-size:14.5px;
   resize:none;
-  height:44px;
 }
-
 .input-box button{
   margin-left:10px;
   padding:0 18px;
-  border-radius:12px;
   border:none;
+  border-radius:12px;
   background:var(--accent);
   color:#020617;
   font-weight:600;
-  cursor:pointer;
 }
 
-/* ========== PLANS ========== */
-.plans{
+/* DASHBOARD */
+.dashboard{
   padding:30px;
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
   gap:20px;
 }
-
-.plan{
+.card{
   background:var(--panel);
   border:1px solid var(--border);
-  border-radius:18px;
-  padding:24px;
-}
-
-.plan h3{margin-top:0}
-
-.plan p{
-  font-size:14px;
-  color:var(--muted);
-}
-
-.plan ul{
-  padding-left:18px;
-  font-size:14px;
-  color:var(--muted);
-}
-
-.plan button{
-  margin-top:15px;
-  width:100%;
-  padding:12px;
-  border-radius:12px;
-  border:none;
-  background:var(--accent);
-  color:#020617;
-  font-weight:600;
-  cursor:pointer;
-}
-
-/* Animations */
-@keyframes fadeUp{
-  from{opacity:0; transform:translateY(10px)}
-  to{opacity:1; transform:translateY(0)}
-}
-
-/* Mobile */
-@media(max-width:768px){
-  .sidebar{
-    position:fixed;
-    left:-260px;
-    top:0;
-    height:100%;
-    z-index:20;
-    transition:left 0.3s;
-  }
-  .sidebar.open{left:0}
-  .close-btn{display:block}
-  .header{display:flex}
+  border-radius:16px;
+  padding:20px;
+  margin-bottom:20px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- SIDEBAR -->
-<div class="sidebar" id="sidebar">
-  <button class="close-btn" onclick="toggleMenu()">✕</button>
+<div class="sidebar">
   <div class="logo">Mentra</div>
-
   <div class="nav">
-    <button class="active" onclick="showSection('chat',this)">Chat</button>
-    <button onclick="showSection('plans',this)">Plans</button>
-  </div>
-
-  <div class="plan-box">
-    <strong>Free Trial</strong><br>
-    7 days remaining
-    <button style="width:100%;margin-top:8px;">Upgrade</button>
+    <button class="active" onclick="show('chat',this)">Chat</button>
+    <button onclick="show('dash',this)">Business Dashboard</button>
+    <button onclick="show('customer',this)">Customer Messages</button>
+    <button onclick="show('whatsapp',this)">WhatsApp AI</button>
+    <button onclick="show('plans',this)">Plans</button>
   </div>
 </div>
 
-<!-- MAIN -->
 <div class="main">
-
-  <div class="header">
-    <button class="menu-btn" onclick="toggleMenu()">☰</button>
-    <strong>Mentra</strong>
-  </div>
 
   <!-- CHAT -->
   <div id="chat" class="section active chat">
     <div class="messages" id="messages">
       <div class="intro" id="intro">
         <h1>Hi, I’m Mentra 👋</h1>
-        <p>I help you grow your business with clear, practical actions.</p>
+        <p>I help you grow your business. Let’s get started.</p>
       </div>
     </div>
-
     <div class="input-box">
       <textarea id="input" placeholder="Message Mentra…"></textarea>
       <button onclick="send()">Send</button>
     </div>
   </div>
 
-  <!-- PLANS -->
-  <div id="plans" class="section">
-    <div class="plans">
-
-      <div class="plan">
-        <h3>₹200 / month</h3>
-        <p>Try Mentra</p>
-        <ul>
-          <li>Basic AI replies</li>
-          <li>Limited help</li>
-        </ul>
-        <button>Choose</button>
-      </div>
-
-      <div class="plan">
-        <h3>₹999 / month</h3>
-        <p>Best for daily use</p>
-        <ul>
-          <li>Unlimited chat</li>
-          <li>Daily business actions</li>
-        </ul>
-        <button>Choose</button>
-      </div>
-
-      <div class="plan">
-        <h3>₹1999 / month</h3>
-        <p>Grow faster</p>
-        <ul>
-          <li>WhatsApp message ideas</li>
-          <li>Festival campaigns</li>
-        </ul>
-        <button>Choose</button>
-      </div>
-
-      <div class="plan">
-        <h3>₹4999 / month</h3>
-        <p>Full power</p>
-        <ul>
-          <li>Priority AI</li>
-          <li>Advanced growth strategy</li>
-        </ul>
-        <button>Choose</button>
-      </div>
-
+  <!-- DASHBOARD -->
+  <div id="dash" class="section dashboard">
+    <div class="card">
+      <h3>Your Business</h3>
+      <p>Name: Demo Business</p>
+      <p>Goal: Get more customers</p>
     </div>
+    <div class="card">
+      <h3>AI Status</h3>
+      <p>Trial: 7 days left</p>
+      <p>AI Suggestions Ready: 3</p>
+    </div>
+  </div>
+
+  <!-- PLACEHOLDERS -->
+  <div id="customer" class="section dashboard">
+    <div class="card">Customer Message AI (Coming Next)</div>
+  </div>
+
+  <div id="whatsapp" class="section dashboard">
+    <div class="card">WhatsApp AI (Coming Next)</div>
+  </div>
+
+  <div id="plans" class="section dashboard">
+    <div class="card">Plans & Upgrade (Coming Next)</div>
   </div>
 
 </div>
 
 <script>
-function toggleMenu(){
-  document.getElementById("sidebar").classList.toggle("open");
-}
-
-function showSection(id,btn){
-  document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-  document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));
-  btn.classList.add("active");
-  document.getElementById("sidebar").classList.remove("open");
+function show(id,btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
 }
 
 function send(){
-  const input=document.getElementById("input");
+  const input=document.getElementById('input');
   if(!input.value.trim())return;
-
-  document.getElementById("intro")?.remove();
-
-  const msg=document.createElement("div");
-  msg.className="msg user";
+  document.getElementById('intro')?.remove();
+  const msg=document.createElement('div');
+  msg.className='msg user';
   msg.innerText=input.value;
-  document.getElementById("messages").appendChild(msg);
-
-  input.value="";
-  document.getElementById("messages").scrollTop =
-    document.getElementById("messages").scrollHeight;
+  document.getElementById('messages').appendChild(msg);
+  input.value='';
 }
-
-document.getElementById("input").addEventListener("keydown",function(e){
-  if(e.key==="Enter" && !e.shiftKey){
-    e.preventDefault();
-    send();
-  }
-});
 </script>
 
 </body>

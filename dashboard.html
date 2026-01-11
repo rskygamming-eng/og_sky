@@ -1,20 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Mentra – Business AI</title>
 
 <style>
 :root{
   --bg:#0f172a;
   --panel:#020617;
-  --border:#1e293b;
   --text:#e5e7eb;
   --muted:#94a3b8;
+  --border:#1e293b;
   --accent:#10a37f;
 }
+
+.light{
+  --bg:#f8fafc;
+  --panel:#ffffff;
+  --text:#0f172a;
+  --muted:#475569;
+  --border:#e2e8f0;
+}
+
 *{box-sizing:border-box}
+
 body{
   margin:0;
   font-family:Inter,Arial,sans-serif;
@@ -22,220 +32,153 @@ body{
   color:var(--text);
   height:100vh;
   display:flex;
+  flex-direction:column;
 }
 
-/* Sidebar */
-.sidebar{
-  width:260px;
+/* Top bar */
+.topbar{
+  height:56px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 20px;
+  border-bottom:1px solid var(--border);
   background:var(--panel);
-  border-right:1px solid var(--border);
-  padding:20px;
 }
-.logo{
-  font-size:22px;
+
+.brand{
   font-weight:700;
-  margin-bottom:20px;
+  font-size:18px;
 }
-.nav button{
-  width:100%;
+
+.actions button{
   background:none;
-  border:none;
-  color:var(--muted);
-  text-align:left;
-  padding:12px 14px;
+  border:1px solid var(--border);
+  color:var(--text);
+  padding:6px 12px;
   border-radius:10px;
-  margin-bottom:6px;
   cursor:pointer;
 }
-.nav button.active,
-.nav button:hover{
-  background:#0f172a;
-  color:white;
-}
 
-/* Main */
-.main{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-}
-.section{
-  display:none;
-  flex:1;
-}
-.section.active{
-  display:flex;
-}
-
-/* CHAT */
+/* Chat */
 .chat{
+  flex:1;
+  display:flex;
   flex-direction:column;
 }
+
 .messages{
   flex:1;
   padding:24px;
   overflow-y:auto;
 }
+
 .intro{
-  text-align:center;
   margin-top:120px;
+  text-align:center;
 }
+
+.intro h1{
+  font-size:32px;
+  margin-bottom:8px;
+}
+
+.intro p{
+  color:var(--muted);
+}
+
 .msg{
   max-width:70%;
   padding:12px 14px;
-  border-radius:12px;
+  border-radius:14px;
   margin-bottom:12px;
+  line-height:1.5;
   font-size:14.5px;
 }
-.ai{
-  background:var(--panel);
-  border:1px solid var(--border);
-}
+
 .user{
   background:var(--accent);
   color:#020617;
   margin-left:auto;
 }
+
+.ai{
+  background:var(--panel);
+  border:1px solid var(--border);
+}
+
+/* Input */
 .input-box{
   display:flex;
-  padding:14px;
+  gap:10px;
+  padding:16px;
   border-top:1px solid var(--border);
   background:var(--panel);
 }
+
 .input-box textarea{
   flex:1;
-  padding:12px;
-  border-radius:12px;
-  border:1px solid var(--border);
-  background:var(--bg);
-  color:white;
   resize:none;
   height:44px;
-  line-height:1.4;
+  padding:12px 14px;
+  border-radius:14px;
+  border:1px solid var(--border);
+  background:var(--bg);
+  color:var(--text);
+  font-size:14.5px;
 }
+
 .input-box button{
-  margin-left:10px;
   padding:0 18px;
+  border-radius:14px;
   border:none;
-  border-radius:12px;
   background:var(--accent);
   color:#020617;
   font-weight:600;
-}
-
-/* DASH / CUSTOMER */
-.dashboard{
-  padding:30px;
-  gap:20px;
-}
-.card{
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:16px;
-  padding:20px;
-  margin-bottom:20px;
-}
-.action-btn{
-  display:block;
-  width:100%;
-  margin-bottom:10px;
-  padding:12px;
-  border-radius:12px;
-  border:1px solid var(--border);
-  background:#0f172a;
-  color:white;
   cursor:pointer;
-  text-align:left;
-}
-.output{
-  margin-top:15px;
-  padding:14px;
-  border-radius:12px;
-  background:#0f172a;
-  border:1px solid var(--border);
-  font-size:14px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- SIDEBAR -->
-<div class="sidebar">
-  <div class="logo">Mentra</div>
-  <div class="nav">
-    <button class="active" onclick="show('chat',this)">Chat</button>
-    <button onclick="show('customer',this)">Customer Messages</button>
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="brand">Mentra</div>
+  <div class="actions">
+    <button onclick="toggleTheme()">🌓 Theme</button>
   </div>
 </div>
 
-<!-- MAIN -->
-<div class="main">
-
-  <!-- CHAT -->
-  <div id="chat" class="section active chat">
-    <div class="messages" id="messages">
-      <div class="intro" id="intro">
-        <h1>Hi, I’m Mentra 👋</h1>
-        <p>I help you grow your business. Let’s get started.</p>
-      </div>
-    </div>
-
-    <div class="input-box">
-      <textarea id="input" placeholder="Message Mentra…"></textarea>
-      <button onclick="send()">Send</button>
+<!-- CHAT -->
+<div class="chat">
+  <div class="messages" id="messages">
+    <div class="intro" id="intro">
+      <h1>Hi, I’m Mentra 👋</h1>
+      <p>I help you grow your business with clear, practical actions.</p>
     </div>
   </div>
 
-  <!-- CUSTOMER MESSAGE AI -->
-  <div id="customer" class="section dashboard">
-    <div class="card">
-      <h3>Customer Message AI</h3>
-
-      <button class="action-btn" onclick="generate('price')">
-        Reply to price enquiry
-      </button>
-
-      <button class="action-btn" onclick="generate('follow')">
-        Follow-up message
-      </button>
-
-      <button class="action-btn" onclick="generate('angry')">
-        Handle angry customer
-      </button>
-
-      <button class="action-btn" onclick="generate('offer')">
-        Send offer / promotion
-      </button>
-
-      <div class="output" id="output">
-        Select an option to generate a message.
-      </div>
-    </div>
+  <div class="input-box">
+    <textarea id="input" placeholder="Message Mentra…"></textarea>
+    <button onclick="send()">Send</button>
   </div>
-
 </div>
-
-<script>
-function show(id,btn){
-  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-}
 
 <script>
 const messages = document.getElementById("messages");
 const input = document.getElementById("input");
 
-async function send() {
-  const text = input.value.trim();
-  if (!text) return;
+function toggleTheme(){
+  document.body.classList.toggle("light");
+}
 
-  // Remove intro text
+async function send(){
+  const text = input.value.trim();
+  if(!text) return;
+
   document.getElementById("intro")?.remove();
 
-  // User bubble
   const userMsg = document.createElement("div");
   userMsg.className = "msg user";
   userMsg.innerText = text;
@@ -244,63 +187,31 @@ async function send() {
   input.value = "";
   messages.scrollTop = messages.scrollHeight;
 
-  // AI typing bubble
   const aiMsg = document.createElement("div");
   aiMsg.className = "msg ai";
-  aiMsg.innerText = "Mentra is thinking...";
+  aiMsg.innerText = "Mentra is thinking…";
   messages.appendChild(aiMsg);
   messages.scrollTop = messages.scrollHeight;
 
-  try {
-    const res = await fetch("http://localhost:3000/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: text })
+  try{
+    const res = await fetch("http://localhost:3000/chat",{
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body:JSON.stringify({ message:text })
     });
-
     const data = await res.json();
     aiMsg.innerText = data.reply;
-    messages.scrollTop = messages.scrollHeight;
-
-  } catch (err) {
-    aiMsg.innerText = "⚠️ Mentra couldn’t reply. Check backend.";
+  }catch{
+    aiMsg.innerText = "⚠️ Unable to connect to Mentra AI.";
   }
 }
 
-// ENTER to send, Shift+Enter for new line
-input.addEventListener("keydown", function (e) {
-  if (e.key === "Enter" && !e.shiftKey) {
+input.addEventListener("keydown",function(e){
+  if(e.key==="Enter" && !e.shiftKey){
     e.preventDefault();
     send();
   }
 });
-</script>
-
-
-/* ENTER TO SEND FIX */
-document.getElementById('input').addEventListener('keydown',function(e){
-  if(e.key==='Enter' && !e.shiftKey){
-    e.preventDefault();
-    send();
-  }
-});
-
-/* CUSTOMER MESSAGE DEMO */
-function generate(type){
-  const out=document.getElementById('output');
-  if(type==='price'){
-    out.innerText="Thank you for your interest 😊 Our pricing depends on your requirement. Please let me know what you’re looking for.";
-  }
-  if(type==='follow'){
-    out.innerText="Just checking in 😊 Let me know if you need any more details. I’ll be happy to help.";
-  }
-  if(type==='angry'){
-    out.innerText="I’m really sorry for the inconvenience. Let’s fix this quickly. Please share your concern so I can help you properly.";
-  }
-  if(type==='offer'){
-    out.innerText="We’re running a special offer for a limited time 🎉 Let me know if you’d like to take advantage of it.";
-  }
-}
 </script>
 
 </body>

@@ -31,6 +31,7 @@ body{
   background:var(--bg);
   color:var(--text);
   height:100vh;
+  overflow:hidden; /* 🔴 STOP PAGE SCROLL */
   display:flex;
 }
 
@@ -40,13 +41,10 @@ body{
   background:var(--panel);
   border-right:1px solid var(--border);
   padding:16px;
-  display:flex;
-  flex-direction:column;
-  transition:transform .3s;
 }
 
 .sidebar h2{
-  margin:0 0 20px 0;
+  margin:0 0 16px 0;
 }
 
 .mode{
@@ -58,30 +56,18 @@ body{
   margin-bottom:16px;
 }
 
-.sidebar button{
-  background:none;
-  border:none;
-  color:var(--text);
-  padding:10px 12px;
-  border-radius:10px;
-  text-align:left;
-  cursor:pointer;
-}
-
-.sidebar button:hover{
-  background:#0f172a;
-}
-
 /* ========== MAIN ========== */
 .main{
   flex:1;
   display:flex;
   flex-direction:column;
+  height:100vh;
 }
 
 /* Top bar */
 .topbar{
   height:56px;
+  flex-shrink:0;
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -99,22 +85,33 @@ body{
   cursor:pointer;
 }
 
-/* Chat */
+/* ========== CHAT LAYOUT ========== */
 .chat{
   flex:1;
   display:flex;
   flex-direction:column;
+  overflow:hidden; /* 🔴 IMPORTANT */
 }
 
+/* ONLY THIS SCROLLS */
 .messages{
   flex:1;
-  padding:24px;
   overflow-y:auto;
+  padding:24px 16px;
+  scroll-behavior:smooth;
 }
 
+/* Center content like ChatGPT */
+.chat-inner{
+  max-width:760px;
+  margin:0 auto;
+}
+
+/* Intro */
 .intro{
-  text-align:center;
   margin-top:120px;
+  text-align:center;
+  animation:fadeIn 0.4s ease;
 }
 
 .intro h1{
@@ -126,13 +123,20 @@ body{
   color:var(--muted);
 }
 
+/* Bubbles */
 .msg{
-  max-width:70%;
-  padding:12px 14px;
+  display:inline-block;
+  max-width:100%;
+  padding:10px 14px;
   border-radius:14px;
   margin-bottom:12px;
-  line-height:1.5;
   font-size:14.5px;
+  line-height:1.5;
+  animation:slideUp 0.25s ease;
+}
+
+.msg-row{
+  display:flex;
 }
 
 .user{
@@ -146,8 +150,9 @@ body{
   border:1px solid var(--border);
 }
 
-/* Input */
+/* Input (fixed bottom) */
 .input-box{
+  flex-shrink:0;
   display:flex;
   gap:10px;
   padding:16px;
@@ -175,26 +180,14 @@ body{
   font-weight:600;
 }
 
-/* Mobile */
-.menu-btn{
-  display:none;
+/* Animations */
+@keyframes slideUp{
+  from{opacity:0; transform:translateY(6px)}
+  to{opacity:1; transform:translateY(0)}
 }
-
-@media(max-width:768px){
-  .sidebar{
-    position:fixed;
-    left:0;
-    top:0;
-    bottom:0;
-    z-index:10;
-    transform:translateX(-100%);
-  }
-  .sidebar.open{
-    transform:translateX(0);
-  }
-  .menu-btn{
-    display:block;
-  }
+@keyframes fadeIn{
+  from{opacity:0}
+  to{opacity:1}
 }
 </style>
 </head>
@@ -202,27 +195,28 @@ body{
 <body>
 
 <!-- SIDEBAR -->
-<div class="sidebar" id="sidebar">
+<div class="sidebar">
   <h2>Mentra</h2>
-  <div class="mode">Current Plan: Free</div>
-  <button>Chat</button>
-  <button>Upgrade</button>
+  <div class="mode">Plan: Free</div>
 </div>
 
 <!-- MAIN -->
 <div class="main">
 
   <div class="topbar">
-    <button class="menu-btn" onclick="toggleSidebar()">☰</button>
     <div>Mentra</div>
     <button onclick="toggleTheme()">🌓</button>
   </div>
 
   <div class="chat">
     <div class="messages" id="messages">
-      <div class="intro" id="intro">
-        <h1>Hi, I’m Mentra 👋</h1>
-        <p>I help you grow your business with clear, practical actions.</p>
+      <div class="chat-inner">
+
+        <div class="intro" id="intro">
+          <h1>Hi, I’m Mentra 👋</h1>
+          <p>I help you grow your business with clear, practical actions.</p>
+        </div>
+
       </div>
     </div>
 
@@ -243,30 +237,33 @@ function toggleTheme(){
   document.body.classList.toggle("light");
 }
 
-function toggleSidebar(){
-  document.getElementById("sidebar").classList.toggle("open");
-}
-
 async function send(){
   const text=input.value.trim();
   if(!text) return;
 
   document.getElementById("intro")?.remove();
-
   sendBtn.disabled=true;
 
-  const u=document.createElement("div");
-  u.className="msg user";
-  u.innerText=text;
-  messages.appendChild(u);
+  const inner=document.querySelector(".chat-inner");
+
+  const userRow=document.createElement("div");
+  userRow.className="msg-row";
+  const userMsg=document.createElement("div");
+  userMsg.className="msg user";
+  userMsg.innerText=text;
+  userRow.appendChild(userMsg);
+  inner.appendChild(userRow);
 
   input.value="";
   messages.scrollTop=messages.scrollHeight;
 
-  const ai=document.createElement("div");
-  ai.className="msg ai";
-  ai.innerText="Mentra is typing…";
-  messages.appendChild(ai);
+  const aiRow=document.createElement("div");
+  aiRow.className="msg-row";
+  const aiMsg=document.createElement("div");
+  aiMsg.className="msg ai";
+  aiMsg.innerText="Mentra is typing…";
+  aiRow.appendChild(aiMsg);
+  inner.appendChild(aiRow);
   messages.scrollTop=messages.scrollHeight;
 
   try{
@@ -276,9 +273,9 @@ async function send(){
       body:JSON.stringify({message:text})
     });
     const data=await res.json();
-    ai.innerText=data.reply;
+    aiMsg.innerText=data.reply;
   }catch{
-    ai.innerText="⚠️ Unable to connect to Mentra AI (local backend).";
+    aiMsg.innerText="⚠️ Unable to connect to Mentra AI (local backend).";
   }
 
   sendBtn.disabled=false;

@@ -224,22 +224,58 @@ function show(id,btn){
   btn.classList.add('active');
 }
 
-function send(){
-  const input=document.getElementById('input');
-  const text=input.value.trim();
-  if(!text)return;
+<script>
+const messages = document.getElementById("messages");
+const input = document.getElementById("input");
 
-  document.getElementById('intro')?.remove();
+async function send() {
+  const text = input.value.trim();
+  if (!text) return;
 
-  const msg=document.createElement('div');
-  msg.className='msg user';
-  msg.innerText=text;
-  document.getElementById('messages').appendChild(msg);
+  // Remove intro text
+  document.getElementById("intro")?.remove();
 
-  input.value='';
-  document.getElementById('messages').scrollTop =
-    document.getElementById('messages').scrollHeight;
+  // User bubble
+  const userMsg = document.createElement("div");
+  userMsg.className = "msg user";
+  userMsg.innerText = text;
+  messages.appendChild(userMsg);
+
+  input.value = "";
+  messages.scrollTop = messages.scrollHeight;
+
+  // AI typing bubble
+  const aiMsg = document.createElement("div");
+  aiMsg.className = "msg ai";
+  aiMsg.innerText = "Mentra is thinking...";
+  messages.appendChild(aiMsg);
+  messages.scrollTop = messages.scrollHeight;
+
+  try {
+    const res = await fetch("http://localhost:3000/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: text })
+    });
+
+    const data = await res.json();
+    aiMsg.innerText = data.reply;
+    messages.scrollTop = messages.scrollHeight;
+
+  } catch (err) {
+    aiMsg.innerText = "⚠️ Mentra couldn’t reply. Check backend.";
+  }
 }
+
+// ENTER to send, Shift+Enter for new line
+input.addEventListener("keydown", function (e) {
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    send();
+  }
+});
+</script>
+
 
 /* ENTER TO SEND FIX */
 document.getElementById('input').addEventListener('keydown',function(e){

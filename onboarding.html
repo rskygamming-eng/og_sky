@@ -7,12 +7,13 @@
 
 <style>
 :root{
-  --bg:#0f172a;
-  --panel:#020617;
+  --bg:#020617;
+  --card:#020617;
   --text:#e5e7eb;
   --muted:#94a3b8;
   --border:#1e293b;
   --accent:#10a37f;
+  --danger:#ef4444;
 }
 
 *{box-sizing:border-box}
@@ -20,212 +21,254 @@
 body{
   margin:0;
   font-family:Inter,system-ui,Arial,sans-serif;
-  background:var(--bg);
+  background:
+    radial-gradient(1200px 600px at top, #0f172a 0%, #020617 60%);
   color:var(--text);
   min-height:100vh;
   display:flex;
-  justify-content:center;
   align-items:center;
+  justify-content:center;
+  padding:20px;
 }
 
-.container{
-  width:100%;
-  max-width:620px;
-  padding:32px;
-}
-
+/* Card */
 .card{
-  background:var(--panel);
+  width:100%;
+  max-width:520px;
+  background:linear-gradient(180deg,#020617,#020617);
   border:1px solid var(--border);
-  border-radius:20px;
-  padding:32px;
-  box-shadow:0 30px 60px rgba(0,0,0,.45);
+  border-radius:24px;
+  padding:28px;
+  box-shadow:0 40px 80px rgba(0,0,0,.6);
+  animation:fadeUp .6s ease;
 }
 
+/* Header */
 h1{
-  margin-top:0;
-  margin-bottom:6px;
-  font-size:28px;
+  margin:0;
+  font-size:26px;
 }
-
-p.subtitle{
-  margin-top:0;
-  margin-bottom:28px;
+.subtitle{
+  margin-top:6px;
   color:var(--muted);
-  font-size:14.5px;
+  font-size:14px;
 }
 
+/* Groups */
 .group{
-  margin-bottom:18px;
+  margin-top:18px;
 }
-
 label{
   display:block;
-  font-size:13px;
-  margin-bottom:6px;
+  font-size:12px;
   color:var(--muted);
+  margin-bottom:6px;
 }
 
 input, select, textarea{
   width:100%;
-  padding:12px 14px;
-  border-radius:12px;
+  padding:14px 14px;
+  border-radius:14px;
   border:1px solid var(--border);
-  background:#0f172a;
+  background:#020617;
   color:var(--text);
-  font-size:14.5px;
+  font-size:15px;
+  transition:.25s;
+}
+
+input:focus, select:focus, textarea:focus{
+  outline:none;
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px rgba(16,163,127,.15);
 }
 
 textarea{
   resize:none;
-  height:100px;
+  height:96px;
 }
 
+/* Error */
+.error{
+  border-color:var(--danger)!important;
+  animation:shake .3s;
+}
+
+/* Grid */
 .grid{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:16px;
+  gap:14px;
 }
 
+/* Button */
 button{
-  margin-top:28px;
   width:100%;
+  margin-top:26px;
   padding:16px;
-  border-radius:14px;
+  border-radius:16px;
   border:none;
-  background:var(--accent);
+  background:linear-gradient(135deg,#10a37f,#22c55e);
   color:#020617;
+  font-weight:700;
   font-size:15px;
-  font-weight:600;
   cursor:pointer;
-  transition:.2s;
+  transition:.25s;
 }
 button:hover{
   transform:translateY(-1px);
 }
 
-.footer-text{
-  margin-top:16px;
-  text-align:center;
-  font-size:12.5px;
-  color:var(--muted);
+/* Bottom message */
+.toast{
+  position:fixed;
+  bottom:24px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#020617;
+  border:1px solid var(--border);
+  padding:12px 16px;
+  border-radius:14px;
+  font-size:13px;
+  color:#fca5a5;
+  opacity:0;
+  pointer-events:none;
+  transition:.3s;
+}
+.toast.show{
+  opacity:1;
+}
+
+/* Animations */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes shake{
+  0%{transform:translateX(0)}
+  25%{transform:translateX(-4px)}
+  50%{transform:translateX(4px)}
+  75%{transform:translateX(-4px)}
+  100%{transform:translateX(0)}
+}
+
+/* Mobile */
+@media(max-width:520px){
+  .grid{grid-template-columns:1fr}
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
-  <div class="card">
+<div class="card">
 
-    <h1>Set up your business</h1>
-    <p class="subtitle">
-      Mentra uses this information to act like your personal business manager.
-      This takes less than 2 minutes.
-    </p>
+  <h1>Set up your business</h1>
+  <p class="subtitle">
+    Mentra will use this to guide you like a personal business manager.
+  </p>
 
-    <!-- BUSINESS NAME -->
+  <div class="group">
+    <label>Business name *</label>
+    <input id="name" placeholder="e.g. Sharma Electronics">
+  </div>
+
+  <div class="grid">
     <div class="group">
-      <label>Business name</label>
-      <input id="name" placeholder="e.g. Sharma Electronics" />
-    </div>
-
-    <!-- TYPE + CITY -->
-    <div class="grid">
-      <div class="group">
-        <label>Business type</label>
-        <select id="type">
-          <option value="">Select type</option>
-          <option>Retail shop</option>
-          <option>Service business</option>
-          <option>Restaurant / Cafe</option>
-          <option>Online business</option>
-          <option>Freelancer</option>
-          <option>Agency</option>
-          <option>Other</option>
-        </select>
-      </div>
-
-      <div class="group">
-        <label>City</label>
-        <input id="city" placeholder="e.g. Mumbai" />
-      </div>
-    </div>
-
-    <!-- GOAL + EXPERIENCE -->
-    <div class="grid">
-      <div class="group">
-        <label>Main business goal</label>
-        <select id="goal">
-          <option>Get more customers</option>
-          <option>Increase sales</option>
-          <option>Improve WhatsApp responses</option>
-          <option>Build online presence</option>
-          <option>Retain existing customers</option>
-        </select>
-      </div>
-
-      <div class="group">
-        <label>Business stage</label>
-        <select id="stage">
-          <option>Just starting</option>
-          <option>Running but slow growth</option>
-          <option>Stable business</option>
-          <option>Scaling fast</option>
-        </select>
-      </div>
-    </div>
-
-    <!-- WHATSAPP -->
-    <div class="group">
-      <label>Do you use WhatsApp for customers?</label>
-      <select id="whatsapp">
-        <option value="yes">Yes, daily</option>
-        <option value="sometimes">Sometimes</option>
-        <option value="no">No</option>
+      <label>Business type *</label>
+      <select id="type">
+        <option value="">Select type</option>
+        <option>Retail shop</option>
+        <option>Service business</option>
+        <option>Restaurant / Cafe</option>
+        <option>Online business</option>
+        <option>Freelancer</option>
+        <option>Agency</option>
       </select>
     </div>
 
-    <!-- DESCRIPTION -->
     <div class="group">
-      <label>Describe your business (important)</label>
-      <textarea id="desc" placeholder="What do you sell or offer? Who are your customers?"></textarea>
+      <label>City *</label>
+      <input id="city" placeholder="e.g. Mumbai">
     </div>
-
-    <button onclick="saveProfile()">Continue to Dashboard</button>
-
-    <div class="footer-text">
-      🔒 Your data is private and used only to personalize Mentra
-    </div>
-
   </div>
+
+  <div class="grid">
+    <div class="group">
+      <label>Main goal *</label>
+      <select id="goal">
+        <option value="">Select goal</option>
+        <option>Get more customers</option>
+        <option>Increase sales</option>
+        <option>Improve WhatsApp replies</option>
+        <option>Build online presence</option>
+      </select>
+    </div>
+
+    <div class="group">
+      <label>Business stage</label>
+      <select id="stage">
+        <option>Just starting</option>
+        <option>Running but slow</option>
+        <option>Stable</option>
+        <option>Scaling fast</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="group">
+    <label>Describe your business *</label>
+    <textarea id="desc" placeholder="What do you sell and who are your customers?"></textarea>
+  </div>
+
+  <button onclick="submitForm()">Continue</button>
+
 </div>
 
-<script>
-async function saveProfile(){
-  const profile = {
-    name: document.getElementById("name").value,
-    type: document.getElementById("type").value,
-    city: document.getElementById("city").value,
-    goal: document.getElementById("goal").value,
-    stage: document.getElementById("stage").value,
-    usesWhatsApp: document.getElementById("whatsapp").value !== "no",
-    description: document.getElementById("desc").value
-  };
+<div class="toast" id="toast">Please fill all required fields</div>
 
-  // Basic validation
-  if(!profile.name || !profile.type || !profile.city){
-    alert("Please fill all required details.");
+<script>
+function showError(el){
+  el.classList.add("error");
+  setTimeout(()=>el.classList.remove("error"),600);
+}
+
+async function submitForm(){
+  const name=document.getElementById("name");
+  const type=document.getElementById("type");
+  const city=document.getElementById("city");
+  const goal=document.getElementById("goal");
+  const desc=document.getElementById("desc");
+  const toast=document.getElementById("toast");
+
+  let valid=true;
+  [name,type,city,goal,desc].forEach(el=>{
+    if(!el.value){
+      showError(el);
+      valid=false;
+    }
+  });
+
+  if(!valid){
+    toast.classList.add("show");
+    setTimeout(()=>toast.classList.remove("show"),2500);
     return;
   }
 
   await fetch("http://localhost:3000/profile",{
     method:"POST",
     headers:{ "Content-Type":"application/json" },
-    body:JSON.stringify(profile)
+    body:JSON.stringify({
+      name:name.value,
+      type:type.value,
+      city:city.value,
+      goal:goal.value,
+      stage:stage.value,
+      description:desc.value,
+      usesWhatsApp:true
+    })
   });
 
-  window.location.href = "dashboard.html";
+  window.location.href="dashboard.html";
 }
 </script>
 

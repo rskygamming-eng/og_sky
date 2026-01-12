@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Mentra – Business AI</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mentra – Dashboard</title>
 
 <style>
 :root{
   --bg:#0f172a;
   --panel:#020617;
   --text:#e5e7eb;
+  --muted:#94a3b8;
   --border:#1e293b;
   --accent:#10a37f;
 }
@@ -32,13 +33,15 @@ body{
   padding:18px;
 }
 .sidebar h2{margin:0}
-.mode{
-  margin-top:12px;
-  font-size:13px;
-  padding:6px 10px;
+.sidebar button{
+  margin-top:14px;
+  width:100%;
+  padding:10px;
   border-radius:10px;
-  background:#0f172a;
   border:1px solid var(--border);
+  background:none;
+  color:var(--text);
+  cursor:pointer;
 }
 
 /* Main */
@@ -56,6 +59,19 @@ body{
   padding:0 18px;
   border-bottom:1px solid var(--border);
   background:var(--panel);
+}
+
+/* Business Summary */
+.summary{
+  padding:16px;
+  border-bottom:1px solid var(--border);
+  background:#020617;
+}
+.summary strong{color:#fff}
+.summary p{
+  margin:6px 0;
+  font-size:14px;
+  color:var(--muted);
 }
 
 /* Chat */
@@ -81,7 +97,6 @@ body{
   padding:10px 14px;
   border-radius:16px;
   max-width:70%;
-  line-height:1.5;
 }
 .user{
   margin-left:auto;
@@ -92,16 +107,6 @@ body{
   background:var(--panel);
   border:1px solid var(--border);
 }
-
-/* Typing dots */
-.typing{display:flex;gap:5px}
-.dot{
-  width:6px;height:6px;border-radius:50%;
-  background:#94a3b8;
-  animation:bounce 1.4s infinite;
-}
-.dot:nth-child(2){animation-delay:.2s}
-.dot:nth-child(3){animation-delay:.4s}
 
 /* Input */
 .input-box{
@@ -121,17 +126,12 @@ textarea{
   background:var(--bg);
   color:var(--text);
 }
-button{
+button.send{
   padding:0 18px;
   border-radius:14px;
   border:none;
   background:var(--accent);
   font-weight:600;
-}
-
-@keyframes bounce{
-  0%,80%,100%{transform:scale(0)}
-  40%{transform:scale(1)}
 }
 </style>
 </head>
@@ -140,20 +140,25 @@ button{
 
 <div class="sidebar">
   <h2>Mentra</h2>
-  <div class="mode">Plan: Free</div>
+  <button onclick="editBusiness()">✏️ Edit Business</button>
 </div>
 
 <div class="main">
 
-  <div class="topbar">Mentra</div>
+  <div class="topbar">Dashboard</div>
+
+  <!-- Business Summary -->
+  <div class="summary" id="summary">
+    <strong>Business Profile</strong>
+    <p id="bizText">Loading business details…</p>
+  </div>
 
   <div class="chat">
     <div class="messages" id="messages">
       <div class="chat-inner" id="chatInner">
         <div class="msg-row">
           <div class="msg ai">
-            Hi 👋 I’m Mentra. Your business AI assistant.  
-            Ask me what you should do today.
+            Hi 👋 I’m Mentra. Ask me what you should do today.
           </div>
         </div>
       </div>
@@ -161,7 +166,7 @@ button{
 
     <div class="input-box">
       <textarea id="input" placeholder="Message Mentra…"></textarea>
-      <button onclick="send()">Send</button>
+      <button class="send" onclick="send()">Send</button>
     </div>
   </div>
 
@@ -171,6 +176,21 @@ button{
 const chatInner=document.getElementById("chatInner");
 const messages=document.getElementById("messages");
 const input=document.getElementById("input");
+const bizText=document.getElementById("bizText");
+
+// Load business profile
+fetch("http://localhost:3000/profile")
+  .then(r=>r.json())
+  .then(p=>{
+    bizText.innerHTML = `
+      Mentra is optimized for a <strong>${p.type}</strong> in
+      <strong>${p.city}</strong> focused on <strong>${p.goal}</strong>.
+    `;
+  });
+
+function editBusiness(){
+  window.location.href="onboarding.html";
+}
 
 async function send(){
   const text=input.value.trim();
@@ -179,16 +199,12 @@ async function send(){
   chatInner.insertAdjacentHTML("beforeend",
     `<div class="msg-row"><div class="msg user">${text}</div></div>`
   );
-
   input.value="";
   messages.scrollTop=messages.scrollHeight;
 
   const tRow=document.createElement("div");
   tRow.className="msg-row";
-  tRow.innerHTML=`
-    <div class="msg ai typing">
-      <div class="dot"></div><div class="dot"></div><div class="dot"></div>
-    </div>`;
+  tRow.innerHTML=`<div class="msg ai">Thinking…</div>`;
   chatInner.appendChild(tRow);
   messages.scrollTop=messages.scrollHeight;
 

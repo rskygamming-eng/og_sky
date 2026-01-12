@@ -6,131 +6,55 @@
 <title>Mentra – Dashboard</title>
 
 <style>
-:root{
-  --bg:#0f172a;
-  --panel:#020617;
-  --text:#e5e7eb;
-  --muted:#94a3b8;
-  --border:#1e293b;
-  --accent:#10a37f;
-}
-
 body{
   margin:0;
   font-family:Inter,Arial,sans-serif;
-  background:var(--bg);
-  color:var(--text);
+  background:#0f172a;
+  color:#e5e7eb;
   height:100vh;
-  overflow:hidden;
-  display:flex;
-}
-
-/* Sidebar */
-.sidebar{
-  width:260px;
-  background:var(--panel);
-  border-right:1px solid var(--border);
-  padding:18px;
-}
-.sidebar h2{margin:0}
-.sidebar button{
-  margin-top:14px;
-  width:100%;
-  padding:10px;
-  border-radius:10px;
-  border:1px solid var(--border);
-  background:none;
-  color:var(--text);
-  cursor:pointer;
-}
-
-/* Main */
-.main{
-  flex:1;
   display:flex;
   flex-direction:column;
 }
 
-/* Top */
 .topbar{
   height:56px;
   display:flex;
   align-items:center;
+  justify-content:space-between;
   padding:0 18px;
-  border-bottom:1px solid var(--border);
-  background:var(--panel);
-}
-
-/* Business Summary */
-.summary{
-  padding:16px;
-  border-bottom:1px solid var(--border);
   background:#020617;
-}
-.summary strong{color:#fff}
-.summary p{
-  margin:6px 0;
-  font-size:14px;
-  color:var(--muted);
+  border-bottom:1px solid #1e293b;
 }
 
-/* Chat */
 .chat{
   flex:1;
-  display:flex;
-  flex-direction:column;
-}
-
-.messages{
-  flex:1;
-  overflow-y:auto;
   padding:24px;
+  overflow-y:auto;
 }
 
-.chat-inner{
-  max-width:760px;
-  margin:0 auto;
-}
-
-.msg-row{display:flex;margin-bottom:14px}
-.msg{
-  padding:10px 14px;
-  border-radius:16px;
-  max-width:70%;
-}
-.user{
-  margin-left:auto;
-  background:var(--accent);
-  color:#020617;
-}
-.ai{
-  background:var(--panel);
-  border:1px solid var(--border);
-}
-
-/* Input */
 .input-box{
   display:flex;
   gap:10px;
   padding:16px;
-  border-top:1px solid var(--border);
-  background:var(--panel);
+  background:#020617;
 }
+
 textarea{
   flex:1;
   height:44px;
   resize:none;
   padding:12px;
   border-radius:14px;
-  border:1px solid var(--border);
-  background:var(--bg);
-  color:var(--text);
+  border:1px solid #1e293b;
+  background:#0f172a;
+  color:#e5e7eb;
 }
-button.send{
+
+button{
   padding:0 18px;
   border-radius:14px;
   border:none;
-  background:var(--accent);
+  background:#10a37f;
   font-weight:600;
 }
 </style>
@@ -138,75 +62,28 @@ button.send{
 
 <body>
 
-<div class="sidebar">
-  <h2>Mentra</h2>
-  <button onclick="editBusiness()">✏️ Edit Business</button>
+<div class="topbar">
+  <div>Mentra</div>
+  <a href="profile.html" style="color:#94a3b8;text-decoration:none">Profile</a>
 </div>
 
-<div class="main">
+<div class="chat" id="chat"></div>
 
-  <div class="topbar">Dashboard</div>
-
-  <!-- Business Summary -->
-  <div class="summary" id="summary">
-    <strong>Business Profile</strong>
-    <p id="bizText">Loading business details…</p>
-  </div>
-
-  <div class="chat">
-    <div class="messages" id="messages">
-      <div class="chat-inner" id="chatInner">
-        <div class="msg-row">
-          <div class="msg ai">
-            Hi 👋 I’m Mentra. Ask me what you should do today.
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="input-box">
-      <textarea id="input" placeholder="Message Mentra…"></textarea>
-      <button class="send" onclick="send()">Send</button>
-    </div>
-  </div>
-
+<div class="input-box">
+  <textarea id="input" placeholder="Message Mentra…"></textarea>
+  <button onclick="send()">Send</button>
 </div>
 
 <script>
-const chatInner=document.getElementById("chatInner");
-const messages=document.getElementById("messages");
+const chat=document.getElementById("chat");
 const input=document.getElementById("input");
-const bizText=document.getElementById("bizText");
-
-// Load business profile
-fetch("http://localhost:3000/profile")
-  .then(r=>r.json())
-  .then(p=>{
-    bizText.innerHTML = `
-      Mentra is optimized for a <strong>${p.type}</strong> in
-      <strong>${p.city}</strong> focused on <strong>${p.goal}</strong>.
-    `;
-  });
-
-function editBusiness(){
-  window.location.href="onboarding.html";
-}
 
 async function send(){
   const text=input.value.trim();
   if(!text) return;
 
-  chatInner.insertAdjacentHTML("beforeend",
-    `<div class="msg-row"><div class="msg user">${text}</div></div>`
-  );
+  chat.innerHTML+=`<div>${text}</div>`;
   input.value="";
-  messages.scrollTop=messages.scrollHeight;
-
-  const tRow=document.createElement("div");
-  tRow.className="msg-row";
-  tRow.innerHTML=`<div class="msg ai">Thinking…</div>`;
-  chatInner.appendChild(tRow);
-  messages.scrollTop=messages.scrollHeight;
 
   const res=await fetch("http://localhost:3000/chat",{
     method:"POST",
@@ -214,7 +91,7 @@ async function send(){
     body:JSON.stringify({message:text})
   });
   const data=await res.json();
-  tRow.querySelector(".msg").innerText=data.reply;
+  chat.innerHTML+=`<div>${data.reply}</div>`;
 }
 
 input.addEventListener("keydown",e=>{

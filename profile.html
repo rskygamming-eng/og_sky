@@ -1,1 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mentra – Profile</title>
+
+<style>
+:root{
+  --bg:#0f172a;
+  --panel:#020617;
+  --text:#e5e7eb;
+  --muted:#94a3b8;
+  --border:#1e293b;
+  --accent:#10a37f;
+}
+
+body{
+  margin:0;
+  font-family:Inter,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+}
+
+/* Layout */
+.header{
+  height:56px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 18px;
+  border-bottom:1px solid var(--border);
+  background:var(--panel);
+}
+
+.container{
+  max-width:760px;
+  margin:32px auto;
+  padding:0 16px;
+}
+
+.card{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:24px;
+  margin-bottom:20px;
+  animation:fadeUp .4s ease;
+}
+
+h2{
+  margin-top:0;
+  margin-bottom:12px;
+}
+
+label{
+  font-size:12px;
+  color:var(--muted);
+  display:block;
+  margin-bottom:6px;
+}
+
+input, textarea{
+  width:100%;
+  padding:12px;
+  border-radius:12px;
+  border:1px solid var(--border);
+  background:#0f172a;
+  color:var(--text);
+  margin-bottom:14px;
+}
+
+textarea{
+  resize:none;
+  height:90px;
+}
+
+button{
+  padding:12px 16px;
+  border-radius:12px;
+  border:none;
+  background:var(--accent);
+  color:#020617;
+  font-weight:600;
+  cursor:pointer;
+}
+
+button.secondary{
+  background:none;
+  border:1px solid var(--border);
+  color:var(--text);
+}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(10px)}
+  to{opacity:1;transform:translateY(0)}
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  <div>Mentra</div>
+  <button class="secondary" onclick="logout()">Logout</button>
+</div>
+
+<div class="container">
+
+  <!-- Business Profile -->
+  <div class="card">
+    <h2>Business Profile</h2>
+
+    <label>Business Name</label>
+    <input id="name">
+
+    <label>Business Type</label>
+    <input id="type">
+
+    <label>City</label>
+    <input id="city">
+
+    <label>Main Goal</label>
+    <input id="goal">
+
+    <label>Business Stage</label>
+    <input id="stage">
+
+    <label>Description</label>
+    <textarea id="description"></textarea>
+
+    <button onclick="save()">Save Changes</button>
+  </div>
+
+  <!-- Mentra Status -->
+  <div class="card">
+    <h2>Mentra Status</h2>
+    <p id="status" style="color:var(--muted)">Loading…</p>
+  </div>
+
+</div>
+
+<script>
+async function loadProfile(){
+  const res = await fetch("http://localhost:3000/profile");
+  const p = await res.json();
+
+  name.value = p.name || "";
+  type.value = p.type || "";
+  city.value = p.city || "";
+  goal.value = p.goal || "";
+  stage.value = p.stage || "";
+  description.value = p.description || "";
+
+  document.getElementById("status").innerHTML = `
+    Mentra is optimized for a <b>${p.type}</b> business in
+    <b>${p.city}</b> focused on <b>${p.goal}</b>.
+  `;
+}
+
+async function save(){
+  await fetch("http://localhost:3000/profile",{
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body:JSON.stringify({
+      name:name.value,
+      type:type.value,
+      city:city.value,
+      goal:goal.value,
+      stage:stage.value,
+      description:description.value
+    })
+  });
+  alert("Profile updated successfully");
+}
+
+function logout(){
+  // Temporary logout (Phase 4 = real auth)
+  window.location.href = "onboarding.html";
+}
+
+loadProfile();
+</script>
+
+</body>
+</html>
 

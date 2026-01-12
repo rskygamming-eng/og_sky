@@ -7,12 +7,14 @@
 
 <style>
 :root{
-  --bg:#0f172a;
-  --panel:#020617;
+  --bg:#0b1220;
+  --panel:#0f172a;
+  --card:#111c36;
   --text:#e5e7eb;
-  --muted:#94a3b8;
-  --border:#1e293b;
-  --accent:#10a37f;
+  --muted:#9aa4bf;
+  --border:#1e2a4a;
+  --accent:#3b82f6; /* blue */
+  --accent-soft:#1d4ed8;
 }
 
 *{box-sizing:border-box}
@@ -20,27 +22,27 @@
 body{
   margin:0;
   font-family:Inter,system-ui,Arial,sans-serif;
-  background:var(--bg);
+  background:linear-gradient(180deg,#0b1220,#020617);
   color:var(--text);
   height:100vh;
   overflow:hidden;
 }
 
-/* ========== LAYOUT ========== */
+/* ===== LAYOUT ===== */
 .app{
   display:grid;
-  grid-template-columns:260px 1fr;
+  grid-template-columns:280px 1fr;
   grid-template-rows:56px 1fr 72px;
   height:100vh;
 }
 
-/* ========== TOP BAR ========== */
+/* ===== TOP BAR ===== */
 .topbar{
   grid-column:1 / 3;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:0 16px;
+  padding:0 18px;
   background:var(--panel);
   border-bottom:1px solid var(--border);
 }
@@ -62,12 +64,25 @@ body{
   cursor:pointer;
 }
 
-.status{
-  font-size:13px;
-  color:var(--muted);
+.top-actions{
+  display:flex;
+  align-items:center;
+  gap:14px;
 }
 
-/* ========== SIDEBAR ========== */
+.settings{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:8px 10px;
+  cursor:pointer;
+  transition:.2s;
+}
+.settings:hover{
+  background:var(--accent-soft);
+}
+
+/* ===== SIDEBAR ===== */
 .sidebar{
   grid-row:2 / 4;
   background:var(--panel);
@@ -75,30 +90,36 @@ body{
   padding:16px;
   display:flex;
   flex-direction:column;
-  gap:8px;
-  transition:.3s;
+  gap:12px;
 }
 
-.sidebar button{
-  background:none;
-  border:1px solid transparent;
+.nav-btn{
+  background:var(--card);
+  border:1px solid var(--border);
   color:var(--text);
-  padding:10px 12px;
-  border-radius:10px;
+  padding:14px 16px;
+  border-radius:16px;
   text-align:left;
   cursor:pointer;
+  font-size:14px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  transition:.25s;
 }
 
-.sidebar button:hover{
-  background:#0f172a;
+.nav-btn:hover{
+  transform:translateY(-1px);
+  border-color:var(--accent);
 }
 
-.sidebar .active{
-  background:#0f172a;
-  border-color:var(--border);
+.nav-btn.active{
+  background:linear-gradient(135deg,var(--accent),#2563eb);
+  color:#020617;
+  font-weight:600;
 }
 
-/* ========== CHAT ========== */
+/* ===== CHAT AREA ===== */
 .chat{
   grid-column:2;
   grid-row:2;
@@ -116,18 +137,18 @@ body{
 .msg{
   max-width:70%;
   padding:12px 14px;
-  border-radius:16px;
+  border-radius:18px;
   animation:fadeUp .25s ease;
 }
 
 .ai{
-  background:var(--panel);
+  background:var(--card);
   border:1px solid var(--border);
 }
 
 .user{
   margin-left:auto;
-  background:var(--accent);
+  background:linear-gradient(135deg,var(--accent),#2563eb);
   color:#020617;
 }
 
@@ -142,7 +163,7 @@ body{
 .dot:nth-child(2){animation-delay:.2s}
 .dot:nth-child(3){animation-delay:.4s}
 
-/* ========== INPUT BAR ========== */
+/* ===== INPUT BAR ===== */
 .input-bar{
   grid-column:2;
   grid-row:3;
@@ -158,30 +179,31 @@ textarea{
   resize:none;
   height:44px;
   padding:12px 14px;
-  border-radius:14px;
+  border-radius:16px;
   border:1px solid var(--border);
-  background:var(--bg);
+  background:#020617;
   color:var(--text);
 }
 
 button.send{
-  padding:0 18px;
-  border-radius:14px;
+  padding:0 20px;
+  border-radius:16px;
   border:none;
-  background:var(--accent);
-  font-weight:600;
+  background:linear-gradient(135deg,var(--accent),#2563eb);
+  font-weight:700;
+  color:#020617;
 }
 
-/* ========== OVERLAY (MOBILE) ========== */
+/* ===== OVERLAY (MOBILE) ===== */
 .overlay{
   display:none;
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.45);
+  background:rgba(0,0,0,.5);
   z-index:9;
 }
 
-/* ========== ANIMATIONS ========== */
+/* ===== ANIMATIONS ===== */
 @keyframes bounce{
   0%,80%,100%{transform:scale(0)}
   40%{transform:scale(1)}
@@ -191,34 +213,27 @@ button.send{
   to{opacity:1;transform:translateY(0)}
 }
 
-/* ========== MOBILE ========== */
+/* ===== MOBILE ===== */
 @media(max-width:900px){
   .app{
     grid-template-columns:1fr;
     grid-template-rows:56px 1fr 72px;
   }
-
-  .menu-btn{
-    display:block;
-  }
+  .menu-btn{display:block}
 
   .sidebar{
     position:fixed;
-    left:-260px;
+    left:-280px;
     top:56px;
     height:calc(100% - 56px);
-    width:260px;
+    width:280px;
     z-index:10;
+    transition:.3s;
   }
-
-  .sidebar.open{
-    left:0;
-  }
+  .sidebar.open{left:0}
 
   .chat,
-  .input-bar{
-    grid-column:1;
-  }
+  .input-bar{grid-column:1}
 }
 </style>
 </head>
@@ -235,14 +250,19 @@ button.send{
       <button class="menu-btn" onclick="toggleSidebar()">☰</button>
       Mentra
     </div>
-    <div class="status">Business AI</div>
+    <div class="top-actions">
+      <div class="settings" onclick="location.href='profile.html'">⚙️</div>
+    </div>
   </div>
 
   <!-- SIDEBAR -->
   <div class="sidebar" id="sidebar">
-    <button class="active">💬 Chat</button>
-    <button onclick="location.href='profile.html'">👤 Profile</button>
-    <button disabled>➕ More soon</button>
+    <button class="nav-btn active">💬 Chat</button>
+    <button class="nav-btn">📊 Overview</button>
+    <button class="nav-btn">📈 Insights</button>
+    <button class="nav-btn">💬 WhatsApp Hub</button>
+    <button class="nav-btn">🔗 Integrations</button>
+    <button class="nav-btn" onclick="location.href='profile.html'">👤 Profile</button>
   </div>
 
   <!-- CHAT -->

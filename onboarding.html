@@ -1,136 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Mentra – Business Setup</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mentra – Business Setup</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Inter, Arial, sans-serif;
-      background: #020617;
-      color: #e5e7eb;
-    }
+<style>
+body{
+  margin:0;
+  font-family:Inter,Arial,sans-serif;
+  background:#0f172a;
+  color:#e5e7eb;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
 
-    .container {
-      max-width: 720px;
-      margin: auto;
-      padding: 60px 20px;
-    }
+.box{
+  background:#020617;
+  padding:32px;
+  border-radius:16px;
+  width:90%;
+  max-width:480px;
+  box-shadow:0 20px 40px rgba(0,0,0,.4);
+}
 
-    .card {
-      background: #020617;
-      border: 1px solid #1e293b;
-      border-radius: 20px;
-      padding: 40px;
-    }
+h1{margin-top:0}
+input, textarea{
+  width:100%;
+  margin:10px 0;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid #1e293b;
+  background:#0f172a;
+  color:#e5e7eb;
+}
+textarea{
+  resize:none;
+  height:90px;
+}
 
-    h2 {
-      margin-top: 0;
-      color: white;
-      text-align: center;
-      font-size: 1.8rem;
-    }
-
-    .subtitle {
-      text-align: center;
-      color: #94a3b8;
-      margin-bottom: 40px;
-      font-size: 15px;
-    }
-
-    label {
-      display: block;
-      margin-top: 22px;
-      margin-bottom: 6px;
-      font-size: 14px;
-      color: #cbd5f5;
-    }
-
-    input, select {
-      width: 100%;
-      padding: 14px;
-      border-radius: 12px;
-      border: 1px solid #1e293b;
-      background: #020617;
-      color: white;
-      font-size: 15px;
-    }
-
-    .hint {
-      font-size: 12px;
-      color: #64748b;
-      margin-top: 6px;
-    }
-
-    button {
-      width: 100%;
-      padding: 16px;
-      margin-top: 40px;
-      background: linear-gradient(135deg, #38bdf8, #0ea5e9);
-      border: none;
-      border-radius: 14px;
-      font-weight: 600;
-      font-size: 16px;
-      cursor: pointer;
-      color: #020617;
-    }
-
-    .secure {
-      text-align: center;
-      margin-top: 16px;
-      font-size: 13px;
-      color: #94a3b8;
-    }
-  </style>
+button{
+  margin-top:14px;
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  border:none;
+  background:#10a37f;
+  color:#020617;
+  font-weight:600;
+  cursor:pointer;
+}
+</style>
 </head>
 
 <body>
-  <div class="container">
-    <div class="card">
-      <h2>Tell Us About Your Business</h2>
-      <div class="subtitle">
-        Mentra uses this to act like your personal business manager
-      </div>
 
-      <label>Business Name</label>
-      <input type="text" placeholder="e.g. Sharma Electronics" />
+<div class="box">
+  <h1>Tell Mentra about your business</h1>
+  <p>This helps Mentra act like your personal business manager.</p>
 
-      <label>Business Type</label>
-      <select>
-        <option>Retail Shop</option>
-        <option>Service Business</option>
-        <option>Online Business</option>
-        <option>Freelancer</option>
-        <option>Other</option>
-      </select>
+  <input id="name" placeholder="Business name" />
+  <input id="type" placeholder="Business type (shop, service…)" />
+  <input id="city" placeholder="City" />
+  <input id="goal" placeholder="Main goal (sales, leads…)" />
+  <textarea id="desc" placeholder="Describe your business in a few lines"></textarea>
 
-      <label>City</label>
-      <input type="text" placeholder="e.g. Mumbai" />
+  <button onclick="save()">Continue to Dashboard</button>
+</div>
 
-      <label>Main Business Goal</label>
-      <select>
-        <option>Get more customers</option>
-        <option>Increase repeat customers</option>
-        <option>Promote offers</option>
-        <option>Build online presence</option>
-      </select>
+<script>
+async function save(){
+  const profile = {
+    name: name.value,
+    type: type.value,
+    city: city.value,
+    goal: goal.value,
+    description: desc.value,
+    usesWhatsApp: true
+  };
 
-      <label>WhatsApp Number</label>
-      <input type="tel" placeholder="+91 XXXXX XXXXX" />
-      <div class="hint">
-        This is where Mentra will send daily suggestions
-      </div>
+  await fetch("http://localhost:3000/profile",{
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body:JSON.stringify(profile)
+  });
 
-      <a href="dashboard.html">
-        <button>Finish Setup</button>
-      </a>
+  // Redirect to dashboard
+  window.location.href = "dashboard.html";
+}
+</script>
 
-      <div class="secure">
-        🔒 Your information is safe and used only to personalize your AI
-      </div>
-    </div>
-  </div>
 </body>
 </html>

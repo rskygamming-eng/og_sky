@@ -6,17 +6,16 @@
 <title>Mentra</title>
 
 <style>
-/* ================== CORE RESET ================== */
 html, body {
   height: 100%;
   margin: 0;
-  overflow: hidden; /* NEVER SCROLL PAGE */
+  overflow: hidden;
   font-family: Inter, system-ui, Arial, sans-serif;
   background: radial-gradient(1200px 600px at center, #3a1c71, #0f0c29);
   color: #eef2ff;
 }
 
-/* ================== LAYOUT ================== */
+/* ===== APP LAYOUT ===== */
 .app {
   display: grid;
   grid-template-columns: 260px 1fr;
@@ -24,7 +23,7 @@ html, body {
   height: 100%;
 }
 
-/* ================== TOP BAR ================== */
+/* ===== TOP BAR ===== */
 .topbar {
   grid-column: 1 / 3;
   display: flex;
@@ -32,35 +31,34 @@ html, body {
   justify-content: space-between;
   padding: 0 24px;
   backdrop-filter: blur(18px);
-  background: rgba(20, 20, 60, 0.6);
-  border-bottom: 1px solid rgba(255,255,255,0.12);
+  background: rgba(20,20,60,.6);
+  border-bottom: 1px solid rgba(255,255,255,.12);
 }
 
 .brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
   font-weight: 700;
   font-size: 18px;
 }
 
 .top-actions {
   display: flex;
+  gap: 14px;
   align-items: center;
-  gap: 16px;
 }
 
 .avatar {
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #7c7cff, #a855f7);
+  background: linear-gradient(135deg,#7c7cff,#a855f7);
 }
 
-/* ================== SIDEBAR ================== */
+/* ===== SIDEBAR ===== */
 .sidebar {
   padding: 18px;
-  border-right: 1px solid rgba(255,255,255,0.12);
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid rgba(255,255,255,.12);
 }
 
 .nav {
@@ -71,35 +69,51 @@ html, body {
   border-radius: 12px;
   cursor: pointer;
   color: #c7d2fe;
-  transition: 0.2s;
+  transition: .25s;
 }
 
 .nav:hover {
-  background: rgba(124,124,255,0.18);
+  background: rgba(124,124,255,.18);
 }
 
 .nav.active {
-  background: linear-gradient(135deg, #7c7cff, #6366f1);
+  background: linear-gradient(135deg,#7c7cff,#6366f1);
   color: #020617;
   font-weight: 600;
 }
 
-.upgrade {
+.sidebar-bottom {
   margin-top: auto;
-  padding: 14px;
-  border-radius: 14px;
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.12);
+  padding-top: 16px;
 }
 
-/* ================== CHAT VIEW ================== */
+.upgrade {
+  padding: 14px;
+  border-radius: 14px;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.12);
+  text-align: center;
+}
+
+.upgrade button {
+  margin-top: 10px;
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(135deg,#7c7cff,#6366f1);
+  font-weight: 600;
+}
+
+/* ===== VIEW ===== */
 .view {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 
-/* ONLY SCROLL AREA */
+/* ===== CHAT SCROLL (ONLY THIS SCROLLS) ===== */
 .messages-wrapper {
   flex: 1;
   overflow-y: auto;
@@ -112,15 +126,16 @@ html, body {
   padding: 28px;
 }
 
-/* Intro */
+/* Intro text */
 .intro {
   text-align: center;
   margin-top: 30%;
+  animation: fadeIn .5s ease;
 }
 
 .intro h1 {
   font-size: 34px;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
 .intro p {
@@ -132,23 +147,23 @@ html, body {
   max-width: 72%;
   padding: 14px 18px;
   border-radius: 18px;
-  background: rgba(255,255,255,0.1);
+  background: rgba(255,255,255,.1);
   margin-bottom: 14px;
-  animation: fadeUp 0.2s ease;
+  animation: slideUp .25s ease;
 }
 
 .user {
   margin-left: auto;
-  background: linear-gradient(135deg, #7c7cff, #6366f1);
+  background: linear-gradient(135deg,#7c7cff,#6366f1);
   color: #020617;
 }
 
-/* ================== INPUT BAR ================== */
+/* ===== INPUT BAR ===== */
 .composer {
-  border-top: 1px solid rgba(255,255,255,0.12);
+  border-top: 1px solid rgba(255,255,255,.12);
   padding: 14px;
   backdrop-filter: blur(18px);
-  background: rgba(15,15,40,0.85);
+  background: rgba(15,15,40,.85);
 }
 
 .composer-inner {
@@ -157,10 +172,15 @@ html, body {
   display: flex;
   align-items: center;
   gap: 12px;
-  background: rgba(10,10,30,0.9);
-  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(10,10,30,.9);
+  border: 1px solid rgba(255,255,255,.15);
   border-radius: 18px;
   padding: 10px 14px;
+  transition: .25s;
+}
+
+.composer-inner:focus-within {
+  box-shadow: 0 0 0 2px rgba(124,124,255,.4);
 }
 
 textarea {
@@ -171,7 +191,6 @@ textarea {
   outline: none;
   color: #eef2ff;
   font-size: 15px;
-  line-height: 1.4;
   max-height: 120px;
   overflow-y: auto;
 }
@@ -184,26 +203,28 @@ textarea {
   border: none;
   cursor: pointer;
   color: #c7d2fe;
+  transition: .2s;
 }
 
 .icon-btn:hover {
-  background: rgba(124,124,255,0.2);
+  background: rgba(124,124,255,.25);
 }
 
-/* ================== ANIMATIONS ================== */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(4px); }
+/* ===== ANIMATIONS ===== */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ================== MOBILE ================== */
-@media(max-width: 900px) {
-  .app {
-    grid-template-columns: 1fr;
-  }
-  .sidebar {
-    display: none;
-  }
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ===== MOBILE ===== */
+@media(max-width:900px){
+  .app { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
 }
 </style>
 </head>
@@ -216,39 +237,43 @@ textarea {
   <div class="topbar">
     <div class="brand">Mentra</div>
     <div class="top-actions">
-      <button class="icon-btn">⚙️</button>
+      <button class="icon-btn">⚙</button>
       <div class="avatar"></div>
     </div>
   </div>
 
   <!-- SIDEBAR -->
   <div class="sidebar">
-    <div class="nav active">Home</div>
-    <div class="nav">Documents</div>
+    <div class="nav active">Chat</div>
+    <div class="nav">Overview</div>
+    <div class="nav">WhatsApp</div>
     <div class="nav">Analytics</div>
     <div class="nav">Settings</div>
 
-    <div class="upgrade">
-      <b>Upgrade to Pro</b><br>
-      <small>Unlock premium features</small>
+    <div class="sidebar-bottom">
+      <div class="upgrade">
+        <b>Upgrade to Pro</b><br>
+        <small>Unlock premium features</small>
+        <button>Upgrade</button>
+      </div>
     </div>
   </div>
 
-  <!-- CHAT -->
+  <!-- CHAT VIEW -->
   <div class="view">
 
     <div class="messages-wrapper" id="messagesWrapper">
       <div class="messages" id="messages">
         <div class="intro" id="intro">
           <h1>Mentra helps your business</h1>
-          <p>Your AI partner for growth, marketing and customers</p>
+          <p>Your AI partner for growth, customers & marketing</p>
         </div>
       </div>
     </div>
 
     <div class="composer">
       <div class="composer-inner">
-        <button class="icon-btn" id="micBtn">🎙️</button>
+        <button class="icon-btn" id="micBtn">🎙</button>
         <textarea id="input" placeholder="Message Mentra"></textarea>
         <button class="icon-btn" id="sendBtn">➤</button>
       </div>
@@ -258,13 +283,18 @@ textarea {
 
 </div>
 
+<!-- SOUND EFFECTS -->
+<audio id="sendSound" src="https://assets.mixkit.co/sfx/preview/mixkit-modern-technology-select-3124.mp3"></audio>
+<audio id="receiveSound" src="https://assets.mixkit.co/sfx/preview/mixkit-message-pop-alert-2354.mp3"></audio>
+
 <script>
 const messagesWrapper = document.getElementById("messagesWrapper");
 const messages = document.getElementById("messages");
 const input = document.getElementById("input");
 const intro = document.getElementById("intro");
+const sendSound = document.getElementById("sendSound");
+const receiveSound = document.getElementById("receiveSound");
 
-/* ChatGPT-style scroll */
 function scrollToBottom() {
   requestAnimationFrame(() => {
     messagesWrapper.scrollTop = messagesWrapper.scrollHeight;
@@ -281,17 +311,19 @@ function sendMessage() {
   userMsg.className = "msg user";
   userMsg.textContent = text;
   messages.appendChild(userMsg);
+
+  sendSound.play();
   input.value = "";
   scrollToBottom();
 
-  // TEMP AI placeholder
   setTimeout(() => {
     const aiMsg = document.createElement("div");
     aiMsg.className = "msg";
-    aiMsg.textContent = "This is where the AI response will appear.";
+    aiMsg.textContent = "AI response will appear here.";
     messages.appendChild(aiMsg);
+    receiveSound.play();
     scrollToBottom();
-  }, 500);
+  }, 600);
 }
 
 document.getElementById("sendBtn").onclick = sendMessage;

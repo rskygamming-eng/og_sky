@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mentra AI</title>
 
@@ -57,7 +57,7 @@ body{
 
 .settings{
   cursor:pointer;
-  font-size:20px;
+  font-size:16px;
 }
 
 /* ===== SIDEBAR ===== */
@@ -69,18 +69,14 @@ body{
 }
 
 .nav{
-  display:flex;
-  align-items:center;
-  gap:12px;
   padding:14px 18px;
   border-radius:14px;
   cursor:pointer;
   color:var(--muted);
-  transition:.25s;
+  transition:.2s;
 }
 .nav:hover{
   background:var(--glass);
-  box-shadow:0 0 18px rgba(124,124,255,.35);
 }
 .nav.active{
   background:linear-gradient(135deg,var(--accent1),var(--accent2));
@@ -127,11 +123,10 @@ body{
 .intro{
   text-align:center;
   margin-top:20%;
-  animation:fadeUp .6s ease;
 }
 .intro h1{
   font-size:34px;
-  margin-bottom:10px;
+  margin-bottom:8px;
 }
 .intro p{
   color:var(--muted);
@@ -145,7 +140,7 @@ body{
   background:var(--glass);
   border:1px solid var(--border);
   margin-bottom:14px;
-  animation:fadeUp .25s ease;
+  animation:fadeUp .2s ease;
 }
 .user{
   margin-left:auto;
@@ -163,51 +158,52 @@ body{
 .dot:nth-child(2){animation-delay:.2s}
 .dot:nth-child(3){animation-delay:.4s}
 
-/* ===== INPUT (LIKE IMAGE) ===== */
+/* ===== INPUT (CHATGPT STYLE) ===== */
 .input-bar{
-  padding:18px 26px;
+  padding:16px 26px;
+  border-top:1px solid var(--border);
+  backdrop-filter:blur(18px);
+  background:var(--glass);
 }
+
 .input-wrap{
   max-width:900px;
   margin:auto;
   display:flex;
   align-items:center;
   gap:12px;
-  padding:12px 18px;
-  border-radius:999px;
-  background:var(--glass);
+  padding:12px 16px;
+  border-radius:16px;
   border:1px solid var(--border);
-  transition:.25s;
-}
-.input-wrap:focus-within{
-  box-shadow:0 0 25px rgba(124,124,255,.5);
-}
-
-.mic{
-  opacity:.7;
+  background:rgba(0,0,0,0.15);
 }
 
 textarea{
   flex:1;
-  background:none;
   border:none;
   resize:none;
+  background:none;
   color:var(--text);
   outline:none;
-  height:24px;
+  font-size:15px;
+  line-height:1.4;
+  max-height:120px;
+  overflow-y:auto;
 }
 
-.send{
-  width:42px;height:42px;
-  border:none;
-  border-radius:50%;
-  background:linear-gradient(135deg,var(--accent1),var(--accent2));
-  cursor:pointer;
-  font-size:18px;
-  transition:.2s;
+textarea::placeholder{
+  color:var(--muted);
 }
-.send:hover{
-  transform:scale(1.05);
+
+.icon-btn{
+  width:36px;
+  height:36px;
+  border-radius:10px;
+  border:none;
+  cursor:pointer;
+  background:linear-gradient(135deg,var(--accent1),var(--accent2));
+  color:#020617;
+  font-weight:700;
 }
 
 /* animations */
@@ -216,7 +212,7 @@ textarea{
   40%{transform:scale(1)}
 }
 @keyframes fadeUp{
-  from{opacity:0;transform:translateY(6px)}
+  from{opacity:0;transform:translateY(4px)}
   to{opacity:1;transform:translateY(0)}
 }
 
@@ -235,20 +231,20 @@ textarea{
   <!-- TOP BAR -->
   <div class="topbar">
     <div class="brand">Mentra AI</div>
-    <div class="settings">⚙️</div>
+    <div class="settings">Settings</div>
   </div>
 
   <!-- SIDEBAR -->
   <div class="sidebar">
-    <div class="nav active">🏠 Home</div>
-    <div class="nav">📄 Documents</div>
-    <div class="nav">📊 Analytics</div>
-    <div class="nav">⚙️ Settings</div>
-    <div class="nav">💎 Upgrade</div>
+    <div class="nav active">Home</div>
+    <div class="nav">Documents</div>
+    <div class="nav">Analytics</div>
+    <div class="nav">Settings</div>
+    <div class="nav">Upgrade</div>
 
     <div class="upgrade">
-      <b>Upgrade to Pro</b>
-      <small style="opacity:.8">Unlock premium features</small>
+      <b>Upgrade to Pro</b><br>
+      <small>Unlock premium features</small>
       <button>Upgrade</button>
     </div>
   </div>
@@ -266,9 +262,9 @@ textarea{
 
     <div class="input-bar">
       <div class="input-wrap">
-        <div class="mic">🎤</div>
-        <textarea id="input" placeholder="Type your message…"></textarea>
-        <button class="send" onclick="send()">➤</button>
+        <button class="icon-btn" id="micBtn">Mic</button>
+        <textarea id="input" placeholder="Message Mentra"></textarea>
+        <button class="icon-btn" onclick="send()">Send</button>
       </div>
     </div>
   </div>
@@ -281,6 +277,23 @@ const chatBox=document.getElementById("chatBox");
 const chatArea=document.getElementById("chatArea");
 const intro=document.getElementById("intro");
 
+/* ===== VOICE INPUT ===== */
+let recognition;
+if ('webkitSpeechRecognition' in window) {
+  recognition = new webkitSpeechRecognition();
+  recognition.continuous = false;
+  recognition.lang = 'en-US';
+  recognition.onresult = e => {
+    input.value += e.results[0][0].transcript;
+    input.focus();
+  };
+}
+
+document.getElementById("micBtn").onclick = () => {
+  if(recognition) recognition.start();
+};
+
+/* ===== SEND MESSAGE ===== */
 async function send(){
   const text=input.value.trim();
   if(!text) return;
@@ -310,10 +323,11 @@ async function send(){
     t.remove();
     typeAI(data.reply);
   }catch{
-    t.textContent="⚠️ Unable to connect to AI.";
+    t.textContent="Unable to connect to AI.";
   }
 }
 
+/* ===== AI TYPING ===== */
 function typeAI(text){
   const a=document.createElement("div");
   a.className="msg";
@@ -324,14 +338,15 @@ function typeAI(text){
     if(i<text.length){
       a.textContent+=text[i++];
       chatArea.scrollTop=chatArea.scrollHeight;
-      setTimeout(type,12);
+      setTimeout(type,10);
     }
   }
   type();
 }
 
+/* ENTER = SEND | SHIFT+ENTER = NEW LINE */
 input.addEventListener("keydown",e=>{
-  if(e.key==="Enter"&&!e.shiftKey){
+  if(e.key==="Enter" && !e.shiftKey){
     e.preventDefault();
     send();
   }

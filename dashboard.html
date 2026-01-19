@@ -6,150 +6,202 @@
 <title>Elivora</title>
 
 <style>
-/* ===== HARD RESET ===== */
-* { box-sizing: border-box; }
+*{box-sizing:border-box}
 
-html, body {
-  height: 100%;
-  margin: 0;
-  overflow: hidden; /* 🚫 page never scrolls */
-  font-family: Inter, system-ui, Arial, sans-serif;
-  background: #0b0b14;
-  color: #e5e7eb;
+html,body{
+  height:100%;
+  margin:0;
+  overflow:hidden; /* 🔒 page never scrolls */
+  font-family:system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  background:#0b0b14;
+  color:#e5e7eb;
 }
 
-/* ===== APP LAYOUT ===== */
-.app {
-  height: 100vh;
-  display: grid;
-  grid-template-columns: 260px 1fr;
-  grid-template-rows: 64px 1fr;
+/* ===== APP GRID ===== */
+.app{
+  height:100vh;
+  display:grid;
+  grid-template-columns:260px 1fr;
+  grid-template-rows:64px 1fr;
 }
 
 /* ===== TOP BAR ===== */
-.topbar {
-  grid-column: 1 / 3;
-  height: 64px;
-  display: flex;
-  align-items: center;
-  padding: 0 24px;
-  border-bottom: 1px solid rgba(255,255,255,.08);
+.topbar{
+  grid-column:1/3;
+  height:64px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 20px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+  background:linear-gradient(90deg,#1b1440,#2b1c5a);
 }
-.brand {
-  font-weight: 700;
-  font-size: 18px;
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:600;
+}
+.logo{
+  width:28px;
+  height:28px;
+  border-radius:8px;
+  background:linear-gradient(135deg,#7c7cff,#9b8cff);
+}
+.top-actions{
+  display:flex;
+  align-items:center;
+  gap:16px;
+}
+.circle{
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  background:rgba(255,255,255,.12);
 }
 
 /* ===== SIDEBAR ===== */
-.sidebar {
-  padding: 16px;
-  border-right: 1px solid rgba(255,255,255,.08);
+.sidebar{
+  padding:16px;
+  border-right:1px solid rgba(255,255,255,.08);
+  display:flex;
+  flex-direction:column;
+  gap:6px;
 }
-.sidebar-item {
-  padding: 12px 14px;
-  border-radius: 10px;
-  cursor: pointer;
-  color: #c7c9d1;
+.nav{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px 14px;
+  border-radius:12px;
+  cursor:pointer;
+  color:#c7c9d1;
 }
-.sidebar-item.active {
-  background: rgba(255,255,255,.08);
-  color: #fff;
+.nav.active{
+  background:linear-gradient(135deg,#7c7cff,#6366f1);
+  color:#020617;
 }
-
-/* ===== CHAT VIEW ===== */
-.view {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden; /* 🚫 important */
+.nav-icon{
+  width:18px;
+  height:18px;
+  border-radius:4px;
+  background:currentColor;
+  opacity:.7;
 }
-
-/* ===== ONLY SCROLL AREA ===== */
-.chat-scroll {
-  flex: 1;
-  overflow-y: auto;            /* ✅ ONLY THIS SCROLLS */
-  overscroll-behavior: contain;
+.sidebar-spacer{flex:1}
+.upgrade{
+  padding:14px;
+  border-radius:14px;
+  background:rgba(255,255,255,.08);
 }
-
-/* center column */
-.chat {
-  max-width: 860px;
-  margin: 0 auto;
-  padding: 28px;
-}
-
-/* intro */
-.intro {
-  text-align: center;
-  margin-top: 30%;
-}
-.intro h1 {
-  font-size: 34px;
-  margin-bottom: 8px;
-}
-.intro p {
-  color: #9ca3af;
+.upgrade-btn{
+  margin-top:10px;
+  width:100%;
+  height:36px;
+  border:none;
+  border-radius:10px;
+  background:linear-gradient(135deg,#7c7cff,#6366f1);
+  color:#020617;
+  font-weight:600;
+  cursor:pointer;
 }
 
-/* messages */
-.msg {
-  max-width: 72%;
-  padding: 14px 18px;
-  border-radius: 18px;
-  background: rgba(255,255,255,.08);
-  margin-bottom: 14px;
-  animation: slideUp .2s ease;
+/* ===== MAIN VIEW ===== */
+.view{
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden; /* 🔒 important */
 }
-.msg.user {
-  margin-left: auto;
-  background: #6366f1;
-  color: #020617;
+
+/* ===== CHAT SCROLL (ONLY THIS SCROLLS) ===== */
+.chat-scroll{
+  flex:1;
+  overflow-y:auto;
+  overscroll-behavior:contain;
+}
+.chat{
+  max-width:860px;
+  margin:0 auto;
+  padding:28px;
+}
+
+/* Welcome */
+.welcome{
+  text-align:center;
+  margin-top:28%;
+}
+.welcome h1{
+  font-size:32px;
+  font-weight:600;
+}
+.welcome p{
+  opacity:.7;
+  margin-top:6px;
+}
+
+/* Messages */
+.msg{
+  max-width:72%;
+  padding:14px 18px;
+  border-radius:18px;
+  background:rgba(255,255,255,.08);
+  margin-bottom:14px;
+  animation:fadeUp .2s ease;
+}
+.msg.user{
+  margin-left:auto;
+  background:linear-gradient(135deg,#7c7cff,#6366f1);
+  color:#020617;
 }
 
 /* ===== INPUT BAR (FIXED) ===== */
-.composer {
-  height: 72px;
-  flex-shrink: 0; /* 🔒 never shrink */
-  border-top: 1px solid rgba(255,255,255,.08);
-  padding: 12px;
+.composer{
+  height:76px;
+  flex-shrink:0;
+  border-top:1px solid rgba(255,255,255,.08);
+  background:linear-gradient(180deg,#14112a,#0b0b14);
+  padding:12px;
 }
-.composer-inner {
-  max-width: 860px;
-  margin: 0 auto;
-  display: flex;
-  gap: 12px;
+.composer-inner{
+  max-width:860px;
+  margin:0 auto;
+  height:52px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background:rgba(255,255,255,.06);
+  border-radius:18px;
+  padding:0 14px;
 }
-textarea {
-  flex: 1;
-  resize: none;
-  border: none;
-  outline: none;
-  background: rgba(255,255,255,.06);
-  color: #fff;
-  padding: 12px 14px;
-  border-radius: 14px;
-  font-size: 15px;
+.input{
+  flex:1;
+  height:100%;
+  border:none;
+  outline:none;
+  background:none;
+  color:#fff;
+  font-size:15px;
 }
-button {
-  width: 48px;
-  border-radius: 14px;
-  border: none;
-  cursor: pointer;
-  background: #6366f1;
-  color: #020617;
-  font-weight: 600;
-}
-
-/* animation */
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
+.send{
+  width:38px;
+  height:38px;
+  border-radius:12px;
+  border:none;
+  background:linear-gradient(135deg,#7c7cff,#6366f1);
+  cursor:pointer;
 }
 
-/* mobile */
-@media (max-width: 900px) {
-  .app { grid-template-columns: 1fr; }
-  .sidebar { display: none; }
+/* Anim */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(6px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* Mobile */
+@media(max-width:900px){
+  .app{grid-template-columns:1fr}
+  .sidebar{display:none}
 }
 </style>
 </head>
@@ -160,35 +212,47 @@ button {
 
   <!-- TOP -->
   <div class="topbar">
-    <div class="brand">Elivora</div>
+    <div class="brand">
+      <div class="logo"></div>
+      Elivora
+    </div>
+    <div class="top-actions">
+      <div class="circle"></div>
+      <div class="circle"></div>
+    </div>
   </div>
 
   <!-- SIDEBAR -->
   <div class="sidebar">
-    <div class="sidebar-item active">Chat</div>
-    <div class="sidebar-item">Overview</div>
-    <div class="sidebar-item">Messaging</div>
-    <div class="sidebar-item">Analytics</div>
+    <div class="nav active"><div class="nav-icon"></div>Home</div>
+    <div class="nav"><div class="nav-icon"></div>Documents</div>
+    <div class="nav"><div class="nav-icon"></div>Analytics</div>
+    <div class="nav"><div class="nav-icon"></div>Settings</div>
+
+    <div class="sidebar-spacer"></div>
+
+    <div class="upgrade">
+      Upgrade to Pro
+      <button class="upgrade-btn">Upgrade</button>
+    </div>
   </div>
 
   <!-- CHAT -->
   <div class="view">
 
-    <!-- ONLY SCROLLS -->
     <div class="chat-scroll" id="chatScroll">
       <div class="chat" id="chat">
-        <div class="intro" id="intro">
-          <h1>Elivora</h1>
-          <p>Your business intelligence assistant</p>
+        <div class="welcome" id="welcome">
+          <h1>Elivora helps you grow your business</h1>
+          <p>Ask questions, plan actions, and move forward</p>
         </div>
       </div>
     </div>
 
-    <!-- FIXED INPUT -->
     <div class="composer">
       <div class="composer-inner">
-        <textarea id="input" placeholder="Message Elivora"></textarea>
-        <button id="send">➤</button>
+        <input class="input" id="input" placeholder="Type your message…" />
+        <button class="send" id="send"></button>
       </div>
     </div>
 
@@ -197,44 +261,43 @@ button {
 </div>
 
 <script>
-const chatScroll = document.getElementById("chatScroll");
-const chat = document.getElementById("chat");
-const input = document.getElementById("input");
-const intro = document.getElementById("intro");
+const chatScroll=document.getElementById("chatScroll");
+const chat=document.getElementById("chat");
+const input=document.getElementById("input");
+const welcome=document.getElementById("welcome");
 
-function scrollBottom() {
-  requestAnimationFrame(() => {
-    chatScroll.scrollTop = chatScroll.scrollHeight;
+function scrollBottom(){
+  requestAnimationFrame(()=>{
+    chatScroll.scrollTop=chatScroll.scrollHeight;
   });
 }
 
-function sendMessage() {
-  const text = input.value.trim();
-  if (!text) return;
+function sendMessage(){
+  const text=input.value.trim();
+  if(!text) return;
 
-  if (intro) intro.remove();
+  if(welcome) welcome.remove();
 
-  const user = document.createElement("div");
-  user.className = "msg user";
-  user.textContent = text;
+  const user=document.createElement("div");
+  user.className="msg user";
+  user.textContent=text;
   chat.appendChild(user);
 
-  input.value = "";
+  input.value="";
   scrollBottom();
 
-  setTimeout(() => {
-    const ai = document.createElement("div");
-    ai.className = "msg";
-    ai.textContent = "Elivora response placeholder.";
+  setTimeout(()=>{
+    const ai=document.createElement("div");
+    ai.className="msg";
+    ai.textContent="Elivora response placeholder.";
     chat.appendChild(ai);
     scrollBottom();
-  }, 400);
+  },400);
 }
 
-document.getElementById("send").onclick = sendMessage;
-
-input.addEventListener("keydown", e => {
-  if (e.key === "Enter" && !e.shiftKey) {
+document.getElementById("send").onclick=sendMessage;
+input.addEventListener("keydown",e=>{
+  if(e.key==="Enter"){
     e.preventDefault();
     sendMessage();
   }

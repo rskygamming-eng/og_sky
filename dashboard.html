@@ -5,194 +5,169 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Elivora</title>
 
-<!-- YOUR LOGO IN TAB -->
 <link rel="icon" type="image/png" href="favicon.png">
 
 <style>
 /* ===== GLOBAL LOCK ===== */
-*{box-sizing:border-box;user-select:none;-webkit-user-drag:none}
-input,textarea{user-select:text}
+* { box-sizing: border-box; user-select: none; }
+input, textarea { user-select: text; }
 
-html,body{
-  height:100%;
-  margin:0;
-  overflow:hidden;
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
-  background:#0b0b14;
-  color:#e5e7eb;
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden; /* ❌ PAGE NEVER SCROLLS */
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  background: #0b0b14;
+  color: #e5e7eb;
 }
 
 /* ===== APP GRID ===== */
-.app{
-  height:100vh;
-  display:grid;
-  grid-template-columns:260px 1fr;
-  grid-template-rows:64px 1fr;
+.app {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  grid-template-rows: 64px 1fr;
 }
 
 /* ===== TOP BAR ===== */
-.topbar{
-  grid-column:1/3;
-  height:64px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 20px;
-  background:linear-gradient(90deg,#1b1440,#2b1c5a);
-  border-bottom:1px solid rgba(255,255,255,.08);
+.topbar {
+  grid-column: 1 / 3;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  background: linear-gradient(90deg,#1b1440,#2b1c5a);
+  border-bottom: 1px solid rgba(255,255,255,.08);
 }
-.brand{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-weight:600;
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
 }
-.logo{
-  width:28px;height:28px;border-radius:8px;
-  background:linear-gradient(135deg,#7c7cff,#9b8cff);
-  box-shadow:0 0 18px rgba(124,124,255,.7);
-}
-.top-actions{
-  display:flex;
-  gap:14px;
-}
-.icon-btn{
-  width:36px;height:36px;border-radius:12px;
-  display:grid;place-items:center;
-  background:rgba(255,255,255,.12);
-  transition:.25s;
-}
-.icon-btn:hover{
-  box-shadow:0 0 18px rgba(124,124,255,.7);
-  background:rgba(124,124,255,.35);
+.logo {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: linear-gradient(135deg,#7c7cff,#9b8cff);
+  box-shadow: 0 0 14px rgba(124,124,255,.6);
 }
 
 /* ===== SIDEBAR ===== */
-.sidebar{
-  padding:16px;
-  border-right:1px solid rgba(255,255,255,.08);
-  display:flex;
-  flex-direction:column;
-  gap:6px;
+.sidebar {
+  padding: 16px;
+  border-right: 1px solid rgba(255,255,255,.08);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
-.nav{
-  display:flex;align-items:center;gap:12px;
-  padding:12px 14px;border-radius:12px;
-  cursor:pointer;color:#c7c9d1;
-  transition:.25s;
+.nav {
+  padding: 12px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  color: #c7c9d1;
 }
-.nav:hover{background:rgba(255,255,255,.08)}
-.nav.active{
-  background:linear-gradient(135deg,#7c7cff,#6366f1);
-  color:#020617;
+.nav.active {
+  background: linear-gradient(135deg,#7c7cff,#6366f1);
+  color: #020617;
 }
-.nav svg{width:18px;height:18px}
-.sidebar-spacer{flex:1}
-.upgrade{
-  padding:14px;border-radius:14px;
-  background:rgba(255,255,255,.08);
-}
-.upgrade button{
-  width:100%;height:36px;margin-top:10px;
-  border:none;border-radius:10px;
-  background:linear-gradient(135deg,#7c7cff,#6366f1);
-  font-weight:600;cursor:pointer;
-}
+.sidebar-spacer { flex: 1; }
 
 /* ===== MAIN VIEW ===== */
-.view{
-  height:100%;
-  display:flex;
-  flex-direction:column;
-  overflow:hidden;
-  position:relative;
+.view {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* 🔒 DO NOT TOUCH */
 }
 
-/* Ambient glow */
-.view::before{
-  content:"";
-  position:absolute;
-  width:320px;height:320px;
-  background:radial-gradient(circle,rgba(124,124,255,.25),transparent 70%);
-  top:15%;right:15%;
-  pointer-events:none;
+/* ===== ONLY CHAT SCROLLS ===== */
+.chat-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
-/* ===== ONLY SCROLL AREA ===== */
-.chat-scroll{
-  flex:1;
-  overflow-y:auto;
-  overscroll-behavior:contain;
+/* ===== CHAT COLUMN ===== */
+.chat {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 28px;
 }
 
-/* ===== CHAT ===== */
-.chat{
-  max-width:860px;
-  margin:0 auto;
-  padding:28px;
+/* Welcome */
+.welcome {
+  text-align: center;
+  margin-top: 28%;
 }
-.welcome{
-  text-align:center;
-  margin-top:28%;
-  animation:fadeIn .6s ease;
-}
-.welcome h1{font-size:32px;font-weight:600}
-.welcome p{opacity:.7}
+.welcome h1 { font-size: 32px; }
 
 /* Messages */
-.msg{
-  max-width:72%;
-  padding:14px 18px;
-  border-radius:18px;
-  background:rgba(255,255,255,.08);
-  margin-bottom:14px;
-  animation:slideUp .2s ease;
+.msg {
+  max-width: 72%;
+  padding: 14px 18px;
+  border-radius: 18px;
+  background: rgba(255,255,255,.08);
+  margin-bottom: 14px;
 }
-.msg.user{
-  margin-left:auto;
-  background:linear-gradient(135deg,#7c7cff,#6366f1);
-  color:#020617;
+.msg.user {
+  margin-left: auto;
+  background: linear-gradient(135deg,#7c7cff,#6366f1);
+  color: #020617;
 }
 
 /* ===== INPUT BAR ===== */
-.composer{
-  height:76px;
-  flex-shrink:0;
-  padding:12px;
-  border-top:1px solid rgba(255,255,255,.08);
-  background:linear-gradient(180deg,#14112a,#0b0b14);
+.composer {
+  height: 76px;
+  flex-shrink: 0;
+  padding: 12px;
+  border-top: 1px solid rgba(255,255,255,.08);
+  background: linear-gradient(180deg,#14112a,#0b0b14);
 }
-.composer-inner{
-  max-width:860px;
-  margin:0 auto;
-  height:52px;
-  display:flex;align-items:center;gap:10px;
-  padding:0 14px;border-radius:18px;
-  background:rgba(255,255,255,.06);
-}
-.composer-inner:focus-within{
-  box-shadow:0 0 22px rgba(124,124,255,.7);
-}
-.input{
-  flex:1;border:none;outline:none;
-  background:none;color:#fff;font-size:15px;
-}
-.send{
-  width:38px;height:38px;
-  border-radius:12px;border:none;
-  background:linear-gradient(135deg,#7c7cff,#6366f1);
-  cursor:pointer;
-}
-.send:hover{box-shadow:0 0 18px rgba(124,124,255,.7)}
 
-/* Animations */
-@keyframes slideUp{from{opacity:0;transform:translateY(6px)}to{opacity:1}}
-@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1}}
+.composer-inner {
+  max-width: 860px;
+  margin: 0 auto;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px;
+  border-radius: 18px;
+  background: rgba(255,255,255,.06);
+}
+
+.input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: none;
+  color: #fff;
+  font-size: 15px;
+}
+
+/* Send button (ChatGPT-style) */
+.send {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(135deg,#7c7cff,#6366f1);
+  display: grid;
+  place-items: center;
+}
+.send svg {
+  width: 18px;
+  height: 18px;
+  fill: #020617;
+}
 
 /* Mobile */
 @media(max-width:900px){
-  .app{grid-template-columns:1fr}
-  .sidebar{display:none}
+  .app { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
 }
 </style>
 </head>
@@ -201,114 +176,99 @@ html,body{
 
 <div class="app">
 
-<!-- TOP BAR -->
+<!-- TOP -->
 <div class="topbar">
   <div class="brand">
     <div class="logo"></div>
     Elivora
   </div>
-  <div class="top-actions">
-    <div class="icon-btn"></div>
-    <div class="icon-btn"></div>
-  </div>
 </div>
 
 <!-- SIDEBAR -->
 <div class="sidebar">
-  <div class="nav active" onclick="switchTab('chat',this)">
-    <svg><circle cx="9" cy="9" r="7" stroke="currentColor" fill="none"/></svg>
-    Chat
-  </div>
-  <div class="nav" onclick="switchTab('docs',this)">
-    <svg><rect x="3" y="3" width="12" height="12" stroke="currentColor" fill="none"/></svg>
-    Documents
-  </div>
-  <div class="nav" onclick="switchTab('analytics',this)">
-    <svg><path d="M3 12h3V6h3v6h3V3h3" stroke="currentColor" fill="none"/></svg>
-    Analytics
-  </div>
-  <div class="nav" onclick="switchTab('settings',this)">
-    <svg><circle cx="9" cy="9" r="2" stroke="currentColor" fill="none"/></svg>
-    Settings
-  </div>
-
+  <div class="nav active">Chat</div>
+  <div class="nav">Documents</div>
+  <div class="nav">Analytics</div>
+  <div class="nav">Settings</div>
   <div class="sidebar-spacer"></div>
-
-  <div class="upgrade">
-    Upgrade to Pro
-    <button>Upgrade</button>
-  </div>
 </div>
 
-<!-- CHAT VIEW -->
+<!-- CHAT -->
 <div class="view">
+
   <div class="chat-scroll" id="chatScroll">
     <div class="chat" id="chat">
       <div class="welcome" id="welcome">
-        <h1>Elivora helps you run your business smarter</h1>
-        <p>Ask questions. Get clarity. Take action.</p>
+        <h1>Elivora helps you grow your business</h1>
+        <p>Ask anything to get started</p>
       </div>
     </div>
   </div>
 
   <div class="composer">
     <div class="composer-inner">
-      <input class="input" id="input" placeholder="Message Elivora…" />
-      <button class="send" id="send"></button>
+      <input id="input" class="input" placeholder="Message Elivora…" />
+      <button class="send" id="send">
+        <!-- Paper plane icon -->
+        <svg viewBox="0 0 24 24">
+          <path d="M2 21l21-9L2 3v7l15 2-15 2z"/>
+        </svg>
+      </button>
     </div>
   </div>
+
 </div>
 
 </div>
 
 <script>
-let activeTab="chat";
+const chat = document.getElementById("chat");
+const chatScroll = document.getElementById("chatScroll");
+const input = document.getElementById("input");
+const sendBtn = document.getElementById("send");
+const welcome = document.getElementById("welcome");
 
-const chatScroll=document.getElementById("chatScroll");
-const chat=document.getElementById("chat");
-const input=document.getElementById("input");
-const welcome=document.getElementById("welcome");
-
-function switchTab(tab,el){
-  activeTab=tab;
-  document.querySelectorAll(".nav").forEach(n=>n.classList.remove("active"));
-  el.classList.add("active");
-  if(tab!=="chat") input.blur();
+function scrollBottom() {
+  requestAnimationFrame(() => {
+    chatScroll.scrollTop = chatScroll.scrollHeight;
+  });
 }
 
-function scrollBottom(){
-  requestAnimationFrame(()=>chatScroll.scrollTop=chatScroll.scrollHeight);
-}
+async function sendMessage() {
+  const text = input.value.trim();
+  if (!text) return;
 
-function sendMessage(){
-  if(activeTab!=="chat") return;
+  if (welcome) welcome.remove();
 
-  const text=input.value.trim();
-  if(!text) return;
+  const user = document.createElement("div");
+  user.className = "msg user";
+  user.textContent = text;
+  chat.appendChild(user);
 
-  if(welcome) welcome.remove();
-
-  const u=document.createElement("div");
-  u.className="msg user";
-  u.textContent=text;
-  chat.appendChild(u);
-  input.value="";
+  input.value = "";
   scrollBottom();
 
-  setTimeout(()=>{
-    const a=document.createElement("div");
-    a.className="msg";
-    a.textContent="Elivora response placeholder.";
-    chat.appendChild(a);
+  // ===== AI RESPONSE (CONNECTED PLACEHOLDER) =====
+  // Replace this with real API later
+  const ai = document.createElement("div");
+  ai.className = "msg";
+  ai.textContent = "Thinking…";
+  chat.appendChild(ai);
+  scrollBottom();
+
+  // MOCK AI (safe)
+  setTimeout(() => {
+    ai.textContent = "This is where Elivora AI will reply with real intelligence.";
     scrollBottom();
-  },400);
+  }, 600);
 }
 
-document.getElementById("send").onclick=sendMessage;
-input.addEventListener("keydown",e=>{
-  if(e.key==="Enter"&&!e.shiftKey){
+sendBtn.addEventListener("click", sendMessage);
+
+input.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
     e.preventDefault();
-    sendMessage();
+    sendMessage(); // ✅ FIXED
   }
 });
 </script>

@@ -6,7 +6,6 @@
 <title>Mentra Dashboard</title>
 
 <style>
-/* ===== RESET ===== */
 html, body {
   height: 100%;
   margin: 0;
@@ -68,16 +67,14 @@ html, body {
   font-weight: 600;
 }
 
-.sidebar-bottom {
-  margin-top: auto;
-  padding-top: 16px;
-}
-
 /* ===== VIEW ===== */
 .view {
-  display: flex;
+  display: none;
   flex-direction: column;
   height: 100%;
+}
+.view.active {
+  display: flex;
 }
 
 /* ===== CHAT SCROLL (ONLY THIS SCROLLS) ===== */
@@ -93,7 +90,7 @@ html, body {
   padding: 28px;
 }
 
-/* Intro text */
+/* Intro */
 .intro {
   text-align: center;
   margin-top: 30%;
@@ -109,7 +106,7 @@ html, body {
   color: #c7d2fe;
 }
 
-/* ===== MESSAGE BUBBLES ===== */
+/* Messages */
 .msg {
   max-width: 72%;
   padding: 14px 18px;
@@ -126,7 +123,6 @@ html, body {
   color: #020617;
 }
 
-/* hover glow + light */
 .msg:hover {
   box-shadow:
     0 0 14px rgba(124,124,255,.45),
@@ -134,7 +130,7 @@ html, body {
   transform: translateY(-1px);
 }
 
-/* ===== INPUT BAR (FIXED) ===== */
+/* ===== INPUT BAR ===== */
 .composer {
   border-top: 1px solid rgba(255,255,255,.12);
   padding: 14px;
@@ -152,11 +148,6 @@ html, body {
   border: 1px solid rgba(255,255,255,.15);
   border-radius: 18px;
   padding: 10px 14px;
-  transition: .25s;
-}
-
-.composer-inner:focus-within {
-  box-shadow: 0 0 0 2px rgba(124,124,255,.45);
 }
 
 textarea {
@@ -179,7 +170,6 @@ textarea {
   border: none;
   cursor: pointer;
   color: #c7d2fe;
-  transition: .2s;
 }
 
 .icon-btn:hover {
@@ -216,20 +206,14 @@ textarea {
 
   <!-- SIDEBAR -->
   <div class="sidebar">
-    <div class="nav active">Chat</div>
-    <div class="nav">Overview</div>
-    <div class="nav">WhatsApp</div>
-    <div class="nav">Analytics</div>
-    <div class="nav">Settings</div>
-
-    <div class="sidebar-bottom">
-      <div class="nav">Upgrade</div>
-    </div>
+    <div class="nav active" data-tab="chat">Chat</div>
+    <div class="nav" data-tab="overview">Overview</div>
+    <div class="nav" data-tab="whatsapp">WhatsApp</div>
+    <div class="nav" data-tab="analytics">Analytics</div>
   </div>
 
   <!-- CHAT VIEW -->
-  <div class="view">
-
+  <div class="view active" id="chat">
     <div class="messages-wrapper" id="messagesWrapper">
       <div class="messages" id="messages">
         <div class="intro" id="intro">
@@ -241,13 +225,16 @@ textarea {
 
     <div class="composer">
       <div class="composer-inner">
-        <button class="icon-btn">🎙</button>
         <textarea id="input" placeholder="Message Mentra"></textarea>
         <button class="icon-btn" id="sendBtn">➤</button>
       </div>
     </div>
-
   </div>
+
+  <!-- OTHER TABS -->
+  <div class="view" id="overview"><div style="padding:40px">Overview</div></div>
+  <div class="view" id="whatsapp"><div style="padding:40px">WhatsApp</div></div>
+  <div class="view" id="analytics"><div style="padding:40px">Analytics</div></div>
 
 </div>
 
@@ -255,15 +242,34 @@ textarea {
 const messagesWrapper = document.getElementById("messagesWrapper");
 const messages = document.getElementById("messages");
 const input = document.getElementById("input");
+const sendBtn = document.getElementById("sendBtn");
 const intro = document.getElementById("intro");
 
+let activeTab = "chat";
+
+/* ===== TAB SWITCHING ===== */
+document.querySelectorAll(".nav").forEach(tab => {
+  tab.onclick = () => {
+    document.querySelectorAll(".nav").forEach(n => n.classList.remove("active"));
+    document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+
+    tab.classList.add("active");
+    activeTab = tab.dataset.tab;
+    document.getElementById(activeTab).classList.add("active");
+  };
+});
+
+/* ===== SCROLL TO BOTTOM ===== */
 function scrollToBottom() {
   requestAnimationFrame(() => {
     messagesWrapper.scrollTop = messagesWrapper.scrollHeight;
   });
 }
 
+/* ===== SEND MESSAGE (CHAT TAB ONLY) ===== */
 function sendMessage() {
+  if (activeTab !== "chat") return;
+
   const text = input.value.trim();
   if (!text) return;
 
@@ -277,7 +283,6 @@ function sendMessage() {
   input.value = "";
   scrollToBottom();
 
-  // placeholder response (AI later)
   setTimeout(() => {
     const aiMsg = document.createElement("div");
     aiMsg.className = "msg";
@@ -287,7 +292,7 @@ function sendMessage() {
   }, 500);
 }
 
-document.getElementById("sendBtn").onclick = sendMessage;
+sendBtn.onclick = sendMessage;
 
 input.addEventListener("keydown", e => {
   if (e.key === "Enter" && !e.shiftKey) {

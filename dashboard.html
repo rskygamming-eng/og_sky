@@ -3,194 +3,118 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mentra Dashboard</title>
+<title>Mentra</title>
 
 <style>
+/* ===== ABSOLUTE RESET ===== */
+* {
+  box-sizing: border-box;
+}
+
 html, body {
   height: 100%;
   margin: 0;
-  overflow: hidden;
+  overflow: hidden; /* 🚫 PAGE NEVER SCROLLS */
   font-family: Inter, system-ui, Arial, sans-serif;
-  background: radial-gradient(1200px 600px at center, #3a1c71, #0f0c29);
+  background: #0f0c29;
   color: #eef2ff;
 }
 
-/* ===== LAYOUT ===== */
+/* ===== APP LAYOUT (LOCKED HEIGHT) ===== */
 .app {
+  height: 100vh;              /* 🔒 EXACT VIEWPORT */
   display: grid;
   grid-template-columns: 260px 1fr;
   grid-template-rows: 64px 1fr;
-  height: 100%;
 }
 
 /* ===== TOP BAR ===== */
 .topbar {
   grid-column: 1 / 3;
+  height: 64px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   padding: 0 24px;
-  backdrop-filter: blur(18px);
-  background: rgba(20,20,60,.6);
-  border-bottom: 1px solid rgba(255,255,255,.12);
-}
-
-.brand {
-  font-weight: 700;
-  font-size: 18px;
+  background: #12103a;
+  border-bottom: 1px solid rgba(255,255,255,.1);
 }
 
 /* ===== SIDEBAR ===== */
 .sidebar {
-  padding: 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  border-right: 1px solid rgba(255,255,255,.12);
-}
-
-.nav {
-  padding: 12px 14px;
-  border-radius: 12px;
-  cursor: pointer;
-  color: #c7d2fe;
-  transition: .25s;
-}
-
-.nav:hover {
-  background: rgba(124,124,255,.18);
-}
-
-.nav.active {
-  background: linear-gradient(135deg,#7c7cff,#6366f1);
-  color: #020617;
-  font-weight: 600;
-}
-
-/* ===== VIEW ===== */
-.view {
-  display: none;
-  flex-direction: column;
   height: 100%;
-}
-.view.active {
-  display: flex;
+  padding: 16px;
+  border-right: 1px solid rgba(255,255,255,.1);
 }
 
-/* ===== CHAT SCROLL (ONLY THIS SCROLLS) ===== */
+/* ===== VIEW (NO SCROLL) ===== */
+.view {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* 🚫 IMPORTANT */
+}
+
+/* ===== CHAT SCROLL AREA (ONLY THIS SCROLLS) ===== */
 .messages-wrapper {
   flex: 1;
-  overflow-y: auto;
+  overflow-y: auto;           /* ✅ ONLY SCROLL */
   overscroll-behavior: contain;
 }
 
+/* message container */
 .messages {
   max-width: 860px;
   margin: 0 auto;
-  padding: 28px;
+  padding: 24px;
 }
 
-/* Intro */
-.intro {
-  text-align: center;
-  margin-top: 30%;
-  animation: fadeIn .4s ease;
-}
-
-.intro h1 {
-  font-size: 34px;
-  margin-bottom: 8px;
-}
-
-.intro p {
-  color: #c7d2fe;
-}
-
-/* Messages */
+/* ===== MESSAGE BUBBLES ===== */
 .msg {
-  max-width: 72%;
+  max-width: 70%;
   padding: 14px 18px;
   border-radius: 18px;
   background: rgba(255,255,255,.1);
   margin-bottom: 14px;
-  animation: slideUp .25s ease;
-  transition: box-shadow .25s, transform .25s;
 }
 
 .msg.user {
   margin-left: auto;
-  background: linear-gradient(135deg,#7c7cff,#6366f1);
+  background: #6366f1;
   color: #020617;
 }
 
-.msg:hover {
-  box-shadow:
-    0 0 14px rgba(124,124,255,.45),
-    0 10px 22px rgba(124,124,255,.35);
-  transform: translateY(-1px);
-}
-
-/* ===== INPUT BAR ===== */
+/* ===== INPUT BAR (FIXED, NO SCROLL) ===== */
 .composer {
-  border-top: 1px solid rgba(255,255,255,.12);
-  padding: 14px;
-  backdrop-filter: blur(18px);
-  background: rgba(15,15,40,.85);
+  height: 72px;
+  flex-shrink: 0;             /* 🔒 NEVER SHRINK */
+  border-top: 1px solid rgba(255,255,255,.1);
+  background: #12103a;
+  padding: 12px;
 }
 
 .composer-inner {
   max-width: 860px;
   margin: 0 auto;
   display: flex;
-  align-items: center;
   gap: 12px;
-  background: rgba(10,10,30,.9);
-  border: 1px solid rgba(255,255,255,.15);
-  border-radius: 18px;
-  padding: 10px 14px;
 }
 
 textarea {
   flex: 1;
-  background: none;
-  border: none;
   resize: none;
+  border: none;
   outline: none;
-  color: #eef2ff;
-  font-size: 15px;
-  max-height: 120px;
-  overflow-y: auto;
+  background: #0b0a2a;
+  color: white;
+  padding: 10px;
+  border-radius: 12px;
 }
 
-.icon-btn {
-  width: 34px;
-  height: 34px;
-  border-radius: 10px;
-  background: transparent;
+button {
+  width: 48px;
+  border-radius: 12px;
   border: none;
   cursor: pointer;
-  color: #c7d2fe;
-}
-
-.icon-btn:hover {
-  background: rgba(124,124,255,.25);
-}
-
-/* ===== ANIMATIONS ===== */
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-/* ===== MOBILE ===== */
-@media(max-width:900px){
-  .app { grid-template-columns: 1fr; }
-  .sidebar { display: none; }
 }
 </style>
 </head>
@@ -199,42 +123,29 @@ textarea {
 
 <div class="app">
 
-  <!-- TOP BAR -->
-  <div class="topbar">
-    <div class="brand">Mentra</div>
-  </div>
+  <!-- TOP -->
+  <div class="topbar">Mentra</div>
 
   <!-- SIDEBAR -->
-  <div class="sidebar">
-    <div class="nav active" data-tab="chat">Chat</div>
-    <div class="nav" data-tab="overview">Overview</div>
-    <div class="nav" data-tab="whatsapp">WhatsApp</div>
-    <div class="nav" data-tab="analytics">Analytics</div>
-  </div>
+  <div class="sidebar">Chat</div>
 
   <!-- CHAT VIEW -->
-  <div class="view active" id="chat">
+  <div class="view">
+
+    <!-- ONLY SCROLLS -->
     <div class="messages-wrapper" id="messagesWrapper">
-      <div class="messages" id="messages">
-        <div class="intro" id="intro">
-          <h1>Mentra</h1>
-          <p>Your AI assistant for business growth</p>
-        </div>
-      </div>
+      <div class="messages" id="messages"></div>
     </div>
 
+    <!-- FIXED INPUT -->
     <div class="composer">
       <div class="composer-inner">
         <textarea id="input" placeholder="Message Mentra"></textarea>
-        <button class="icon-btn" id="sendBtn">➤</button>
+        <button id="sendBtn">➤</button>
       </div>
     </div>
-  </div>
 
-  <!-- OTHER TABS -->
-  <div class="view" id="overview"><div style="padding:40px">Overview</div></div>
-  <div class="view" id="whatsapp"><div style="padding:40px">WhatsApp</div></div>
-  <div class="view" id="analytics"><div style="padding:40px">Analytics</div></div>
+  </div>
 
 </div>
 
@@ -242,57 +153,35 @@ textarea {
 const messagesWrapper = document.getElementById("messagesWrapper");
 const messages = document.getElementById("messages");
 const input = document.getElementById("input");
-const sendBtn = document.getElementById("sendBtn");
-const intro = document.getElementById("intro");
 
-let activeTab = "chat";
-
-/* ===== TAB SWITCHING ===== */
-document.querySelectorAll(".nav").forEach(tab => {
-  tab.onclick = () => {
-    document.querySelectorAll(".nav").forEach(n => n.classList.remove("active"));
-    document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
-
-    tab.classList.add("active");
-    activeTab = tab.dataset.tab;
-    document.getElementById(activeTab).classList.add("active");
-  };
-});
-
-/* ===== SCROLL TO BOTTOM ===== */
 function scrollToBottom() {
   requestAnimationFrame(() => {
     messagesWrapper.scrollTop = messagesWrapper.scrollHeight;
   });
 }
 
-/* ===== SEND MESSAGE (CHAT TAB ONLY) ===== */
 function sendMessage() {
-  if (activeTab !== "chat") return;
-
   const text = input.value.trim();
   if (!text) return;
 
-  if (intro) intro.remove();
-
-  const userMsg = document.createElement("div");
-  userMsg.className = "msg user";
-  userMsg.textContent = text;
-  messages.appendChild(userMsg);
+  const user = document.createElement("div");
+  user.className = "msg user";
+  user.textContent = text;
+  messages.appendChild(user);
 
   input.value = "";
   scrollToBottom();
 
   setTimeout(() => {
-    const aiMsg = document.createElement("div");
-    aiMsg.className = "msg";
-    aiMsg.textContent = "Mentra response will appear here.";
-    messages.appendChild(aiMsg);
+    const ai = document.createElement("div");
+    ai.className = "msg";
+    ai.textContent = "AI reply goes here.";
+    messages.appendChild(ai);
     scrollToBottom();
-  }, 500);
+  }, 400);
 }
 
-sendBtn.onclick = sendMessage;
+document.getElementById("sendBtn").onclick = sendMessage;
 
 input.addEventListener("keydown", e => {
   if (e.key === "Enter" && !e.shiftKey) {

@@ -3,162 +3,153 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mentra</title>
+<title>Elivora</title>
 
 <style>
-*{box-sizing:border-box}
+/* ===== HARD RESET ===== */
+* { box-sizing: border-box; }
 
-html,body{
-  height:100%;
-  margin:0;
-  overflow:hidden;
-  font-family:Inter,system-ui,Arial,sans-serif;
-  background:radial-gradient(1200px 600px at center,#3a1c71,#0f0c29);
-  color:#eef2ff;
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden; /* 🚫 page never scrolls */
+  font-family: Inter, system-ui, Arial, sans-serif;
+  background: #0b0b14;
+  color: #e5e7eb;
 }
 
-/* ===== APP ===== */
-.app{
-  height:100vh;
-  display:grid;
-  grid-template-columns:260px 1fr;
-  grid-template-rows:64px 1fr;
+/* ===== APP LAYOUT ===== */
+.app {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  grid-template-rows: 64px 1fr;
 }
 
 /* ===== TOP BAR ===== */
-.topbar{
-  grid-column:1/3;
-  height:64px;
-  display:flex;
-  align-items:center;
-  padding:0 24px;
-  backdrop-filter:blur(16px);
-  background:rgba(20,20,60,.7);
-  border-bottom:1px solid rgba(255,255,255,.12);
+.topbar {
+  grid-column: 1 / 3;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
 }
-.brand{font-weight:700;font-size:18px}
+.brand {
+  font-weight: 700;
+  font-size: 18px;
+}
 
 /* ===== SIDEBAR ===== */
-.sidebar{
-  padding:16px;
-  border-right:1px solid rgba(255,255,255,.12);
+.sidebar {
+  padding: 16px;
+  border-right: 1px solid rgba(255,255,255,.08);
 }
-.nav{
-  padding:12px 14px;
-  border-radius:12px;
-  cursor:pointer;
-  color:#c7d2fe;
-  transition:.25s;
+.sidebar-item {
+  padding: 12px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #c7c9d1;
 }
-.nav:hover{background:rgba(124,124,255,.2)}
-.nav.active{
-  background:linear-gradient(135deg,#7c7cff,#6366f1);
-  color:#020617;
-  font-weight:600;
+.sidebar-item.active {
+  background: rgba(255,255,255,.08);
+  color: #fff;
 }
 
-/* ===== VIEW ===== */
-.view{
-  display:none;
-  height:100%;
-  flex-direction:column;
-}
-.view.active{display:flex}
-
-/* ===== CHAT SCROLL (ONLY THIS SCROLLS) ===== */
-.messages-wrapper{
-  flex:1;
-  overflow-y:auto;
-  overscroll-behavior:contain;
-}
-.messages{
-  max-width:860px;
-  margin:0 auto;
-  padding:24px;
+/* ===== CHAT VIEW ===== */
+.view {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* 🚫 important */
 }
 
-/* Intro */
-.intro{
-  text-align:center;
-  margin-top:30%;
-  animation:fadeIn .4s ease;
-}
-.intro h1{font-size:34px;margin-bottom:8px}
-.intro p{color:#c7d2fe}
-
-/* Messages */
-.msg{
-  max-width:70%;
-  padding:14px 18px;
-  border-radius:18px;
-  background:rgba(255,255,255,.12);
-  margin-bottom:14px;
-  animation:slideUp .25s ease;
-  transition:box-shadow .25s,transform .25s;
-}
-.msg.user{
-  margin-left:auto;
-  background:linear-gradient(135deg,#7c7cff,#6366f1);
-  color:#020617;
-}
-.msg:hover{
-  box-shadow:
-    0 0 14px rgba(124,124,255,.45),
-    0 10px 22px rgba(124,124,255,.35);
-  transform:translateY(-1px);
+/* ===== ONLY SCROLL AREA ===== */
+.chat-scroll {
+  flex: 1;
+  overflow-y: auto;            /* ✅ ONLY THIS SCROLLS */
+  overscroll-behavior: contain;
 }
 
-/* ===== INPUT ===== */
-.composer{
-  height:72px;
-  flex-shrink:0;
-  border-top:1px solid rgba(255,255,255,.12);
-  background:rgba(15,15,40,.9);
-  padding:12px;
-}
-.composer-inner{
-  max-width:860px;
-  margin:0 auto;
-  display:flex;
-  gap:12px;
-  background:rgba(10,10,30,.95);
-  border:1px solid rgba(255,255,255,.15);
-  border-radius:18px;
-  padding:10px 14px;
-}
-textarea{
-  flex:1;
-  resize:none;
-  border:none;
-  outline:none;
-  background:none;
-  color:#eef2ff;
-  font-size:15px;
-}
-button{
-  width:48px;
-  border:none;
-  border-radius:12px;
-  cursor:pointer;
-  background:linear-gradient(135deg,#7c7cff,#6366f1);
-  color:#020617;
-  font-weight:600;
+/* center column */
+.chat {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 28px;
 }
 
-/* Animations */
-@keyframes slideUp{
-  from{opacity:0;transform:translateY(6px)}
-  to{opacity:1;transform:translateY(0)}
+/* intro */
+.intro {
+  text-align: center;
+  margin-top: 30%;
 }
-@keyframes fadeIn{
-  from{opacity:0}
-  to{opacity:1}
+.intro h1 {
+  font-size: 34px;
+  margin-bottom: 8px;
+}
+.intro p {
+  color: #9ca3af;
 }
 
-/* Mobile */
-@media(max-width:900px){
-  .app{grid-template-columns:1fr}
-  .sidebar{display:none}
+/* messages */
+.msg {
+  max-width: 72%;
+  padding: 14px 18px;
+  border-radius: 18px;
+  background: rgba(255,255,255,.08);
+  margin-bottom: 14px;
+  animation: slideUp .2s ease;
+}
+.msg.user {
+  margin-left: auto;
+  background: #6366f1;
+  color: #020617;
+}
+
+/* ===== INPUT BAR (FIXED) ===== */
+.composer {
+  height: 72px;
+  flex-shrink: 0; /* 🔒 never shrink */
+  border-top: 1px solid rgba(255,255,255,.08);
+  padding: 12px;
+}
+.composer-inner {
+  max-width: 860px;
+  margin: 0 auto;
+  display: flex;
+  gap: 12px;
+}
+textarea {
+  flex: 1;
+  resize: none;
+  border: none;
+  outline: none;
+  background: rgba(255,255,255,.06);
+  color: #fff;
+  padding: 12px 14px;
+  border-radius: 14px;
+  font-size: 15px;
+}
+button {
+  width: 48px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  background: #6366f1;
+  color: #020617;
+  font-weight: 600;
+}
+
+/* animation */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* mobile */
+@media (max-width: 900px) {
+  .app { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
 }
 </style>
 </head>
@@ -169,104 +160,81 @@ button{
 
   <!-- TOP -->
   <div class="topbar">
-    <div class="brand">Mentra</div>
+    <div class="brand">Elivora</div>
   </div>
 
   <!-- SIDEBAR -->
   <div class="sidebar">
-    <div class="nav active" data-tab="chat">Chat</div>
-    <div class="nav" data-tab="overview">Overview</div>
-    <div class="nav" data-tab="whatsapp">WhatsApp</div>
-    <div class="nav" data-tab="analytics">Analytics</div>
+    <div class="sidebar-item active">Chat</div>
+    <div class="sidebar-item">Overview</div>
+    <div class="sidebar-item">Messaging</div>
+    <div class="sidebar-item">Analytics</div>
   </div>
 
   <!-- CHAT -->
-  <div class="view active" id="chat">
-    <div class="messages-wrapper" id="messagesWrapper">
-      <div class="messages" id="messages">
+  <div class="view">
+
+    <!-- ONLY SCROLLS -->
+    <div class="chat-scroll" id="chatScroll">
+      <div class="chat" id="chat">
         <div class="intro" id="intro">
-          <h1>Mentra</h1>
-          <p>Your AI assistant for business growth</p>
+          <h1>Elivora</h1>
+          <p>Your business intelligence assistant</p>
         </div>
       </div>
     </div>
+
+    <!-- FIXED INPUT -->
     <div class="composer">
       <div class="composer-inner">
-        <textarea id="input" placeholder="Message Mentra"></textarea>
-        <button id="sendBtn">Send</button>
+        <textarea id="input" placeholder="Message Elivora"></textarea>
+        <button id="send">➤</button>
       </div>
     </div>
-  </div>
 
-  <!-- OTHER TABS -->
-  <div class="view" id="overview"><div style="padding:40px">Overview coming soon</div></div>
-  <div class="view" id="whatsapp"><div style="padding:40px">WhatsApp tools coming soon</div></div>
-  <div class="view" id="analytics"><div style="padding:40px">Analytics coming soon</div></div>
+  </div>
 
 </div>
 
 <script>
-const messagesWrapper=document.getElementById("messagesWrapper");
-const messages=document.getElementById("messages");
-const input=document.getElementById("input");
-const intro=document.getElementById("intro");
-let activeTab="chat";
+const chatScroll = document.getElementById("chatScroll");
+const chat = document.getElementById("chat");
+const input = document.getElementById("input");
+const intro = document.getElementById("intro");
 
-/* Tabs */
-document.querySelectorAll(".nav").forEach(tab=>{
-  tab.onclick=()=>{
-    document.querySelectorAll(".nav").forEach(n=>n.classList.remove("active"));
-    document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
-    tab.classList.add("active");
-    activeTab=tab.dataset.tab;
-    document.getElementById(activeTab).classList.add("active");
-  };
-});
-
-/* Scroll */
-function scrollToBottom(){
-  requestAnimationFrame(()=>{
-    messagesWrapper.scrollTop=messagesWrapper.scrollHeight;
+function scrollBottom() {
+  requestAnimationFrame(() => {
+    chatScroll.scrollTop = chatScroll.scrollHeight;
   });
 }
 
-/* AI typing */
-function typeAI(text){
-  const ai=document.createElement("div");
-  ai.className="msg";
-  messages.appendChild(ai);
-  let i=0;
-  (function type(){
-    if(i<text.length){
-      ai.textContent+=text[i++];
-      scrollToBottom();
-      setTimeout(type,12);
-    }
-  })();
+function sendMessage() {
+  const text = input.value.trim();
+  if (!text) return;
+
+  if (intro) intro.remove();
+
+  const user = document.createElement("div");
+  user.className = "msg user";
+  user.textContent = text;
+  chat.appendChild(user);
+
+  input.value = "";
+  scrollBottom();
+
+  setTimeout(() => {
+    const ai = document.createElement("div");
+    ai.className = "msg";
+    ai.textContent = "Elivora response placeholder.";
+    chat.appendChild(ai);
+    scrollBottom();
+  }, 400);
 }
 
-/* Send */
-function sendMessage(){
-  if(activeTab!=="chat")return;
-  const text=input.value.trim();
-  if(!text)return;
-  if(intro)intro.remove();
+document.getElementById("send").onclick = sendMessage;
 
-  const user=document.createElement("div");
-  user.className="msg user";
-  user.textContent=text;
-  messages.appendChild(user);
-  input.value="";
-  scrollToBottom();
-
-  setTimeout(()=>{
-    typeAI("This is Mentra typing like ChatGPT. Real AI will be connected next.");
-  },500);
-}
-
-document.getElementById("sendBtn").onclick=sendMessage;
-input.addEventListener("keydown",e=>{
-  if(e.key==="Enter"&&!e.shiftKey){
+input.addEventListener("keydown", e => {
+  if (e.key === "Enter" && !e.shiftKey) {
     e.preventDefault();
     sendMessage();
   }

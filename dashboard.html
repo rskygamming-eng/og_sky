@@ -6,23 +6,21 @@
 <title>Mentra</title>
 
 <style>
-/* ===== ABSOLUTE RESET ===== */
-* {
-  box-sizing: border-box;
-}
+/* ===== RESET ===== */
+* { box-sizing: border-box; }
 
 html, body {
   height: 100%;
   margin: 0;
-  overflow: hidden; /* 🚫 PAGE NEVER SCROLLS */
+  overflow: hidden;
   font-family: Inter, system-ui, Arial, sans-serif;
-  background: #0f0c29;
+  background: radial-gradient(1200px 600px at center, #3a1c71, #0f0c29);
   color: #eef2ff;
 }
 
-/* ===== APP LAYOUT (LOCKED HEIGHT) ===== */
+/* ===== APP ===== */
 .app {
-  height: 100vh;              /* 🔒 EXACT VIEWPORT */
+  height: 100vh;
   display: grid;
   grid-template-columns: 260px 1fr;
   grid-template-rows: 64px 1fr;
@@ -35,37 +33,76 @@ html, body {
   display: flex;
   align-items: center;
   padding: 0 24px;
-  background: #12103a;
-  border-bottom: 1px solid rgba(255,255,255,.1);
+  background: rgba(20,20,60,.7);
+  border-bottom: 1px solid rgba(255,255,255,.12);
+  backdrop-filter: blur(16px);
+}
+
+.brand {
+  font-weight: 700;
+  font-size: 18px;
 }
 
 /* ===== SIDEBAR ===== */
 .sidebar {
-  height: 100%;
   padding: 16px;
-  border-right: 1px solid rgba(255,255,255,.1);
+  border-right: 1px solid rgba(255,255,255,.12);
 }
 
-/* ===== VIEW (NO SCROLL) ===== */
+.nav {
+  padding: 12px 14px;
+  border-radius: 12px;
+  color: #c7d2fe;
+  cursor: pointer;
+  transition: .25s;
+}
+
+.nav:hover {
+  background: rgba(124,124,255,.2);
+}
+
+.nav.active {
+  background: linear-gradient(135deg,#7c7cff,#6366f1);
+  color: #020617;
+  font-weight: 600;
+}
+
+/* ===== CHAT VIEW ===== */
 .view {
   height: 100%;
   display: flex;
   flex-direction: column;
-  overflow: hidden; /* 🚫 IMPORTANT */
+  overflow: hidden;
 }
 
-/* ===== CHAT SCROLL AREA (ONLY THIS SCROLLS) ===== */
+/* 🔒 ONLY SCROLL AREA */
 .messages-wrapper {
   flex: 1;
-  overflow-y: auto;           /* ✅ ONLY SCROLL */
+  overflow-y: auto;
   overscroll-behavior: contain;
 }
 
-/* message container */
+/* messages column */
 .messages {
   max-width: 860px;
   margin: 0 auto;
   padding: 24px;
+}
+
+/* intro */
+.intro {
+  text-align: center;
+  margin-top: 30%;
+  animation: fadeIn .4s ease;
+}
+
+.intro h1 {
+  font-size: 34px;
+  margin-bottom: 8px;
+}
+
+.intro p {
+  color: #c7d2fe;
 }
 
 /* ===== MESSAGE BUBBLES ===== */
@@ -73,22 +110,32 @@ html, body {
   max-width: 70%;
   padding: 14px 18px;
   border-radius: 18px;
-  background: rgba(255,255,255,.1);
+  background: rgba(255,255,255,.12);
   margin-bottom: 14px;
+  animation: slideUp .25s ease;
+  transition: box-shadow .25s, transform .25s;
 }
 
 .msg.user {
   margin-left: auto;
-  background: #6366f1;
+  background: linear-gradient(135deg,#7c7cff,#6366f1);
   color: #020617;
 }
 
-/* ===== INPUT BAR (FIXED, NO SCROLL) ===== */
+/* hover glow + light */
+.msg:hover {
+  box-shadow:
+    0 0 14px rgba(124,124,255,.45),
+    0 10px 22px rgba(124,124,255,.35);
+  transform: translateY(-1px);
+}
+
+/* ===== INPUT BAR ===== */
 .composer {
   height: 72px;
-  flex-shrink: 0;             /* 🔒 NEVER SHRINK */
-  border-top: 1px solid rgba(255,255,255,.1);
-  background: #12103a;
+  flex-shrink: 0;
+  border-top: 1px solid rgba(255,255,255,.12);
+  background: rgba(15,15,40,.9);
   padding: 12px;
 }
 
@@ -97,6 +144,15 @@ html, body {
   margin: 0 auto;
   display: flex;
   gap: 12px;
+  background: rgba(10,10,30,.95);
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 18px;
+  padding: 10px 14px;
+  transition: .25s;
+}
+
+.composer-inner:focus-within {
+  box-shadow: 0 0 0 2px rgba(124,124,255,.45);
 }
 
 textarea {
@@ -104,10 +160,10 @@ textarea {
   resize: none;
   border: none;
   outline: none;
-  background: #0b0a2a;
-  color: white;
-  padding: 10px;
-  border-radius: 12px;
+  background: none;
+  color: #eef2ff;
+  font-size: 15px;
+  max-height: 120px;
 }
 
 button {
@@ -115,6 +171,20 @@ button {
   border-radius: 12px;
   border: none;
   cursor: pointer;
+  background: linear-gradient(135deg,#7c7cff,#6366f1);
+  color: #020617;
+  font-weight: 600;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 </style>
 </head>
@@ -124,24 +194,31 @@ button {
 <div class="app">
 
   <!-- TOP -->
-  <div class="topbar">Mentra</div>
+  <div class="topbar">
+    <div class="brand">Mentra</div>
+  </div>
 
   <!-- SIDEBAR -->
-  <div class="sidebar">Chat</div>
+  <div class="sidebar">
+    <div class="nav active">Chat</div>
+  </div>
 
-  <!-- CHAT VIEW -->
+  <!-- CHAT -->
   <div class="view">
 
-    <!-- ONLY SCROLLS -->
     <div class="messages-wrapper" id="messagesWrapper">
-      <div class="messages" id="messages"></div>
+      <div class="messages" id="messages">
+        <div class="intro" id="intro">
+          <h1>Mentra</h1>
+          <p>Your AI assistant for business growth</p>
+        </div>
+      </div>
     </div>
 
-    <!-- FIXED INPUT -->
     <div class="composer">
       <div class="composer-inner">
         <textarea id="input" placeholder="Message Mentra"></textarea>
-        <button id="sendBtn">➤</button>
+        <button id="sendBtn">Send</button>
       </div>
     </div>
 
@@ -153,6 +230,7 @@ button {
 const messagesWrapper = document.getElementById("messagesWrapper");
 const messages = document.getElementById("messages");
 const input = document.getElementById("input");
+const intro = document.getElementById("intro");
 
 function scrollToBottom() {
   requestAnimationFrame(() => {
@@ -164,21 +242,23 @@ function sendMessage() {
   const text = input.value.trim();
   if (!text) return;
 
+  if (intro) intro.remove();
+
   const user = document.createElement("div");
   user.className = "msg user";
   user.textContent = text;
   messages.appendChild(user);
-
   input.value = "";
   scrollToBottom();
 
+  // placeholder AI reply
   setTimeout(() => {
     const ai = document.createElement("div");
     ai.className = "msg";
-    ai.textContent = "AI reply goes here.";
+    ai.textContent = "Mentra response will appear here.";
     messages.appendChild(ai);
     scrollToBottom();
-  }, 400);
+  }, 500);
 }
 
 document.getElementById("sendBtn").onclick = sendMessage;

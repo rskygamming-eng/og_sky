@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Elivora</title>
 
-<!-- Replace favicon.png with your logo -->
+<!-- YOUR LOGO IN TAB -->
 <link rel="icon" type="image/png" href="favicon.png">
 
 <style>
@@ -50,25 +50,30 @@ html,body{
 .logo{
   width:28px;height:28px;border-radius:8px;
   background:linear-gradient(135deg,#7c7cff,#9b8cff);
-  box-shadow:0 0 14px rgba(124,124,255,.6);
+  box-shadow:0 0 18px rgba(124,124,255,.7);
 }
-.top-actions{display:flex;gap:12px}
+.top-actions{
+  display:flex;
+  gap:14px;
+}
 .icon-btn{
   width:36px;height:36px;border-radius:12px;
   display:grid;place-items:center;
-  background:rgba(255,255,255,.1);
+  background:rgba(255,255,255,.12);
   transition:.25s;
 }
 .icon-btn:hover{
-  background:rgba(124,124,255,.45);
-  box-shadow:0 0 18px rgba(124,124,255,.6);
+  box-shadow:0 0 18px rgba(124,124,255,.7);
+  background:rgba(124,124,255,.35);
 }
 
 /* ===== SIDEBAR ===== */
 .sidebar{
   padding:16px;
   border-right:1px solid rgba(255,255,255,.08);
-  display:flex;flex-direction:column;gap:6px;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
 }
 .nav{
   display:flex;align-items:center;gap:12px;
@@ -81,6 +86,7 @@ html,body{
   background:linear-gradient(135deg,#7c7cff,#6366f1);
   color:#020617;
 }
+.nav svg{width:18px;height:18px}
 .sidebar-spacer{flex:1}
 .upgrade{
   padding:14px;border-radius:14px;
@@ -102,13 +108,13 @@ html,body{
   position:relative;
 }
 
-/* subtle glow */
+/* Ambient glow */
 .view::before{
   content:"";
   position:absolute;
-  width:280px;height:280px;
+  width:320px;height:320px;
   background:radial-gradient(circle,rgba(124,124,255,.25),transparent 70%);
-  top:18%;right:18%;
+  top:15%;right:15%;
   pointer-events:none;
 }
 
@@ -119,7 +125,7 @@ html,body{
   overscroll-behavior:contain;
 }
 
-/* ===== CHAT COLUMN ===== */
+/* ===== CHAT ===== */
 .chat{
   max-width:860px;
   margin:0 auto;
@@ -133,7 +139,7 @@ html,body{
 .welcome h1{font-size:32px;font-weight:600}
 .welcome p{opacity:.7}
 
-/* messages */
+/* Messages */
 .msg{
   max-width:72%;
   padding:14px 18px;
@@ -165,7 +171,7 @@ html,body{
   background:rgba(255,255,255,.06);
 }
 .composer-inner:focus-within{
-  box-shadow:0 0 22px rgba(124,124,255,.6);
+  box-shadow:0 0 22px rgba(124,124,255,.7);
 }
 .input{
   flex:1;border:none;outline:none;
@@ -177,13 +183,13 @@ html,body{
   background:linear-gradient(135deg,#7c7cff,#6366f1);
   cursor:pointer;
 }
-.send:hover{box-shadow:0 0 18px rgba(124,124,255,.6)}
+.send:hover{box-shadow:0 0 18px rgba(124,124,255,.7)}
 
-/* animations */
+/* Animations */
 @keyframes slideUp{from{opacity:0;transform:translateY(6px)}to{opacity:1}}
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1}}
 
-/* mobile */
+/* Mobile */
 @media(max-width:900px){
   .app{grid-template-columns:1fr}
   .sidebar{display:none}
@@ -209,10 +215,22 @@ html,body{
 
 <!-- SIDEBAR -->
 <div class="sidebar">
-  <div class="nav active" onclick="switchTab('chat',this)">Chat</div>
-  <div class="nav" onclick="switchTab('docs',this)">Documents</div>
-  <div class="nav" onclick="switchTab('analytics',this)">Analytics</div>
-  <div class="nav" onclick="switchTab('settings',this)">Settings</div>
+  <div class="nav active" onclick="switchTab('chat',this)">
+    <svg><circle cx="9" cy="9" r="7" stroke="currentColor" fill="none"/></svg>
+    Chat
+  </div>
+  <div class="nav" onclick="switchTab('docs',this)">
+    <svg><rect x="3" y="3" width="12" height="12" stroke="currentColor" fill="none"/></svg>
+    Documents
+  </div>
+  <div class="nav" onclick="switchTab('analytics',this)">
+    <svg><path d="M3 12h3V6h3v6h3V3h3" stroke="currentColor" fill="none"/></svg>
+    Analytics
+  </div>
+  <div class="nav" onclick="switchTab('settings',this)">
+    <svg><circle cx="9" cy="9" r="2" stroke="currentColor" fill="none"/></svg>
+    Settings
+  </div>
 
   <div class="sidebar-spacer"></div>
 
@@ -227,8 +245,8 @@ html,body{
   <div class="chat-scroll" id="chatScroll">
     <div class="chat" id="chat">
       <div class="welcome" id="welcome">
-        <h1>Elivora helps you grow your business</h1>
-        <p>Ask, plan, and move forward with clarity</p>
+        <h1>Elivora helps you run your business smarter</h1>
+        <p>Ask questions. Get clarity. Take action.</p>
       </div>
     </div>
   </div>
@@ -264,6 +282,7 @@ function scrollBottom(){
 
 function sendMessage(){
   if(activeTab!=="chat") return;
+
   const text=input.value.trim();
   if(!text) return;
 

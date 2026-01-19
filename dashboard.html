@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mentra</title>
+<title>Mentra Dashboard</title>
 
 <style>
+/* ===== RESET ===== */
 html, body {
   height: 100%;
   margin: 0;
@@ -15,7 +16,7 @@ html, body {
   color: #eef2ff;
 }
 
-/* ===== APP LAYOUT ===== */
+/* ===== LAYOUT ===== */
 .app {
   display: grid;
   grid-template-columns: 260px 1fr;
@@ -40,31 +41,16 @@ html, body {
   font-size: 18px;
 }
 
-.top-actions {
-  display: flex;
-  gap: 14px;
-  align-items: center;
-}
-
-.avatar {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: linear-gradient(135deg,#7c7cff,#a855f7);
-}
-
 /* ===== SIDEBAR ===== */
 .sidebar {
   padding: 18px;
   display: flex;
   flex-direction: column;
+  gap: 6px;
   border-right: 1px solid rgba(255,255,255,.12);
 }
 
 .nav {
-  display: flex;
-  align-items: center;
-  gap: 12px;
   padding: 12px 14px;
   border-radius: 12px;
   cursor: pointer;
@@ -85,25 +71,6 @@ html, body {
 .sidebar-bottom {
   margin-top: auto;
   padding-top: 16px;
-}
-
-.upgrade {
-  padding: 14px;
-  border-radius: 14px;
-  background: rgba(255,255,255,.08);
-  border: 1px solid rgba(255,255,255,.12);
-  text-align: center;
-}
-
-.upgrade button {
-  margin-top: 10px;
-  width: 100%;
-  padding: 10px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  background: linear-gradient(135deg,#7c7cff,#6366f1);
-  font-weight: 600;
 }
 
 /* ===== VIEW ===== */
@@ -130,7 +97,7 @@ html, body {
 .intro {
   text-align: center;
   margin-top: 30%;
-  animation: fadeIn .5s ease;
+  animation: fadeIn .4s ease;
 }
 
 .intro h1 {
@@ -142,7 +109,7 @@ html, body {
   color: #c7d2fe;
 }
 
-/* Messages */
+/* ===== MESSAGE BUBBLES ===== */
 .msg {
   max-width: 72%;
   padding: 14px 18px;
@@ -150,15 +117,24 @@ html, body {
   background: rgba(255,255,255,.1);
   margin-bottom: 14px;
   animation: slideUp .25s ease;
+  transition: box-shadow .25s, transform .25s;
 }
 
-.user {
+.msg.user {
   margin-left: auto;
   background: linear-gradient(135deg,#7c7cff,#6366f1);
   color: #020617;
 }
 
-/* ===== INPUT BAR ===== */
+/* hover glow + light */
+.msg:hover {
+  box-shadow:
+    0 0 14px rgba(124,124,255,.45),
+    0 10px 22px rgba(124,124,255,.35);
+  transform: translateY(-1px);
+}
+
+/* ===== INPUT BAR (FIXED) ===== */
 .composer {
   border-top: 1px solid rgba(255,255,255,.12);
   padding: 14px;
@@ -180,7 +156,7 @@ html, body {
 }
 
 .composer-inner:focus-within {
-  box-shadow: 0 0 0 2px rgba(124,124,255,.4);
+  box-shadow: 0 0 0 2px rgba(124,124,255,.45);
 }
 
 textarea {
@@ -236,10 +212,6 @@ textarea {
   <!-- TOP BAR -->
   <div class="topbar">
     <div class="brand">Mentra</div>
-    <div class="top-actions">
-      <button class="icon-btn">⚙</button>
-      <div class="avatar"></div>
-    </div>
   </div>
 
   <!-- SIDEBAR -->
@@ -251,11 +223,7 @@ textarea {
     <div class="nav">Settings</div>
 
     <div class="sidebar-bottom">
-      <div class="upgrade">
-        <b>Upgrade to Pro</b><br>
-        <small>Unlock premium features</small>
-        <button>Upgrade</button>
-      </div>
+      <div class="nav">Upgrade</div>
     </div>
   </div>
 
@@ -265,15 +233,15 @@ textarea {
     <div class="messages-wrapper" id="messagesWrapper">
       <div class="messages" id="messages">
         <div class="intro" id="intro">
-          <h1>Mentra helps your business</h1>
-          <p>Your AI partner for growth, customers & marketing</p>
+          <h1>Mentra</h1>
+          <p>Your AI assistant for business growth</p>
         </div>
       </div>
     </div>
 
     <div class="composer">
       <div class="composer-inner">
-        <button class="icon-btn" id="micBtn">🎙</button>
+        <button class="icon-btn">🎙</button>
         <textarea id="input" placeholder="Message Mentra"></textarea>
         <button class="icon-btn" id="sendBtn">➤</button>
       </div>
@@ -283,17 +251,11 @@ textarea {
 
 </div>
 
-<!-- SOUND EFFECTS -->
-<audio id="sendSound" src="https://assets.mixkit.co/sfx/preview/mixkit-modern-technology-select-3124.mp3"></audio>
-<audio id="receiveSound" src="https://assets.mixkit.co/sfx/preview/mixkit-message-pop-alert-2354.mp3"></audio>
-
 <script>
 const messagesWrapper = document.getElementById("messagesWrapper");
 const messages = document.getElementById("messages");
 const input = document.getElementById("input");
 const intro = document.getElementById("intro");
-const sendSound = document.getElementById("sendSound");
-const receiveSound = document.getElementById("receiveSound");
 
 function scrollToBottom() {
   requestAnimationFrame(() => {
@@ -312,18 +274,17 @@ function sendMessage() {
   userMsg.textContent = text;
   messages.appendChild(userMsg);
 
-  sendSound.play();
   input.value = "";
   scrollToBottom();
 
+  // placeholder response (AI later)
   setTimeout(() => {
     const aiMsg = document.createElement("div");
     aiMsg.className = "msg";
-    aiMsg.textContent = "AI response will appear here.";
+    aiMsg.textContent = "Mentra response will appear here.";
     messages.appendChild(aiMsg);
-    receiveSound.play();
     scrollToBottom();
-  }, 600);
+  }, 500);
 }
 
 document.getElementById("sendBtn").onclick = sendMessage;

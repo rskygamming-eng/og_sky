@@ -4,11 +4,10 @@
 <meta charset="UTF-8">
 <title>Elivora – Business Setup</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <link rel="icon" href="./favicon.png">
 
 <style>
-/* ===== KEEP SAME THEME ===== */
+/* ===== BASE THEME (UNCHANGED) ===== */
 html,body{
   margin:0;
   font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
@@ -16,46 +15,68 @@ html,body{
   color:#e5e7eb;
 }
 
-.container{
+/* ===== LAYOUT ===== */
+.wrapper{
   max-width:900px;
   margin:40px auto;
   padding:30px;
 }
 
-h1{
-  font-size:32px;
-  margin-bottom:8px;
-}
-p.sub{
-  opacity:.7;
+h1{font-size:32px;margin-bottom:6px}
+.sub{opacity:.7;margin-bottom:30px}
+
+.progress{
+  height:6px;
+  background:rgba(255,255,255,.08);
+  border-radius:999px;
+  overflow:hidden;
   margin-bottom:30px;
 }
+.progress span{
+  display:block;
+  height:100%;
+  width:20%;
+  background:linear-gradient(90deg,#7c7cff,#6366f1);
+  transition:.4s;
+}
 
-.section{
-  background:rgba(255,255,255,.05);
+/* ===== STEPS ===== */
+.step{display:none;animation:fade .4s ease}
+.step.active{display:block}
+
+@keyframes fade{
+  from{opacity:0;transform:translateY(10px)}
+  to{opacity:1}
+}
+
+/* ===== CARDS ===== */
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:16px;
+}
+.card{
+  padding:18px;
   border-radius:16px;
-  padding:24px;
-  margin-bottom:24px;
+  background:rgba(255,255,255,.06);
+  text-align:center;
+  cursor:pointer;
+  transition:.25s;
+  border:1px solid transparent;
+}
+.card:hover{
+  background:rgba(255,255,255,.1);
+}
+.card.selected{
+  border-color:#7c7cff;
+  box-shadow:0 0 0 2px rgba(124,124,255,.4);
 }
 
-.section h2{
-  font-size:20px;
-  margin-bottom:16px;
-}
-
-.field{
-  display:flex;
-  flex-direction:column;
-  margin-bottom:16px;
-}
-
-label{
-  font-size:14px;
-  opacity:.8;
-  margin-bottom:6px;
-}
-
-input,select,textarea{
+/* ===== INPUTS ===== */
+.field{margin-bottom:18px}
+label{display:block;font-size:14px;opacity:.8;margin-bottom:6px}
+input,textarea{
+  width:100%;
   background:rgba(255,255,255,.08);
   border:none;
   border-radius:12px;
@@ -64,211 +85,233 @@ input,select,textarea{
   font-size:15px;
   outline:none;
 }
-
-textarea{
-  resize:vertical;
-  min-height:80px;
-}
-
-input:focus,select:focus,textarea:focus{
+textarea{min-height:90px;resize:vertical}
+input:focus,textarea:focus{
   box-shadow:0 0 0 2px rgba(124,124,255,.5);
 }
+.error{border:1px solid #ff4d4f}
 
-.error{
-  border:1px solid #ff4d4f !important;
-}
-
-.footer{
+/* ===== NAV ===== */
+.nav{
   display:flex;
   justify-content:space-between;
-  align-items:center;
   margin-top:30px;
 }
-
 button{
-  background:linear-gradient(135deg,#7c7cff,#6366f1);
+  padding:14px 26px;
   border:none;
   border-radius:14px;
-  padding:14px 28px;
-  color:#020617;
-  font-weight:600;
   cursor:pointer;
+  font-weight:600;
+}
+.next{
+  background:linear-gradient(135deg,#7c7cff,#6366f1);
+  color:#020617;
+}
+.back{
+  background:transparent;
+  color:#9ca3af;
 }
 
+/* ===== FOOT NOTE ===== */
 .note{
-  opacity:.6;
+  margin-top:20px;
   font-size:13px;
+  opacity:.6;
+  text-align:center;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="wrapper">
+<h1>Set up your business</h1>
+<p class="sub">This helps Elivora understand and grow your business.</p>
 
-<h1>Tell Elivora about your business</h1>
-<p class="sub">This helps Elivora act like your personal business strategist.</p>
+<div class="progress"><span id="bar"></span></div>
 
-<form id="onboardingForm">
+<form id="form">
 
-<!-- 1. BUSINESS IDENTITY -->
-<div class="section">
-<h2>1. Business Identity</h2>
+<!-- STEP 1 -->
+<div class="step active">
+  <h2>Business Basics</h2>
 
-<div class="field">
-<label>Business Name *</label>
-<input required name="businessName">
+  <div class="field">
+    <label>Business name *</label>
+    <input id="businessName" required>
+  </div>
+
+  <label>Business type *</label>
+  <div class="cards" data-key="businessType">
+    <div class="card">Retail</div>
+    <div class="card">Service</div>
+    <div class="card">E-commerce</div>
+    <div class="card">Agency</div>
+    <div class="card">Freelancer</div>
+    <div class="card">Startup</div>
+  </div>
+
+  <div class="field" style="margin-top:18px">
+    <label>City & Country *</label>
+    <input id="location" required>
+  </div>
 </div>
 
-<div class="field">
-<label>Business Type *</label>
-<select required name="businessType">
-<option value="">Select</option>
-<option>Retail Store</option>
-<option>Service Business</option>
-<option>E-commerce</option>
-<option>Agency</option>
-<option>Freelancer</option>
-<option>Startup</option>
-</select>
+<!-- STEP 2 -->
+<div class="step">
+  <h2>Products / Services</h2>
+
+  <div class="field">
+    <label>What do you sell? *</label>
+    <textarea id="products"></textarea>
+  </div>
+
+  <label>Price range</label>
+  <div class="cards" data-key="priceRange">
+    <div class="card">Budget</div>
+    <div class="card">Mid</div>
+    <div class="card">Premium</div>
+  </div>
+
+  <label style="margin-top:18px">Delivery type</label>
+  <div class="cards" data-key="deliveryType">
+    <div class="card">Offline</div>
+    <div class="card">Online</div>
+    <div class="card">Both</div>
+  </div>
 </div>
 
-<div class="field">
-<label>City & Country *</label>
-<input required name="location">
-</div>
+<!-- STEP 3 -->
+<div class="step">
+  <h2>Your Customers</h2>
+
+  <div class="field">
+    <label>Ideal customer</label>
+    <textarea id="idealCustomer"></textarea>
+  </div>
+
+  <div class="field">
+    <label>Biggest customer pain</label>
+    <textarea id="customerPain"></textarea>
+  </div>
+
+  <label>Customer type</label>
+  <div class="cards" data-key="customerType">
+    <div class="card">Local</div>
+    <div class="card">Online</div>
+    <div class="card">Mixed</div>
+  </div>
 </div>
 
-<!-- 2. PRODUCTS / SERVICES -->
-<div class="section">
-<h2>2. Products / Services</h2>
+<!-- STEP 4 -->
+<div class="step">
+  <h2>Sales & Marketing</h2>
 
-<div class="field">
-<label>What do you sell? *</label>
-<textarea required name="products"></textarea>
+  <label>Where do customers contact you?</label>
+  <div class="cards multi" data-key="channels">
+    <div class="card">WhatsApp</div>
+    <div class="card">Instagram</div>
+    <div class="card">Website</div>
+    <div class="card">Walk-in</div>
+  </div>
+
+  <label style="margin-top:18px">Current marketing level</label>
+  <div class="cards" data-key="marketingLevel">
+    <div class="card">None</div>
+    <div class="card">Basic</div>
+    <div class="card">Active</div>
+  </div>
 </div>
 
-<div class="field">
-<label>Average price range</label>
-<input name="pricing">
+<!-- STEP 5 -->
+<div class="step">
+  <h2>Goals & Challenges</h2>
+
+  <div class="field">
+    <label>Biggest business challenge *</label>
+    <textarea id="challenge"></textarea>
+  </div>
+
+  <div class="field">
+    <label>Goal for next 30 days *</label>
+    <textarea id="goal30"></textarea>
+  </div>
+
+  <div class="field">
+    <label>Goal for next 90 days *</label>
+    <textarea id="goal90"></textarea>
+  </div>
 </div>
 
-<div class="field">
-<label>Main competitors</label>
-<textarea name="competitors"></textarea>
-</div>
-</div>
-
-<!-- 3. CUSTOMERS -->
-<div class="section">
-<h2>3. Customers</h2>
-
-<div class="field">
-<label>Who is your ideal customer?</label>
-<textarea name="customers"></textarea>
+<div class="nav">
+  <button type="button" class="back" id="back">Back</button>
+  <button type="button" class="next" id="next">Next</button>
 </div>
 
-<div class="field">
-<label>Main customer problem</label>
-<textarea name="customerProblem"></textarea>
-</div>
-</div>
-
-<!-- 4. SALES & MARKETING -->
-<div class="section">
-<h2>4. Sales & Marketing</h2>
-
-<div class="field">
-<label>How do customers find you?</label>
-<textarea name="channels"></textarea>
-</div>
-
-<div class="field">
-<label>Current marketing methods</label>
-<textarea name="marketing"></textarea>
-</div>
-</div>
-
-<!-- 5. GOALS -->
-<div class="section">
-<h2>5. Goals</h2>
-
-<div class="field">
-<label>Biggest business challenge *</label>
-<textarea required name="challenge"></textarea>
-</div>
-
-<div class="field">
-<label>Primary goal for next 3 months *</label>
-<textarea required name="goal"></textarea>
-</div>
-</div>
-
-<!-- 6. COMMUNICATION -->
-<div class="section">
-<h2>6. Communication Style</h2>
-
-<div class="field">
-<label>Preferred tone</label>
-<select name="tone">
-<option>Professional</option>
-<option>Friendly</option>
-<option>Sales-focused</option>
-<option>Supportive</option>
-</select>
-</div>
-
-<div class="field">
-<label>Languages you use</label>
-<input name="language">
-</div>
-</div>
-
-<!-- 7. AI PERMISSION -->
-<div class="section">
-<h2>7. AI Permissions</h2>
-
-<div class="field">
-<label>Can Elivora suggest actions & strategies automatically?</label>
-<select name="aiPermission">
-<option>Yes</option>
-<option>Only when I ask</option>
-</select>
-</div>
-</div>
-
-<div class="footer">
-<div class="note">* Required fields</div>
-<button type="submit">Finish Setup</button>
+<div class="note">
+By continuing, you agree to our basic terms.
 </div>
 
 </form>
-
 </div>
 
 <script>
-document.getElementById("onboardingForm").addEventListener("submit",function(e){
-  e.preventDefault();
+let step=0;
+const steps=document.querySelectorAll(".step");
+const bar=document.getElementById("bar");
+const data={};
 
-  const form=new FormData(this);
-  const data={};
+function update(){
+  steps.forEach((s,i)=>s.classList.toggle("active",i===step));
+  bar.style.width=((step+1)/5*100)+"%";
+  document.getElementById("back").style.visibility=step===0?"hidden":"visible";
+  document.getElementById("next").textContent=step===4?"Finish":"Next";
+}
+update();
 
-  for(const [k,v] of form.entries()){
-    data[k]=v.trim();
-  }
+/* card select */
+document.querySelectorAll(".cards").forEach(group=>{
+  const multi=group.classList.contains("multi");
+  group.querySelectorAll(".card").forEach(card=>{
+    card.onclick=()=>{
+      if(!multi) group.querySelectorAll(".card").forEach(c=>c.classList.remove("selected"));
+      card.classList.toggle("selected");
+    };
+  });
+});
 
-  // basic validation
-  if(!data.businessName || !data.businessType || !data.challenge || !data.goal){
-    alert("Please fill all required fields.");
+/* navigation */
+document.getElementById("next").onclick=()=>{
+  if(step===4){
+    collect();
+    localStorage.setItem("elivora_business_profile",JSON.stringify(data));
+    location.href="dashboard.html";
     return;
   }
+  step++;
+  update();
+};
+document.getElementById("back").onclick=()=>{
+  if(step>0){step--;update();}
+};
 
-  // store for AI use
-  localStorage.setItem("elivora_business_profile",JSON.stringify(data));
+function collect(){
+  data.businessName=businessName.value;
+  data.location=location.value;
+  data.products=products.value;
+  data.idealCustomer=idealCustomer.value;
+  data.customerPain=customerPain.value;
+  data.challenge=challenge.value;
+  data.goal30=goal30.value;
+  data.goal90=goal90.value;
 
-  // redirect
-  window.location.href="dashboard.html";
-});
+  document.querySelectorAll(".cards").forEach(group=>{
+    const key=group.dataset.key;
+    const selected=[...group.querySelectorAll(".selected")].map(c=>c.textContent);
+    data[key]=group.classList.contains("multi")?selected:selected[0]||"";
+  });
+}
 </script>
 
 </body>

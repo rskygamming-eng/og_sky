@@ -5,16 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Elivora</title>
 
-<link rel="icon" href="favicon.png">
+<!-- favicon -->
+<link rel="icon" href="./favicon.png">
 
 <style>
-/* ================= GLOBAL LOCK ================= */
+/* ================= GLOBAL ================= */
 *{box-sizing:border-box}
 html,body{
   height:100%;
   margin:0;
-  overflow:hidden; /* 🔒 NEVER SCROLL PAGE */
-  font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  overflow:hidden; /* ❌ DO NOT SCROLL PAGE */
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
   background:#0b0b14;
   color:#e5e7eb;
 }
@@ -34,7 +35,6 @@ input,textarea{user-select:text}
   height:64px;
   display:flex;
   align-items:center;
-  justify-content:space-between;
   padding:0 20px;
   background:linear-gradient(90deg,#17133b,#241a57);
   border-bottom:1px solid rgba(255,255,255,.08);
@@ -42,53 +42,29 @@ input,textarea{user-select:text}
 .brand{
   display:flex;
   align-items:center;
-  gap:10px;
+  gap:12px;
   font-weight:600;
 }
 .brand img{
   width:28px;
   height:28px;
-  border-radius:6px;
 }
 
 /* ================= SIDEBAR ================= */
 .sidebar{
   padding:16px;
   border-right:1px solid rgba(255,255,255,.08);
-  backdrop-filter:blur(14px);
 }
 .nav{
-  display:flex;
-  align-items:center;
-  gap:12px;
   padding:12px 14px;
   border-radius:12px;
   cursor:pointer;
   color:#c7c9d1;
-  transition:.25s;
+  margin-bottom:6px;
 }
-.nav:hover{background:rgba(255,255,255,.08)}
 .nav.active{
   background:linear-gradient(135deg,#7c7cff,#6366f1);
   color:#020617;
-}
-.nav svg{width:18px;height:18px}
-.sidebar-spacer{flex:1}
-.upgrade{
-  margin-top:20px;
-  padding:14px;
-  border-radius:14px;
-  background:rgba(255,255,255,.08);
-}
-.upgrade button{
-  width:100%;
-  margin-top:10px;
-  height:36px;
-  border:none;
-  border-radius:10px;
-  background:linear-gradient(135deg,#7c7cff,#6366f1);
-  font-weight:600;
-  cursor:pointer;
 }
 
 /* ================= MAIN VIEW ================= */
@@ -99,12 +75,14 @@ input,textarea{user-select:text}
   overflow:hidden; /* 🔒 DO NOT TOUCH */
   position:relative;
 }
+
+/* ambient glow */
 .view::before{
   content:"";
   position:absolute;
-  width:300px;height:300px;
+  width:320px;height:320px;
   background:radial-gradient(circle,rgba(124,124,255,.25),transparent 70%);
-  top:18%;right:18%;
+  top:20%;right:18%;
   pointer-events:none;
 }
 
@@ -121,16 +99,41 @@ input,textarea{user-select:text}
   margin:0 auto;
   padding:28px;
 }
-.welcome{
-  text-align:center;
-  margin-top:26%;
-  animation:fadeIn .6s ease;
-}
-.welcome img{width:64px;margin-bottom:14px}
-.welcome h1{font-size:32px}
-.welcome p{opacity:.7}
 
-/* messages */
+/* ===== LOGO INTRO (CHAT ONLY) ===== */
+.chat-logo{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  margin-top:22%;
+  transition:opacity .4s ease, transform .4s ease;
+}
+
+/* fake background removal */
+.chat-logo img{
+  width:140px;              /* BIG LOGO */
+  filter: drop-shadow(0 0 24px rgba(124,124,255,.7));
+  mix-blend-mode: screen;   /* hides dark background */
+}
+
+.chat-logo h1{
+  margin-top:14px;
+  font-size:32px;
+  font-weight:600;
+}
+.chat-logo p{
+  opacity:.7;
+}
+
+/* hidden after chat */
+.chat-logo.hide{
+  opacity:0;
+  transform:translateY(-10px);
+  pointer-events:none;
+}
+
+/* ================= MESSAGES ================= */
 .msg{
   max-width:72%;
   padding:14px 18px;
@@ -143,12 +146,6 @@ input,textarea{user-select:text}
   margin-left:auto;
   background:linear-gradient(135deg,#7c7cff,#6366f1);
   color:#020617;
-}
-
-/* typing */
-.typing{
-  opacity:.6;
-  font-size:14px;
 }
 
 /* ================= INPUT BAR ================= */
@@ -190,11 +187,16 @@ input,textarea{user-select:text}
   display:grid;
   place-items:center;
 }
-.send svg{width:18px;height:18px;fill:#020617}
+.send svg{
+  width:18px;height:18px;
+  fill:#020617;
+}
 
 /* animations */
-@keyframes slideUp{from{opacity:0;transform:translateY(6px)}to{opacity:1}}
-@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1}}
+@keyframes slideUp{
+  from{opacity:0;transform:translateY(6px)}
+  to{opacity:1}
+}
 
 /* mobile */
 @media(max-width:900px){
@@ -211,38 +213,18 @@ input,textarea{user-select:text}
 <!-- TOP -->
 <div class="topbar">
   <div class="brand">
-    <img src="logo.png">
+    <img src="./logo.png">
     Elivora
   </div>
 </div>
 
 <!-- SIDEBAR -->
 <div class="sidebar">
-  <div class="nav active" onclick="switchTab('chat',this)">
-    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="currentColor" fill="none"/></svg>
-    Chat
-  </div>
-  <div class="nav" onclick="switchTab('business',this)">
-    <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" stroke="currentColor" fill="none"/></svg>
-    Business
-  </div>
-  <div class="nav" onclick="switchTab('insights',this)">
-    <svg viewBox="0 0 24 24"><path d="M4 18V10M10 18V6M16 18V14" stroke="currentColor"/></svg>
-    Insights
-  </div>
-  <div class="nav" onclick="switchTab('messages',this)">
-    <svg viewBox="0 0 24 24"><path d="M4 4h16v12H7l-3 4z" stroke="currentColor" fill="none"/></svg>
-    Messages
-  </div>
-  <div class="nav" onclick="switchTab('settings',this)">
-    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" stroke="currentColor" fill="none"/></svg>
-    Settings
-  </div>
-
-  <div class="upgrade">
-    Upgrade to Pro
-    <button>Upgrade</button>
-  </div>
+  <div class="nav active">Chat</div>
+  <div class="nav">Business</div>
+  <div class="nav">Insights</div>
+  <div class="nav">Messages</div>
+  <div class="nav">Settings</div>
 </div>
 
 <!-- VIEW -->
@@ -250,11 +232,14 @@ input,textarea{user-select:text}
 
   <div class="chat-scroll" id="chatScroll">
     <div class="chat" id="chat">
-      <div class="welcome" id="welcome">
-        <img src="logo.png">
-        <h1>Elivora helps you run your business smarter</h1>
-        <p>Ask questions. Get insights. Take action.</p>
+
+      <!-- LOGO INTRO (CHAT ONLY) -->
+      <div class="chat-logo" id="chatLogo">
+        <img src="./logo.png">
+        <h1>Elivora</h1>
+        <p>Your AI business partner</p>
       </div>
+
     </div>
   </div>
 
@@ -262,7 +247,9 @@ input,textarea{user-select:text}
     <div class="composer-inner">
       <textarea class="input" id="input" rows="1" placeholder="Message Elivora…"></textarea>
       <button class="send" id="send">
-        <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+        <svg viewBox="0 0 24 24">
+          <path d="M2 21l21-9L2 3v7l15 2-15 2z"/>
+        </svg>
       </button>
     </div>
   </div>
@@ -271,57 +258,44 @@ input,textarea{user-select:text}
 </div>
 
 <script>
-let activeTab="chat";
 const chat=document.getElementById("chat");
 const chatScroll=document.getElementById("chatScroll");
 const input=document.getElementById("input");
-const welcome=document.getElementById("welcome");
-
-function switchTab(tab,el){
-  activeTab=tab;
-  document.querySelectorAll(".nav").forEach(n=>n.classList.remove("active"));
-  el.classList.add("active");
-}
+const send=document.getElementById("send");
+const chatLogo=document.getElementById("chatLogo");
 
 function scrollBottom(){
   requestAnimationFrame(()=>chatScroll.scrollTop=chatScroll.scrollHeight);
 }
 
-function fakeAIReply(){
-  const typing=document.createElement("div");
-  typing.className="msg typing";
-  typing.textContent="Elivora is thinking…";
-  chat.appendChild(typing);
-  scrollBottom();
-
-  setTimeout(()=>{
-    typing.remove();
-    const ai=document.createElement("div");
-    ai.className="msg";
-    ai.textContent="This is where Elivora’s real AI response will appear.";
-    chat.appendChild(ai);
-    scrollBottom();
-  },900);
-}
-
 function sendMessage(){
-  if(activeTab!=="chat") return;
   const text=input.value.trim();
   if(!text) return;
 
-  if(welcome) welcome.remove();
+  // hide logo on first message
+  if(chatLogo){
+    chatLogo.classList.add("hide");
+    setTimeout(()=>chatLogo.remove(),400);
+  }
 
-  const u=document.createElement("div");
-  u.className="msg user";
-  u.textContent=text;
-  chat.appendChild(u);
+  const user=document.createElement("div");
+  user.className="msg user";
+  user.textContent=text;
+  chat.appendChild(user);
 
   input.value="";
   scrollBottom();
-  fakeAIReply();
+
+  setTimeout(()=>{
+    const ai=document.createElement("div");
+    ai.className="msg";
+    ai.textContent="Elivora AI response placeholder.";
+    chat.appendChild(ai);
+    scrollBottom();
+  },600);
 }
 
-document.getElementById("send").onclick=sendMessage;
+send.onclick=sendMessage;
 input.addEventListener("keydown",e=>{
   if(e.key==="Enter"&&!e.shiftKey){
     e.preventDefault();

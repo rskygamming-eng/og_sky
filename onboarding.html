@@ -11,20 +11,20 @@
 html,body{
   margin:0;
   font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
-  background:radial-gradient(circle at top,#14103a,#0b0b14 60%);
+  background:radial-gradient(circle at top,#10143a,#090b16 65%);
   color:#e5e7eb;
 }
 
 /* ===== WRAPPER ===== */
 .wrapper{
-  max-width:920px;
+  max-width:960px;
   margin:40px auto;
   padding:32px;
 }
 
-/* ===== HEADINGS ===== */
+/* ===== HEADERS ===== */
 h1{font-size:34px;margin-bottom:6px}
-.sub{opacity:.7;margin-bottom:28px}
+.sub{opacity:.75;margin-bottom:30px}
 
 /* ===== PROGRESS ===== */
 .progress{
@@ -32,61 +32,57 @@ h1{font-size:34px;margin-bottom:6px}
   background:rgba(255,255,255,.08);
   border-radius:999px;
   overflow:hidden;
-  margin-bottom:32px;
+  margin-bottom:34px;
 }
 .progress span{
   display:block;
   height:100%;
   width:20%;
-  background:linear-gradient(90deg,#7c7cff,#22d3ee);
-  transition:.4s ease;
+  background:linear-gradient(90deg,#4f46e5,#22d3ee);
+  transition:.45s ease;
 }
 
 /* ===== STEPS ===== */
 .step{display:none;animation:fade .4s ease}
 .step.active{display:block}
 @keyframes fade{
-  from{opacity:0;transform:translateY(12px)}
+  from{opacity:0;transform:translateY(14px)}
   to{opacity:1}
 }
 
 /* ===== CARDS ===== */
 .cards{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-  gap:16px;
-  margin-bottom:22px;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:18px;
+  margin-bottom:24px;
 }
 .card{
-  padding:20px 16px;
+  padding:22px 18px;
   border-radius:18px;
-  background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.04));
-  text-align:center;
+  background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.04));
   cursor:pointer;
+  text-align:center;
   transition:.25s;
   border:1px solid transparent;
 }
 .card:hover{
-  transform:translateY(-2px);
-  box-shadow:0 12px 28px rgba(0,0,0,.35);
+  transform:translateY(-3px);
+  box-shadow:0 14px 34px rgba(0,0,0,.4);
 }
 .card.selected{
-  border-color:#7c7cff;
-  box-shadow:0 0 0 2px rgba(124,124,255,.4),
-             inset 0 0 12px rgba(124,124,255,.25);
+  border-color:#4f46e5;
+  box-shadow:
+    0 0 0 2px rgba(79,70,229,.5),
+    inset 0 0 16px rgba(79,70,229,.25);
 }
 
-/* ===== FIELDS ===== */
-.field{margin-bottom:20px}
-label{
-  display:block;
-  font-size:14px;
-  opacity:.85;
-  margin-bottom:8px;
-}
-input,textarea,select{
+/* ===== INPUTS ===== */
+.field{margin-bottom:22px}
+label{display:block;font-size:14px;opacity:.85;margin-bottom:8px}
+input,textarea{
   width:100%;
-  background:rgba(255,255,255,.08);
+  background:rgba(255,255,255,.10);
   border:none;
   border-radius:14px;
   padding:14px 16px;
@@ -95,25 +91,25 @@ input,textarea,select{
   outline:none;
 }
 textarea{min-height:96px;resize:vertical}
-input:focus,textarea:focus,select:focus{
-  box-shadow:0 0 0 2px rgba(124,124,255,.6);
+input:focus,textarea:focus{
+  box-shadow:0 0 0 2px rgba(79,70,229,.6);
 }
 
 /* ===== NAV ===== */
 .nav{
   display:flex;
   justify-content:space-between;
-  margin-top:34px;
+  margin-top:36px;
 }
 button{
-  padding:14px 28px;
+  padding:14px 30px;
   border:none;
   border-radius:16px;
   cursor:pointer;
   font-weight:600;
 }
 .next{
-  background:linear-gradient(135deg,#7c7cff,#22d3ee);
+  background:linear-gradient(135deg,#4f46e5,#22d3ee);
   color:#020617;
 }
 .back{
@@ -121,13 +117,14 @@ button{
   color:#9ca3af;
 }
 
-/* ===== FOOT ===== */
+/* ===== NOTE ===== */
 .note{
   margin-top:22px;
   font-size:13px;
   opacity:.55;
   text-align:center;
 }
+.hidden{display:none}
 </style>
 </head>
 
@@ -136,7 +133,7 @@ button{
 <div class="wrapper">
 
 <h1>Set up your business</h1>
-<p class="sub">This allows Elivora to understand and grow your business intelligently.</p>
+<p class="sub">Elivora will use this to give accurate business guidance.</p>
 
 <div class="progress"><span id="bar"></span></div>
 
@@ -148,7 +145,7 @@ button{
 
   <div class="field">
     <label>Business name *</label>
-    <input id="businessName" required>
+    <input id="businessName">
   </div>
 
   <label>Business type *</label>
@@ -160,89 +157,75 @@ button{
     <div class="card">Freelancer</div>
     <div class="card">Startup</div>
   </div>
-
-  <div class="field">
-    <label>Country *</label>
-    <select id="country">
-      <option value="">Select country</option>
-      <option>India</option>
-      <option>United States</option>
-      <option>United Kingdom</option>
-      <option>Canada</option>
-      <option>Australia</option>
-      <option>Other</option>
-    </select>
-  </div>
-
-  <div class="field">
-    <label>State / Region *</label>
-    <input id="state" placeholder="State or region">
-  </div>
 </div>
 
 <!-- STEP 2 -->
 <div class="step">
-  <h2>Products & Services</h2>
+  <h2>Country & Business Mode</h2>
 
-  <div class="field">
-    <label>What do you sell? *</label>
-    <textarea id="products"></textarea>
+  <label>Country *</label>
+  <div class="cards" data-key="country">
+    <div class="card">India</div>
+    <div class="card">USA</div>
+    <div class="card">UK</div>
+    <div class="card">Canada</div>
+    <div class="card">Other</div>
   </div>
 
-  <label>Price positioning</label>
-  <div class="cards" data-key="priceRange">
-    <div class="card">Budget</div>
-    <div class="card">Mid</div>
-    <div class="card">Premium</div>
-  </div>
-
-  <label>Delivery model</label>
-  <div class="cards" data-key="deliveryType">
-    <div class="card">Offline</div>
-    <div class="card">Online</div>
+  <label>Business mode *</label>
+  <div class="cards" data-key="businessMode">
+    <div class="card">Physical Store</div>
+    <div class="card">Online Business</div>
     <div class="card">Both</div>
   </div>
 </div>
 
 <!-- STEP 3 -->
 <div class="step">
-  <h2>Your Customers</h2>
+  <h2>Business Location</h2>
 
-  <div class="field">
-    <label>Ideal customer description</label>
-    <textarea id="idealCustomer"></textarea>
+  <!-- OFFLINE -->
+  <div id="offlineFields" class="hidden">
+    <div class="field"><label>Shop address</label><input id="address"></div>
+    <div class="field"><label>City</label><input id="city"></div>
+    <div class="field"><label>State</label><input id="state"></div>
+    <div class="field"><label>Landmark</label><input id="landmark"></div>
+    <div class="field"><label>Service radius (km)</label><input id="radius"></div>
   </div>
 
-  <div class="field">
-    <label>Main customer pain point</label>
-    <textarea id="customerPain"></textarea>
-  </div>
+  <!-- ONLINE -->
+  <div id="onlineFields" class="hidden">
+    <label>Platforms used</label>
+    <div class="cards multi" data-key="platforms">
+      <div class="card">Website</div>
+      <div class="card">Instagram</div>
+      <div class="card">WhatsApp</div>
+      <div class="card">Marketplace</div>
+    </div>
 
-  <label>Customer type</label>
-  <div class="cards" data-key="customerType">
-    <div class="card">Local</div>
-    <div class="card">Online</div>
-    <div class="card">Mixed</div>
+    <div class="field"><label>Website (optional)</label><input id="website"></div>
+
+    <label>Delivery regions</label>
+    <div class="cards multi" data-key="deliveryRegions">
+      <div class="card">Local</div>
+      <div class="card">National</div>
+      <div class="card">International</div>
+    </div>
   </div>
 </div>
 
 <!-- STEP 4 -->
 <div class="step">
-  <h2>Sales & Marketing</h2>
+  <h2>Products & Customers</h2>
 
-  <label>Customer contact channels</label>
-  <div class="cards multi" data-key="channels">
-    <div class="card">WhatsApp</div>
-    <div class="card">Instagram</div>
-    <div class="card">Website</div>
-    <div class="card">Walk-in</div>
+  <div class="field">
+    <label>What do you sell?</label>
+    <textarea id="products"></textarea>
   </div>
 
-  <label>Marketing maturity</label>
-  <div class="cards" data-key="marketingLevel">
-    <div class="card">None</div>
-    <div class="card">Basic</div>
-    <div class="card">Active</div>
+  <div class="field">
+    <label>Ideal customer</label>
+    <textarea id="idealCustomer"></textarea>
   </div>
 </div>
 
@@ -251,7 +234,7 @@ button{
   <h2>Goals & Challenges</h2>
 
   <div class="field">
-    <label>Biggest business challenge *</label>
+    <label>Main business challenge *</label>
     <textarea id="challenge"></textarea>
   </div>
 
@@ -271,9 +254,7 @@ button{
   <button type="button" class="next" id="next">Next</button>
 </div>
 
-<div class="note">
-By continuing, you agree to our basic terms.
-</div>
+<div class="note">By continuing, you agree to our basic terms.</div>
 
 </form>
 </div>
@@ -292,18 +273,23 @@ function update(){
 }
 update();
 
-/* cards */
+/* card logic */
 document.querySelectorAll(".cards").forEach(group=>{
   const multi=group.classList.contains("multi");
   group.querySelectorAll(".card").forEach(card=>{
     card.onclick=()=>{
       if(!multi) group.querySelectorAll(".card").forEach(c=>c.classList.remove("selected"));
       card.classList.toggle("selected");
+
+      if(group.dataset.key==="businessMode"){
+        offlineFields.classList.toggle("hidden",!card.textContent.includes("Physical")&&!card.textContent.includes("Both"));
+        onlineFields.classList.toggle("hidden",!card.textContent.includes("Online")&&!card.textContent.includes("Both"));
+      }
     };
   });
 });
 
-/* navigation */
+/* nav */
 next.onclick=()=>{
   if(step===4){
     collect();
@@ -317,20 +303,22 @@ back.onclick=()=>{if(step>0){step--;update();}};
 
 function collect(){
   data.businessName=businessName.value;
-  data.businessType=[...document.querySelectorAll('[data-key="businessType"] .selected')][0]?.textContent||"";
-  data.country=country.value;
+  data.address=address.value;
+  data.city=city.value;
   data.state=state.value;
+  data.landmark=landmark.value;
+  data.radiusKm=radius.value;
+  data.website=website.value;
   data.products=products.value;
   data.idealCustomer=idealCustomer.value;
-  data.customerPain=customerPain.value;
   data.challenge=challenge.value;
   data.goal30=goal30.value;
   data.goal90=goal90.value;
 
   document.querySelectorAll(".cards").forEach(group=>{
     const key=group.dataset.key;
-    const selected=[...group.querySelectorAll(".selected")].map(c=>c.textContent);
-    data[key]=group.classList.contains("multi")?selected:selected[0]||"";
+    const sel=[...group.querySelectorAll(".selected")].map(c=>c.textContent);
+    data[key]=group.classList.contains("multi")?sel:sel[0]||"";
   });
 }
 </script>
